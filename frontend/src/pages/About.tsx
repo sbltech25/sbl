@@ -45,7 +45,7 @@ const About = () => {
             </div>
             <div>
               <img 
-                src="https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=800&h=600&fit=crop"
+                src="/uploads/about.jpg"
                 alt="About Southern Basin"
                 className="w-full h-96 object-cover shadow-2xl"
               />

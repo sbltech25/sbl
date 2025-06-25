@@ -40,7 +40,7 @@ const ClientLogin = () => {
       
       toast({
         title: "Login Successful",
-        description: "Welcome to your client portal.",
+        description: "Welcome to your client dashboard.",
       });
       
       navigate('/s/client');
@@ -64,7 +64,7 @@ const ClientLogin = () => {
             alt="Southern Basin Limited"
             className="h-16 w-auto mx-auto mb-6"
           />
-          <CardTitle className="text-2xl font-bold text-secondary">Client Portal</CardTitle>
+          <CardTitle className="text-2xl font-bold text-secondary">Client Dashboard</CardTitle>
           <p className="text-gray-600">Access your project dashboard</p>
         </CardHeader>
         

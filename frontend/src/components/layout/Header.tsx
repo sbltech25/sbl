@@ -78,9 +78,9 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
               variant="ghost"
               size="sm"
               onClick={toggleTheme}
-              className={`${isScrolled ? 'text-gray-700 dark:text-gray-300' : 'text-white'}`}
+              className={`${isScrolled ? 'text-gray-700 dark:text-gray-300' : 'text-white bg-transparent'}`}
             >
-              {theme === 'light' ? <Moon className="h-4 w-4" /> : <Sun className="h-4 w-4" />}
+              {theme === 'light' ? <Moon className="h-4 w-4  bg-transparent" /> : <Sun className="h-4 w-4" />}
             </Button>
             
             <Link to="/s/login">
@@ -97,10 +97,10 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             <Button
               variant="ghost"
               size="sm"
-              className={`lg:hidden ${isScrolled ? 'text-gray-700 dark:text-gray-300' : 'text-white'}`}
+              className={`lg:hidden ${isScrolled ? 'text-gray-700' : 'text-white'}`}
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+              {isMenuOpen ? <X className="h-5 w-5 dark:bg-transparent" /> : <Menu className="h-5 w-5" />}
             </Button>
           </div>
         </div>

@@ -32,8 +32,8 @@ const Index = () => {
                 </Button>
               </Link>
               <Link to="/contact">
-                <Button size="lg" variant="outline" className="border-white hover:bg-white text-secondary rounded-sm px-8 py-4 text-lg">
-                  Get Quote
+                <Button size="lg" className="border-white bg-white text-secondary rounded-sm px-8 py-4 text-lg">
+                  Get A Quote
                 </Button>
               </Link>
             </div>

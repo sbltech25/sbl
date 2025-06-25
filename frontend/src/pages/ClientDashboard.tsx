@@ -21,7 +21,7 @@ const ClientDashboard = () => {
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
-      text: 'Welcome to your client portal! We are excited to work with you on your project. Please feel free to share any questions or requirements you may have.',
+      text: 'Welcome to your client dashboard! We are excited to work with you on your project. Please feel free to share any questions or requirements you may have.',
       isClient: false,
       timestamp: new Date(Date.now() - 3600000)
     }

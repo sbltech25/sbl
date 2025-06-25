@@ -35,8 +35,8 @@ const App = () => {
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     if (savedTheme) {
       setTheme(savedTheme);
-    } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      setTheme('dark');
+    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
+      setTheme('light');
     }
   }, []);
 
