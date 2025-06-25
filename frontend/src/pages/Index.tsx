@@ -173,11 +173,11 @@ const Index = () => {
                 Get Started Today
               </Button>
             </Link>
-            <Link to="/about">
+            {/* <Link to="/about">
               <Button size="lg" variant="outline" className="border-white bg-white text-secondary rounded-sm px-8 py-4 text-lg">
                 Learn About Us
               </Button>
-            </Link>
+            </Link> */}
           </div>
         </div>
       </section>
