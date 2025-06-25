@@ -24,6 +24,7 @@ import BlogManagement from "./pages/BlogManagement";
 import NewBlogPost from "./pages/NewBlogPost";
 import EditBlogPost from "./pages/EditBlogPost";
 import NotFound from "./pages/NotFound";
+import ScrollToTop from './components/layout/ScrollTop';
 
 const queryClient = new QueryClient();
 
@@ -59,6 +60,7 @@ const App = () => {
         <Sonner />
         <BrowserRouter>
           <div className="min-h-screen flex flex-col bg-background text-foreground">
+            <ScrollToTop />
             <Header theme={theme} toggleTheme={toggleTheme} />
             <main className="flex-1">
               <Routes>
