@@ -99,13 +99,6 @@ const ClientDashboard = () => {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex flex-col items-center space-x-4">
-              <Link to="/">
-                <img 
-                  src="/uploads/91a86cb5-51d9-4ccb-a86e-e0d29f1d71e9.png" 
-                  alt="Southern Basin Limited"
-                  className="h-10 w-auto"
-                />
-              </Link>
               <div>
                 <h1 className="text-xl font-bold text-secondary">Client Dashboard</h1>
                 <p className="text-sm text-gray-600">Welcome, {clientData.username}</p>

@@ -9,7 +9,17 @@ const About = () => {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-secondary to-primary text-white">
+     <section className="relative py-20 bg-gradient-to-br from-secondary to-primary text-white overflow-hidden">
+        {/* Background Image with constrained dimensions */}
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&h=1080&fit=crop"
+            alt="Background"
+            className="w-full h-full object-cover opacity-20"
+          />
+        </div>
+
+       
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">About Us</h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
@@ -19,10 +29,10 @@ const About = () => {
       </section>
 
       {/* Company Overview */}
-      <section className="py-20">
+      <section className="py-10">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
-            <div>
+            <div className="p-3 lg:p-6">
               <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-6">Our Story</h2>
               <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
                 <p>
@@ -97,7 +107,7 @@ const About = () => {
       </section>
 
       {/* Key Strengths */}
-      <section className="py-20 bg-accent/50">
+      <section className="py-100 bg-accent/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">Our Key Strengths</h2>

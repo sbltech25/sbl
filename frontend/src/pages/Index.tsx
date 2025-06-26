@@ -5,12 +5,14 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { ArrowRight, CheckCircle } from 'lucide-react';
 import { COMPANY_INFO, SERVICES, PARTNERS } from '@/lib/constants';
+import HeroCarousel from '@/components/layout/HeroCarousel';
 
 const Index = () => {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-secondary via-primary to-secondary overflow-hidden">
+      <HeroCarousel />
+      {/* <section className="relative h-screen flex items-center justify-center bg-gradient-to-br from-secondary via-primary to-secondary overflow-hidden">
         <div className="absolute inset-0 bg-black/20"></div>
         <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&h=1080&fit=crop')] bg-cover bg-center opacity-20"></div>
         
@@ -39,7 +41,7 @@ const Index = () => {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* Services Overview */}
       <section className="py-20 dark:bg-gray-900">
@@ -142,7 +144,7 @@ const Index = () => {
             {PARTNERS.map((partner, index) => (
               <div key={index} className="bg-white dark:bg-gray-700 p-2 rounded-sm shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center">
                 <div className="text-center">
-                  <div className="w-32 h-28 bg-gray-100 dark:bg-gray-600 rounded-full flex items-center justify-center mb-3 mx-auto overflow-hidden">
+                  <div className="w-42 h-32 rounded-full flex items-center justify-center mb-3 mx-auto overflow-hidden">
                     <img 
                       src={partner.logo} 
                       alt={partner.name} 
@@ -159,8 +161,10 @@ const Index = () => {
       </section>
 
       {/* CTA Section */}
-      <section className="py-20 bg-gradient-to-r from-secondary to-primary text-white">
+      <section className="py-20 bg-gradient-to-r from-[#212685] to-[#006DFF] text-white">
+
         <div className="container mx-auto px-4 text-center">
+               <div className="absolute inset-0 bg-black/70"></div>
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Ready to Start Your Project?
           </h2>

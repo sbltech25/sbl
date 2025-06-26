@@ -202,3 +202,36 @@ export const HOW_WE_WORK_STEPS = [
     description: "Payments for services rendered is made in milestones as agreed or stipulated in clients procurement policy"
   }
 ];
+
+export const HERO_SLIDE_ITEMS = [
+  {
+    title: "HSE is SBL Lifestyle",
+    subtext: "It's not complete until it's SAFE. Every team member is a Safety Watcher.",
+    image: "https://images.unsplash.com/photo-1722553260680-2a3486a06d73?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aW5kdXN0cmlhbCUyMGVuZ2luZWVyaW5nJTIwTmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=1920&h=1080&fit=crop"
+  },
+  {
+    title: "Improvement and Advancement on Execution",
+    subtext: "Pivoting new innovation in Mechanical Upgrade and Fabrication Services for modern Oil and Gas project management",
+    image: "https://images.unsplash.com/photo-1727504172743-08f14448fab8?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGluZHVzdHJpYWwlMjBlbmdpbmVlcmluZyUyME5pZ2VyaWF8ZW58MHx8MHx8fDA%3D?w=1920&h=1080&fit=crop"
+  },
+  {
+    title: "In SBL projects, Expertise meets Innovation",
+    subtext: "Experiential know-how and specialization synergized with creativity, resulting in ultimate satisfaction.",
+    image: "https://images.unsplash.com/photo-1559585888-6b01c8ea796b?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG1pbGxpb24lMjBkb2xsYXIlMjBlbmdpbmVlcmluZyUyME5pZ2VyaWF8ZW58MHx8MHx8fDA%3D?w=1920&h=1080&fit=crop"
+  },
+  {
+    title: "Providing Project Solutions Steered by Quality",
+    subtext: "Project management designed to meet global standards through customized competitive documentation processes.",
+    image: "https://plus.unsplash.com/premium_photo-1663045861154-b42da4b72dd1?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8b2lsJTIwYW5kJTIwZ2FzJTIwZW5naW5lZXJpbmclMjBOaWdlcmlhfGVufDB8fDB8fHww?w=1920&h=1080&fit=crop"
+  },
+  {
+    title: "Transforming Project Challenges into Opportunities",
+    subtext: "SBL is established, prepared and continually upgraded in personnel, equipment and expertise to solve industry challenges.",
+    image: "https://images.unsplash.com/photo-1664836443648-71bfcc3830a0?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fG9pbCUyMGFuZCUyMGdhcyUyMGVuZ2luZWVyaW5nJTIwTmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=1920&h=1080&fit=crop"
+  },
+  {
+    title: "Transforming Energy and Enhancing Lives",
+    subtext: "Our existence catalyzes energy provision, bringing fulfillment to industrial comfort.",
+    image: "https://images.unsplash.com/photo-1604145007459-72793769d538?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fG9pbCUyMGFuZCUyMGdhcyUyMGVuZ2luZWVyaW5nJTIwTmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=1920&h=1080&fit=crop"
+  }
+];

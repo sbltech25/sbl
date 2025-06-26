@@ -34,8 +34,18 @@ const Services = () => {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-secondary to-primary text-white">
-        <div className="container mx-auto px-4 text-center">
+     <section className="relative py-20 bg-gradient-to-br from-secondary to-primary text-white overflow-hidden">
+        {/* Background Image with constrained dimensions */}
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&h=1080&fit=crop"
+            alt="Background"
+            className="w-full h-full object-cover opacity-20"
+          />
+        </div>
+
+        {/* Content container */}
+        <div className="container mx-auto px-4 text-center relative z-10">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">Our Services</h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
             Comprehensive engineering and construction solutions tailored to meet your specific needs across multiple industries.
@@ -52,9 +62,9 @@ const Services = () => {
                 <Card className="overflow-hidden border-0 shadow-2xl rounded-sm">
                   <CardContent className="p-0">
                     <div className={`grid grid-cols-1 lg:grid-cols-2 gap-0 ${index % 2 === 1 ? 'lg:grid-flow-col-dense' : ''}`}>
-                      <div className={`p-12 flex flex-col justify-center ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
+                      <div className={`p-6 lg:p-12 flex flex-col justify-center ${index % 2 === 1 ? 'lg:col-start-2' : ''}`}>
                         <div className={`h-1 w-20 bg-gradient-to-r ${service.color} mb-6`}></div>
-                        <div className="text-4xl mb-6">{service.icon}</div>
+                        {/* <div className="text-4xl mb-6">{service.icon}</div> */}
                         <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-6">
                           {service.title}
                         </h2>
@@ -110,7 +120,7 @@ const Services = () => {
                         </div>
                       </div>
                       <div className={`${index % 2 === 1 ? 'lg:col-start-1' : ''}`}>
-                        <img 
+                        <img
                           src={serviceDetails[service.id as keyof typeof serviceDetails]?.image}
                           alt={service.title}
                           className="w-full h-full object-cover min-h-[400px] lg:min-h-[600px]"
