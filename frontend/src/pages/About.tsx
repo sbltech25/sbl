@@ -11,16 +11,18 @@ const About = () => {
       {/* Hero Section */}
      <section className="relative py-20 bg-gradient-to-br from-secondary to-primary text-white overflow-hidden">
         {/* Background Image with constrained dimensions */}
+                <div className="absolute inset-0 bg-black/50"></div>
+
         <div className="absolute inset-0">
           <img
-            src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=1920&h=1080&fit=crop"
+            src="https://images.unsplash.com/photo-1663296997689-f5e35ad7ac7d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG9pbCUyMGFuZCUyMGdhcyUyMGVuZ2luZWVyaW5nJTIwTmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=1920&h=1080&fit=crop"
             alt="Background"
             className="w-full h-full object-cover opacity-20"
           />
         </div>
 
        
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto relative px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">About Us</h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
             Know more about who we are and what we stand for in the engineering and construction industry.
@@ -164,49 +166,62 @@ const About = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {TEAM_MEMBERS.map((member, index) => (
-              <Card key={index} className="border-0 shadow-xl rounded-sm overflow-hidden group hover:shadow-2xl transition-shadow duration-300">
-                <CardContent className="p-0">
-                  <div className="aspect-square overflow-hidden">
+          {TEAM_MEMBERS.map((member, index) => (
+            <Card key={index} className="border-0 shadow-lg rounded-xl overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <CardContent className="p-0 flex flex-col h-full">
+                {/* Image with oval mask and gradient overlay */}
+                <div className="relative pt-8 px-8">
+                  <div className="relative mx-auto w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-lg">
                     <img 
                       src={member.image}
                       alt={member.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                     />
+                    <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                   </div>
-                  <div className="p-6 text-center">
-                    <h3 className="text-xl font-bold text-secondary mb-2">{member.name}</h3>
-                    <p className="text-primary font-medium mb-4">{member.position}</p>
-                    <p className="text-gray-600 mb-4">{member.bio}</p>
-                    
-                    {/* Social Links */}
-                    <div className="flex justify-center space-x-4">
-                      {member.website && (
-                        <a href={member.website} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-primary transition-colors">
-                          <Globe className="w-5 h-5" />
-                        </a>
-                      )}
-                      {member.linkedin && (
-                        <a href={member.linkedin} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-600 transition-colors">
-                          <Linkedin className="w-5 h-5" />
-                        </a>
-                      )}
-                      {member.twitter && (
-                        <a href={member.twitter} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-blue-400 transition-colors">
-                          <Twitter className="w-5 h-5" />
-                        </a>
-                      )}
-                      {member.whatsapp && (
-                        <a href={member.whatsapp} target="_blank" rel="noopener noreferrer" className="text-gray-500 hover:text-green-500 transition-colors">
-                          <MessageCircle className="w-5 h-5" />
-                        </a>
-                      )}
-                    </div>
+                </div>
+
+                {/* Content with subtle background */}
+                <div className="flex-1 p-6 text-center bg-gradient-to-b from-white to-gray-50">
+                  <div className="mb-4">
+                    <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
+                    <p className="text-primary font-medium text-sm uppercase tracking-wider">{member.position}</p>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
+                  
+                  <p className="text-gray-600 text-sm md:text-base mb-6 line-clamp-3">{member.bio}</p>
+                  
+                  {/* Social links with subtle hover effects */}
+                  <div className="flex justify-center space-x-3">
+                    {member.website && (
+                      <a href={member.website} target="_blank" rel="noopener noreferrer" 
+                        className="p-2 rounded-full bg-gray-100 hover:bg-primary/10 text-gray-500 hover:text-primary transition-all">
+                        <Globe className="w-4 h-4" />
+                      </a>
+                    )}
+                    {member.linkedin && (
+                      <a href={member.linkedin} target="_blank" rel="noopener noreferrer" 
+                        className="p-2 rounded-full bg-gray-100 hover:bg-blue-600/10 text-gray-500 hover:text-blue-600 transition-all">
+                        <Linkedin className="w-4 h-4" />
+                      </a>
+                    )}
+                    {member.twitter && (
+                      <a href={member.twitter} target="_blank" rel="noopener noreferrer" 
+                        className="p-2 rounded-full bg-gray-100 hover:bg-blue-400/10 text-gray-500 hover:text-blue-400 transition-all">
+                        <Twitter className="w-4 h-4" />
+                      </a>
+                    )}
+                    {member.whatsapp && (
+                      <a href={member.whatsapp} target="_blank" rel="noopener noreferrer" 
+                        className="p-2 rounded-full bg-gray-100 hover:bg-green-500/10 text-gray-500 hover:text-green-500 transition-all">
+                        <MessageCircle className="w-4 h-4" />
+                      </a>
+                    )}
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
+          ))}
+        </div>
         </div>
       </section>
     </div>

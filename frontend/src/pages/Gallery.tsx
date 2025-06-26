@@ -7,8 +7,19 @@ const Gallery = () => {
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-secondary to-primary text-white">
-        <div className="container mx-auto px-4 text-center">
+     <section className="relative py-20 bg-gradient-to-br from-secondary to-primary text-white overflow-hidden">
+        {/* Background Image with constrained dimensions */}
+                <div className="absolute inset-0 bg-black/50"></div>
+
+        <div className="absolute inset-0">
+          <img
+            src="https://images.unsplash.com/photo-1663296997689-f5e35ad7ac7d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG9pbCUyMGFuZCUyMGdhcyUyMGVuZ2luZWVyaW5nJTIwTmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=1920&h=1080&fit=crop"
+            alt="Background"
+            className="w-full h-full object-cover opacity-20"
+          />
+        </div>
+
+        <div className="container mx-auto px-4 relative text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">Our Projects</h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
             Explore our portfolio of completed projects showcasing our expertise across various engineering and construction sectors.

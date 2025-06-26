@@ -43,7 +43,7 @@ const featuredBlogs = [
     excerpt: "Latest technological advances transforming the oil and gas sector in Nigeria.",
     author: "Andy Ojokoh",
     date: "2024-01-01",
-    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&h=300&fit=crop",
+    image: "https://images.unsplash.com/photo-1663296997689-f5e35ad7ac7d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG9pbCUyMGFuZCUyMGdhcyUyMGVuZ2luZWVyaW5nJTIwTmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=600&h=300&fit=crop",
     category: "Oil & Gas",
     slug: "oil-gas-industry-innovations"
   },
