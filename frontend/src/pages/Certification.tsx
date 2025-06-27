@@ -61,9 +61,14 @@ const Certification = () => {
                     <p className="text-gray-600 text-md leading-relaxed">{cert.description}</p>
                 
                     <div className="py-2">
-                      <a href={`${cert.image}`} className="flex gap-2 text-secondary items-center" download={`Southern_Basin_Limited${cert.image}`}>
-                        <Download className="w-4 h-4"/> Download Certificate
-                      </a>
+                     <a
+                        href={cert.image}
+                        className="flex gap-2 text-secondary items-center"
+                        download={`Southern_Basin_Limited_${cert.image.split('/').pop()}`}
+                      >
+                        <Download className="w-4 h-4" />
+                        Download Certificate
+                    </a>
                     </div>
                   </div>
                 </CardContent>
