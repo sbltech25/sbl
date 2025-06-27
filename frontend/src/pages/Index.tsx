@@ -62,9 +62,9 @@ const Index = () => {
                 <CardContent className="p-0">
                   <div className={`h-2 bg-gradient-to-r ${service.color}`}></div>
                   <div className="p-8">
-                    <div className="text-4xl mb-4">{service.icon}</div>
+                    <div className="text-4xl hidden mb-4">{service.icon}</div>
                     <h3 className="text-2xl font-bold text-secondary mb-4">{service.title}</h3>
-                    <p className="text-gray-600 mb-6">{service.description}</p>
+                    <p className="text-gray-600 mb-2">{service.description}</p>
                     <Link to={`/services#${service.id}`}>
                       <Button variant="ghost" className="text-primary hover:text-primary/80 p-0">
                         Learn More <ArrowRight className="ml-2 h-4 w-4" />

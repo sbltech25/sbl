@@ -69,7 +69,7 @@ const HowWeWork = () => {
                 variants={itemVariants}
                 className="relative group"
               >
-                <div className="flex flex-col md:flex-row items-start mb-16 gap-6">
+                <div className="flex flex-col md:flex-row items-start mb-8 gap-6">
                   {/* Step Number */}
                   <div className="flex-shrink-0">
                     <div className="w-16 h-16 bg-gradient-to-br from-primary to-secondary rounded-full flex items-center justify-center text-white font-bold text-2xl shadow-lg group-hover:scale-110 transition-transform duration-300">
