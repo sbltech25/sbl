@@ -1,10 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { Provider } from "react-redux";
+import { Routes, Route } from "react-router-dom";
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Chatbot from './components/chatbot/Chatbot';
@@ -24,15 +23,15 @@ import BlogManagement from "./pages/BlogManagement";
 import NewBlogPost from "./pages/NewBlogPost";
 import EditBlogPost from "./pages/EditBlogPost";
 import NotFound from "./pages/NotFound";
-import Certification from "./pages/Certification"
+import Certification from "./pages/Certification";
 import ScrollToTop from './components/layout/ScrollTop';
-
-const queryClient = new QueryClient();
+import store from "./store/store.js";
+import PageLoader from './components/layout/PageLoader.js';
+import useAuthUser from "./hooks/useAuthUser.ts";
 
 const App = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   
-
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
     if (savedTheme) {
@@ -51,46 +50,54 @@ const App = () => {
     }
   }, [theme]);
 
+  const { isLoading, authUser } = useAuthUser();
+  const isAuthenticated = Boolean(authUser);
+
+  if (isLoading) return <PageLoader />;
+
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
   };
 
   return (
-    <QueryClientProvider client={queryClient}>
+    <div className="h-screen">
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          <div className="min-h-screen flex flex-col bg-background text-foreground">
-            <ScrollToTop />
-            <Header theme={theme} toggleTheme={toggleTheme} />
-            <main className="flex-1">
-              <Routes>
-                <Route path="/" element={<Index />} />
-                <Route path="/services" element={<Services />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/how-we-work" element={<HowWeWork />} />
-                <Route path="/projects-and-equipments/" element={<Gallery />} />                
-                <Route path="/certifications" element={<Certification />} />                
-                <Route path="/blogs" element={<Blogs />} />
-                <Route path="/blog/:slug" element={<BlogPost />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/s/login" element={<ClientLogin />} />
-                <Route path="/s/client" element={<ClientDashboard />} />
-                <Route path="/secured/v1/login" element={<AdminLogin />} />
-                <Route path="/secured/v1/admin" element={<AdminDashboard />} />                
-                <Route path="/secured/v1/admin/blog-management" element={<BlogManagement />} />
-                <Route path="/secured/v1/admin/blog-management/new" element={<NewBlogPost />} />
-                <Route path="/secured/v1/admin/blog-management/:id/edit" element={<EditBlogPost />} />
-                <Route path="*" element={<NotFound />} />
-              </Routes>
-            </main>
-            <Footer />
-            <Chatbot />
-          </div>
-        </BrowserRouter>
+        <div className="min-h-screen flex flex-col bg-background text-foreground">
+          <ScrollToTop />
+          <Header theme={theme} toggleTheme={toggleTheme} />
+          <main className="flex-1">
+            <Routes>
+              <Route path="/" element={<Index />} />
+              <Route path="/services" element={<Services />} />
+              <Route path="/about" element={<About />} />
+              <Route path="/how-we-work" element={<HowWeWork />} />
+              <Route path="/projects-and-equipments/" element={<Gallery />} />                
+              <Route path="/certifications" element={<Certification />} />                
+              <Route path="/blogs" element={<Blogs />} />
+              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/contact" element={<Contact />} />
+              <Route 
+                  path="/s/login" 
+                  element={isAuthenticated ? <ClientDashboard /> : <ClientLogin />}  />
+              <Route 
+                path="/s/client/dashboard" 
+                element={isAuthenticated ? <ClientDashboard /> : <ClientLogin />} 
+              />
+              <Route path="/secured/v1/login" element={<AdminLogin />} />
+              <Route path="/secured/v1/admin" element={<AdminDashboard />} />                
+              <Route path="/secured/v1/admin/blog-management" element={<BlogManagement />} />
+              <Route path="/secured/v1/admin/blog-management/new" element={<NewBlogPost />} />
+              <Route path="/secured/v1/admin/blog-management/:id/edit" element={<EditBlogPost />} />
+              <Route path="*" element={<NotFound />} />
+            </Routes>
+          </main>
+          <Footer />
+          <Chatbot />
+        </div>
       </TooltipProvider>
-    </QueryClientProvider>
+    </div>
   );
 };
 

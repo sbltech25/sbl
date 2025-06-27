@@ -14,6 +14,7 @@ const __dirname = path.resolve();
 
 const allowedOrigins = [
         "http://localhost:8080",
+        "https://sbl1.vercel.app",
         "http://localhost:5001",
     ]
 

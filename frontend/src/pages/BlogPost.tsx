@@ -9,7 +9,7 @@ const mockBlog = {
   id: 1,
   title: "Advancing Infrastructure Development in Nigeria",
   content: `
-    <p class="mb-6">Nigeria's infrastructure development has been at the forefront of our national discourse for decades. As an indigenous engineering company with over 12 years of experience, Southern Basin Construction Limited has witnessed firsthand the evolution of Nigeria's construction landscape and the critical role infrastructure plays in economic growth.</p>
+    <p class="mb-6">Nigeria's infrastructure development has been at the forefront of our national discourse for decades. As an indigenous engineering company with over 12 years of experience, Southern Basin Limited has witnessed firsthand the evolution of Nigeria's construction landscape and the critical role infrastructure plays in economic growth.</p>
     
     <h2 class="text-2xl font-bold text-secondary mb-4">The Current State of Nigerian Infrastructure</h2>
     <p class="mb-6">The infrastructure deficit in Nigeria is well-documented, with estimates suggesting that the country needs to invest over $100 billion annually for the next 30 years to close the gap. This presents both challenges and opportunities for indigenous companies like ours.</p>

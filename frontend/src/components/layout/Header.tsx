@@ -1,9 +1,9 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Menu, X, Sun, Moon } from 'lucide-react';
 import { COMPANY_INFO } from '@/lib/constants';
+import useAuthUser from '@/hooks/useAuthUser';
 
 interface HeaderProps {
   theme: 'light' | 'dark';
@@ -17,12 +17,14 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
 
   useEffect(() => {
     const handleScroll = () => {
-      // setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const { isLoading, authUser } = useAuthUser();
+  const isAuthenticated = Boolean(authUser);
 
   const navItems = [
     { name: 'Home', path: '/' },
@@ -43,7 +45,6 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     }`}>
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
-          {/* Logo */}
           <Link to="/" className={`flex dark:bg-none items-center space-x-3 ${
           !isScrolled && "bg-white"
           }`}>
@@ -54,7 +55,6 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             />
           </Link>
 
-          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (
               <Link
@@ -73,7 +73,6 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
             ))}
           </nav>
 
-          {/* Right side buttons */}
           <div className="flex items-center space-x-4">
             <Button
               variant="ghost"
@@ -84,17 +83,28 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
               {theme === 'light' ? <Moon className="h-4 w-4  bg-transparent" /> : <Sun className="h-4 w-4" />}
             </Button>
             
-            <Link to="/s/login">
-              <Button 
-                variant="default" 
-                size="sm"
-                className="bg-primary hover:bg-primary/90 text-white rounded-sm"
-              >
-                Client Login
-              </Button>
-            </Link>
+            {isAuthenticated ? (
+              <Link to="/s/client/dashboard">
+                <Button 
+                  variant="default" 
+                  size="sm"
+                  className="bg-primary hover:bg-primary/90 text-white rounded-sm"
+                >
+                  My Dashboard
+                </Button>
+              </Link>
+            ) : (
+              <Link to="/s/login">
+                <Button 
+                  variant="default" 
+                  size="sm"
+                  className="bg-primary hover:bg-primary/90 text-white rounded-sm"
+                >
+                  Client Login
+                </Button>
+              </Link>
+            )}
 
-            {/* Mobile menu button */}
             <Button
               variant="ghost"
               size="sm"
@@ -106,7 +116,6 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="lg:hidden bg-white mt-4 py-4 border-t border-gray-200 dark:border-gray-700">
             <nav className="flex flex-col space-y-4">

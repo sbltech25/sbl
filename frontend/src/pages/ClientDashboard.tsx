@@ -7,6 +7,9 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { LogOut, Send, Paperclip, Image, FileText } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import useLogout from "../hooks/useLogout";
+import useAuthUser from '@/hooks/useAuthUser';
+import PageLoader from '@/components/layout/PageLoader';
 
 interface Message {
   id: string;
@@ -17,7 +20,6 @@ interface Message {
 }
 
 const ClientDashboard = () => {
-  const [clientData, setClientData] = useState<any>(null);
   const [messages, setMessages] = useState<Message[]>([
     {
       id: '1',
@@ -28,24 +30,23 @@ const ClientDashboard = () => {
   ]);
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const { logoutMutation } = useLogout();
+  const {authUser} = useAuthUser()
+
   const navigate = useNavigate();
   const { toast } = useToast();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('clientAuth');
-    const storedClientData = localStorage.getItem('clientData');
+    const isAuthenticated = Boolean(authUser)
     
-    if (!isAuthenticated || !storedClientData) {
+    if (!isAuthenticated) {
       navigate('/s/login');
       return;
     }
-    
-    setClientData(JSON.parse(storedClientData));
-  }, [navigate]);
+    }, [navigate]);
 
   const handleLogout = () => {
-    localStorage.removeItem('clientAuth');
-    localStorage.removeItem('clientData');
+    logoutMutation()
     toast({
       title: "Logged Out",
       description: "You have been successfully logged out.",
@@ -88,8 +89,8 @@ const ClientDashboard = () => {
     }
   };
 
-  if (!clientData) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
+  if (!authUser) {
+    return <PageLoader />;
   }
 
   return (
@@ -101,7 +102,7 @@ const ClientDashboard = () => {
             <div className="flex flex-col items-center space-x-4">
               <div>
                 <h1 className="text-xl font-bold text-secondary">Client Dashboard</h1>
-                <p className="text-sm text-gray-600">Welcome, {clientData.username}</p>
+                <p className="text-sm text-gray-600">Welcome, {authUser.username}</p>
               </div>
             </div>
             <Button onClick={handleLogout} variant="outline" size="sm" className="rounded-sm">

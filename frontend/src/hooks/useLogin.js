@@ -1,10 +1,12 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { login } from "../lib/api";
 import { useToast } from "@/hooks/use-toast";
+import {useNavigate} from 'react-router-dom'
 
 const useLogin = () => {
   const queryClient = useQueryClient();
-  const { toast } = useToast();         
+  const { toast } = useToast();       
+  const navigate = useNavigate()  
 
   const {
     mutate: loginMutation,
@@ -20,6 +22,8 @@ const useLogin = () => {
         title: "Login Successful",
         description: "Welcome to your client dashboard.",
       });
+
+      navigate('/s/client/dashboard')
     },
 
     onError: (err) => {
