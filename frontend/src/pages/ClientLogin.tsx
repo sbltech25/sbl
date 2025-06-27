@@ -6,15 +6,21 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { User, Lock } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import useLogin from '../hooks/useLogin';
 
 const ClientLogin = () => {
   const [formData, setFormData] = useState({
     username: '',
     password: ''
   });
+
+
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  
+  const { isPending, error, loginMutation } = useLogin();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -27,30 +33,11 @@ const ClientLogin = () => {
     e.preventDefault();
     setIsLoading(true);
 
-    try {
-      // Simulate authentication
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Store authentication state
-      localStorage.setItem('clientAuth', 'true');
-      localStorage.setItem('clientData', JSON.stringify({
-        username: formData.username,
-        loginTime: new Date().toISOString()
-      }));
-      
-      toast({
-        title: "Login Successful",
-        description: "Welcome to your client dashboard.",
-      });
-      
-      navigate('/s/client');
-    } catch (error) {
-      toast({
-        title: "Login Failed",
-        description: "Invalid username or password.",
-        variant: "destructive",
-      });
-    } finally {
+    try {    
+         
+      loginMutation(formData);
+    
+      } finally {
       setIsLoading(false);
     }
   };

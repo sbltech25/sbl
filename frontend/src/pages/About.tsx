@@ -38,7 +38,7 @@ const About = () => {
               <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-6">Our Story</h2>
               <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
                 <p>
-                  <strong>SOUTHERN BASIN CONSTRUCTION LIMITED</strong> is an indigenous Engineering, Construction, 
+                  <strong>SOUTHERN BASIN Limited</strong> is an indigenous Engineering, Construction, 
                   Project Management, Logistics and Procurement Company with 100% stock of Nigerian shareholding. 
                   The firm was incorporated in Nigeria since {COMPANY_INFO.foundedYear} with registration number {COMPANY_INFO.registrationNumber}.
                 </p>

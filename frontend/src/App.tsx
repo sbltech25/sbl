@@ -24,12 +24,14 @@ import BlogManagement from "./pages/BlogManagement";
 import NewBlogPost from "./pages/NewBlogPost";
 import EditBlogPost from "./pages/EditBlogPost";
 import NotFound from "./pages/NotFound";
+import Certification from "./pages/Certification"
 import ScrollToTop from './components/layout/ScrollTop';
 
 const queryClient = new QueryClient();
 
 const App = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
+  
 
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
@@ -68,7 +70,8 @@ const App = () => {
                 <Route path="/services" element={<Services />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/how-we-work" element={<HowWeWork />} />
-                <Route path="/gallery" element={<Gallery />} />                
+                <Route path="/projects-and-equipments/" element={<Gallery />} />                
+                <Route path="/certifications" element={<Certification />} />                
                 <Route path="/blogs" element={<Blogs />} />
                 <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/contact" element={<Contact />} />

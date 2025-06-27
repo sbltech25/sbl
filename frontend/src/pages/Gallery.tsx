@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { PROJECTS } from '@/lib/constants';
+import EquipmentCarousel from '../components/layout/EquipmentCarousel';
 
 const Gallery = () => {
   return (
@@ -20,7 +21,7 @@ const Gallery = () => {
         </div>
 
         <div className="container mx-auto px-4 relative text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Our Projects</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">Our Projects & Equipments</h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
             Explore our portfolio of completed projects showcasing our expertise across various engineering and construction sectors.
           </p>
@@ -75,6 +76,19 @@ const Gallery = () => {
               </Card>
             ))}
           </div>
+        </div>
+      </section>
+
+        <section className="py-20 bg-accent/50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">Our Equipments</h2>
+            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+              State-of-the-art machinery and equipment that enables us to deliver exceptional results across all our projects.
+            </p>
+          </div>
+
+          <EquipmentCarousel />
         </div>
       </section>
 

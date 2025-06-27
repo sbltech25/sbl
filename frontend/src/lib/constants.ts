@@ -235,3 +235,116 @@ export const HERO_SLIDE_ITEMS = [
     image: "https://images.unsplash.com/photo-1604145007459-72793769d538?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fG9pbCUyMGFuZCUyMGdhcyUyMGVuZ2luZWVyaW5nJTIwTmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=1920&h=1080&fit=crop"
   }
 ];
+
+export const CERTIFICATIONS = [
+  {
+    title: "ISO 45001:2018 Occupational Health & Safety Management System",
+    issuer: "United Accreditation Foundation, USA",
+    date: "2024",
+    image: "/certs/ISO45001.pdf",
+    description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry."
+  },
+  {
+    title: "ISO 14001:2015 Environmental Management System",
+    issuer: "United Accreditation Foundation, USA",
+    date: "2024",
+    image: "/certs/ISO14001.pdf",
+    description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry."
+  },
+  {
+    title: "ISO 9001:2015 Quality Management System",
+    issuer: "United Accreditation Foundation, USA",
+    date: "2024",
+    image: "/certs/ISO9001.pdfqq",
+    description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry."
+  },
+];
+
+export const EQUIPMENT = [
+  {
+    name: "Excavator CAT 320D",
+    category: "Heavy Machinery",
+    image: "/gallery/civil1.jpg"
+  },
+  {
+    name: "Hydraulic Rock Breaker",
+    category: "Demolition Tools",
+    image: "/gallery/civil2.jpg"
+  },
+  {
+    name: "Vibratory Soil Compactor",
+    category: "Compaction Equipment",
+    image: "/gallery/civil3.jpg"
+  },
+  {
+    name: "Wheel Loader Volvo L90",
+    category: "Heavy Machinery",
+    image: "/gallery/civil4.jpg"
+  },
+  {
+    name: "Concrete Mixer Truck",
+    category: "Concrete Equipment",
+    image: "/gallery/civil5.jpg"
+  },
+  {
+    name: "Motor Grader CAT 140K",
+    category: "Earthmoving",
+    image: "/gallery/civil6.jpg"
+  },
+  {
+    name: "Crawler Crane 80T",
+    category: "Lifting Equipment",
+    image: "/gallery/civil7.jpg"
+  },
+  {
+    name: "Asphalt Paver Machine",
+    category: "Road Equipment",
+    image: "/gallery/civil8.jpg"
+  },
+  {
+    name: "Tower Light Set",
+    category: "Site Equipment",
+    image: "/gallery/civil9.jpg"
+  },
+  {
+    name: "Diesel Generator 500KVA",
+    category: "Power Equipment",
+    image: "/gallery/civil10.jpg"
+  },
+  {
+    name: "Scaffolding Frames",
+    category: "Construction Tools",
+    image: "/gallery/civil11.jpg"
+  },
+  {
+    name: "Trench Shoring System",
+    category: "Safety Equipment",
+    image: "/gallery/civil12.jpg"
+  },
+  {
+    name: "Backhoe Loader JCB 3CX",
+    category: "Earthmoving",
+    image: "/gallery/civil13.jpg"
+  },
+  {
+    name: "Portable Concrete Pump",
+    category: "Concrete Equipment",
+    image: "/gallery/civil14.jpg"
+  },
+  {
+    name: "Welding Generator Set",
+    category: "Fabrication",
+    image: "/gallery/civil15.jpg"
+  },
+  {
+    name: "Total Station - Leica",
+    category: "Survey Equipment",
+    image: "/gallery/civil16.jpg"
+  },
+  {
+    name: "Skid Steer Loader",
+    category: "Site Equipment",
+    image: "/gallery/civil17.jpg"
+  }
+];
+

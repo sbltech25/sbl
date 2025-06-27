@@ -15,7 +15,7 @@ const mockBlog = {
     <p class="mb-6">The infrastructure deficit in Nigeria is well-documented, with estimates suggesting that the country needs to invest over $100 billion annually for the next 30 years to close the gap. This presents both challenges and opportunities for indigenous companies like ours.</p>
     
     <h2 class="text-2xl font-bold text-secondary mb-4">Our Approach to Sustainable Development</h2>
-    <p class="mb-6">At Southern Basin Construction Limited, we believe in a holistic approach to infrastructure development that considers not just the immediate needs but also long-term sustainability and environmental impact. Our projects are designed with future generations in mind.</p>
+    <p class="mb-6">At Southern Basin Limited, we believe in a holistic approach to infrastructure development that considers not just the immediate needs but also long-term sustainability and environmental impact. Our projects are designed with future generations in mind.</p>
     
     <h2 class="text-2xl font-bold text-secondary mb-4">Key Projects and Impact</h2>
     <p class="mb-6">Over the years, we have completed numerous projects ranging from road construction to pipeline engineering. Each project has contributed to improving the quality of life for Nigerians and supporting economic development in various communities.</p>
