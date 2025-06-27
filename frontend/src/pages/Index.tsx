@@ -164,7 +164,7 @@ const Index = () => {
       <section className="py-20 bg-gradient-to-r from-[#212685] to-[#006DFF] text-white">
 
         <div className="container mx-auto px-4 text-center">
-               <div className="absolute inset-0 bg-black/70"></div>
+               {/* <div className="absolute inset-0 bg-black/70"></div> */}
           <h2 className="text-4xl md:text-5xl font-bold mb-6">
             Ready to Start Your Project?
           </h2>
