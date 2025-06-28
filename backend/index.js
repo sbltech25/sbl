@@ -12,7 +12,7 @@ connectDB();
 const allowedOrigins = [
   "http://localhost:8080",
   "http://localhost:5173", // Vite dev
-  "https://sbl1.ercel.app" // Replace with actual frontend domain
+  "https://sbl1.vercel.app" // Replace with actual frontend domain
 ];
 
 app.use(
