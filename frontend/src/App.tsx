@@ -25,9 +25,8 @@ import EditBlogPost from "./pages/EditBlogPost";
 import NotFound from "./pages/NotFound";
 import Certification from "./pages/Certification";
 import ScrollToTop from './components/layout/ScrollTop';
-import store from "./store/store.js";
 import PageLoader from './components/layout/PageLoader.js';
-import useAuthUser from "./hooks/useAuthUser.ts";
+import useAuthUser from './hooks/useAuthUser';
 
 const App = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
@@ -52,6 +51,7 @@ const App = () => {
 
   const { isLoading, authUser } = useAuthUser();
   const isAuthenticated = Boolean(authUser);
+  console.log(authUser)
 
   if (isLoading) return <PageLoader />;
 

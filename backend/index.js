@@ -4,16 +4,19 @@ import cookieParser from "cookie-parser";
 import cors from "cors";
 import path from "path";
 import authRoutes from "./routes/auth.route.js";
+
 import { connectDB } from "./lib/db.js";
 
-const app = express();
-connectDB();
+const app = express()
+
+const __dirname = path.resolve();
+
 
 const allowedOrigins = [
-  "http://localhost:8080",
-  "http://localhost:5173", // Vite dev
-  "https://sbl1.vercel.app" // Replace with actual frontend domain
-];
+        "http://localhost:8080",
+        "http://localhost:5001",
+        "https://sbl1.vercel.app",
+    ]
 
 app.use(
   cors({
@@ -24,19 +27,28 @@ app.use(
         callback(new Error("Not allowed by CORS"));
       }
     },
-    credentials: true
+    credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization"],
   })
 );
 
-app.use(express.json({ limit: "50mb" }));
-app.use(express.urlencoded({ limit: "50mb", extended: true }));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.use(cookieParser());
 
-// Routes
+connectDB();
+
 app.use("/api/auth", authRoutes);
 
-// Listen (only used locally)
-const PORT = process.env.PORT || 5001;
+if (process.env.NODE_ENV === "production") {
+  app.use(express.static(path.join(__dirname, "../frontend/dist")));
+  app.get("*", (req, res) => {
+    res.sendFile(path.join(__dirname, "../frontend/dist/index.html"));
+  });
+}
+
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running  ${PORT}`);
 });

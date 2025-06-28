@@ -8,8 +8,9 @@ import { Textarea } from '@/components/ui/textarea';
 import { LogOut, Send, Paperclip, Image, FileText } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import useLogout from "../hooks/useLogout";
-import useAuthUser from '@/hooks/useAuthUser';
 import PageLoader from '@/components/layout/PageLoader';
+import useAuthUser from '@/hooks/useAuthUser';
+
 
 interface Message {
   id: string;
@@ -32,18 +33,14 @@ const ClientDashboard = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { logoutMutation } = useLogout();
   const {authUser} = useAuthUser()
-
   const navigate = useNavigate();
   const { toast } = useToast();
 
-  useEffect(() => {
-    const isAuthenticated = Boolean(authUser)
-    
-    if (!isAuthenticated) {
-      navigate('/s/login');
-      return;
-    }
-    }, [navigate]);
+ 
+
+  if(isLoading){
+    return <PageLoader />
+  }
 
   const handleLogout = () => {
     logoutMutation()
@@ -89,9 +86,6 @@ const ClientDashboard = () => {
     }
   };
 
-  if (!authUser) {
-    return <PageLoader />;
-  }
 
   return (
     <div className="min-h-screen pt-20 bg-gray-50 dark:bg-gray-900">

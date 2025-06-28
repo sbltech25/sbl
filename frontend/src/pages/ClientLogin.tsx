@@ -7,6 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { User, Lock } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import useLogin from '../hooks/useLogin';
+import PageLoader from '@/components/layout/PageLoader';
 
 const ClientLogin = () => {
   const [formData, setFormData] = useState({
@@ -41,6 +42,11 @@ const ClientLogin = () => {
       setIsLoading(false);
     }
   };
+
+
+    if(isLoading){
+      return <PageLoader />
+    }
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary/10 to-primary/10 px-4 pt-20">
