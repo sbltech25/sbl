@@ -3,7 +3,7 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { Provider } from "react-redux";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Chatbot from './components/chatbot/Chatbot';
@@ -79,11 +79,12 @@ const App = () => {
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/contact" element={<Contact />} />
               <Route 
-                  path="/s/login" 
-                  element={isAuthenticated ? <ClientDashboard /> : <ClientLogin />}  />
+                path="/s/login" 
+                element={isAuthenticated ? <Navigate to="/s/client/dashboard" /> : <ClientLogin />} 
+              />
               <Route 
                 path="/s/client/dashboard" 
-                element={isAuthenticated ? <ClientDashboard /> : <ClientLogin />} 
+                element={isAuthenticated ? <ClientDashboard /> : <Navigate to="/s/login" />} 
               />
               <Route path="/secured/v1/login" element={<AdminLogin />} />
               <Route path="/secured/v1/admin" element={<AdminDashboard />} />                

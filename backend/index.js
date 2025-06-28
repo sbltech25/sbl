@@ -13,8 +13,7 @@ const __dirname = path.resolve();
 
 
 const allowedOrigins = [
-        "http://localhost:8080",
-        "https://sbl1.vercel.app",
+        "http://localhost:5173",
         "http://localhost:5001",
     ]
 
@@ -50,5 +49,5 @@ if (process.env.NODE_ENV === "production") {
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running - ${PORT}`);
+  console.log(`Server running ${PORT}`);
 });
