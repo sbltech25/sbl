@@ -13,8 +13,8 @@ const __dirname = path.resolve();
 
 
 const allowedOrigins = [
+        "https://sbl2.vercel.app",
         "https://sbl1.vercel.app",
-        "https://sbl1.vercel.app/",
         "http://localhost:8080",
         "http://localhost:5001",
     ]
