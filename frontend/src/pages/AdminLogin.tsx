@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -6,15 +5,23 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Shield, User, Lock } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import useLoginAdmin from '../hooks/useLoginAdmin';
+import PageLoader from '@/components/layout/PageLoader';
+
+interface AdminLoginForm {
+  email: string;
+  password: string;
+}
 
 const AdminLogin = () => {
-  const [formData, setFormData] = useState({
-    username: '',
+  const {loginMutation} =useLoginAdmin()
+  const [formData, setFormData] = useState<AdminLoginForm>({
+    email: '',
     password: ''
   });
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { mutateAsync: login, isPending } = useLoginAdmin();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -25,40 +32,10 @@ const AdminLogin = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    try {
-      // Simulate IP restriction check and authentication
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      // For demo purposes, accept admin/admin
-      if (formData.username === 'admin' && formData.password === 'admin') {
-        localStorage.setItem('adminAuth', 'true');
-        localStorage.setItem('adminData', JSON.stringify({
-          username: formData.username,
-          loginTime: new Date().toISOString(),
-          role: 'administrator'
-        }));
-        
-        toast({
-          title: "Secure Login Successful",
-          description: "Welcome to the admin dashboard.",
-        });
-        
-        navigate('/secured/v1/admin');
-      } else {
-        throw new Error('Invalid credentials');
-      }
-    } catch (error) {
-      toast({
-        title: "Access Denied",
-        description: "Invalid credentials or unauthorized IP address.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
-    }
+      await loginMutation(formData);
   };
+
+  if (isPending) return <PageLoader />;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-900/20 to-gray-900/20 px-4 pt-20">
@@ -82,19 +59,19 @@ const AdminLogin = () => {
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="username" className="block text-sm font-medium text-gray-700 mb-2">
-                Administrator Username
+                Administrator Email
               </label>
               <div className="relative">
                 <User className="absolute left-3 top-1/2 transform -translate-y-1/2 h-5 w-5 text-gray-400" />
                 <Input
-                  id="username"
-                  name="username"
+                  id="email"
+                  name="email"
                   type="text"
                   required
-                  value={formData.username}
+                  value={formData.email}
                   onChange={handleChange}
                   className="pl-10 rounded-sm border-gray-300"
-                  placeholder="Admin username"
+                  placeholder="Admin email"
                 />
               </div>
             </div>
@@ -121,9 +98,9 @@ const AdminLogin = () => {
             <Button
               type="submit"
               className="w-full bg-red-600 hover:bg-red-700 text-white py-3 rounded-sm"
-              disabled={isLoading}
+              disabled={isPending}
             >
-              {isLoading ? 'Authenticating...' : 'Secure Login'}
+              {isPending ? 'Authenticating...' : 'Secure Login'}
             </Button>
           </form>
 

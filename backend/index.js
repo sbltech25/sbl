@@ -21,7 +21,11 @@ const __dirname = path.resolve();
 
 app.use(
   cors({
-    origin: true,
+  origin: [
+    "https://sbl1.vercel.app",
+    "http://localhost:8080",   
+    "http://localhost:5001",   
+  ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
     allowedHeaders: ["Content-Type", "Authorization"],

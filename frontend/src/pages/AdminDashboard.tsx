@@ -1,77 +1,60 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { LogOut, Users, Plus, Mail, CheckCircle, Clock, AlertCircle } from 'lucide-react';
+import { LogOut, Users, Plus, Mail, CheckCircle, Clock, AlertCircle, FileText, MessageSquare, Send } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
+import useAuthUser from '@/hooks/useAuthUser';
+import useLogout from "../hooks/useLogout";
+import { Separator } from "@/components/ui/separator";
+import {createClientAccount, getAll} from "../lib/api"
 
 interface Client {
   id: string;
   name: string;
+  fullName: string;
   email: string;
   status: 'new' | 'in-progress' | 'completed';
-  lastMessage: Date;
+  lastMessage?: Date;
   unreadCount: number;
+  projects: number;
+}
+
+interface Message {
+  id: string;
+  text: string;
+  isAdmin: boolean;
+  timestamp: Date;
 }
 
 const AdminDashboard = () => {
-  const [adminData, setAdminData] = useState<any>(null);
-  const [clients, setClients] = useState<Client[]>([
-    {
-      id: '1',
-      name: 'Chevron Nigeria Ltd',
-      email: 'project@chevron.com',
-      status: 'in-progress',
-      lastMessage: new Date(Date.now() - 3600000),
-      unreadCount: 2
-    },
-    {
-      id: '2',
-      name: 'Shell Petroleum',
-      email: 'contracts@shell.com',
-      status: 'completed',
-      lastMessage: new Date(Date.now() - 86400000),
-      unreadCount: 0
-    },
-    {
-      id: '3',
-      name: 'Total Nigeria',
-      email: 'projects@total.ng',
-      status: 'new',
-      lastMessage: new Date(Date.now() - 1800000),
-      unreadCount: 3
-    }
-  ]);
+  const [clients, setClients] = useState<Client[]>([]);
   const [selectedClient, setSelectedClient] = useState<Client | null>(null);
+  const [messages, setMessages] = useState<Message[]>([]);
+  const [newMessage, setNewMessage] = useState('');
   const [newClientForm, setNewClientForm] = useState({ name: '', email: '' });
   const [showNewClientForm, setShowNewClientForm] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { authUser } = useAuthUser();
+  const { logoutMutation } = useLogout();
 
   useEffect(() => {
-    const isAuthenticated = localStorage.getItem('adminAuth');
-    const storedAdminData = localStorage.getItem('adminData');
-    
-    if (!isAuthenticated || !storedAdminData) {
-      navigate('/secured/v1/login');
-      return;
-    }
-    
-    setAdminData(JSON.parse(storedAdminData));
-  }, [navigate]);
+    handleAll()
+  }, [])
 
-  const handleLogout = () => {
-    localStorage.removeItem('adminAuth');
-    localStorage.removeItem('adminData');
-    toast({
-      title: "Logged Out",
-      description: "You have been successfully logged out.",
-    });
-    navigate('/secured/v1/login');
-  };
+  const handleAll = async () => {
+    const res = await getAll()
+    console.log(res.data)
+    setClients(res.data.map((client: any) => ({
+      ...client,
+      status: 'new',
+      unreadCount: 0,
+      projects: 0,
+    })))
+  }
 
   const handleCreateClient = async () => {
     if (!newClientForm.name || !newClientForm.email) {
@@ -83,48 +66,47 @@ const AdminDashboard = () => {
       return;
     }
 
-    // Generate random username and password
-    const username = newClientForm.name.toLowerCase().replace(/\s+/g, '') + Math.floor(Math.random() * 1000);
-    const password = Math.random().toString(36).slice(-8);
-
-    try {
-      // Simulate creating client and sending email
-      await new Promise(resolve => setTimeout(resolve, 2000));
-
-      const newClient: Client = {
-        id: Date.now().toString(),
-        name: newClientForm.name,
-        email: newClientForm.email,
-        status: 'new',
-        lastMessage: new Date(),
-        unreadCount: 0
-      };
-
-      setClients(prev => [...prev, newClient]);
-      setNewClientForm({ name: '', email: '' });
-      setShowNewClientForm(false);
-
-      toast({
-        title: "Client Created Successfully",
-        description: `Credentials sent to ${newClientForm.email}. Username: ${username}`,
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to create client account.",
-        variant: "destructive",
-      });
-    }
+    await createClientAccount(newClientForm)
+    setShowNewClientForm(false)
+    setNewClientForm({ name: '', email: '' })
+    handleAll()
   };
 
   const updateClientStatus = (clientId: string, status: 'new' | 'in-progress' | 'completed') => {
     setClients(prev => prev.map(client => 
       client.id === clientId ? { ...client, status } : client
     ));
+    if (selectedClient?.id === clientId) {
+      setSelectedClient(prev => prev ? { ...prev, status } : null);
+    }
     toast({
       title: "Status Updated",
       description: `Client status updated to ${status}.`,
     });
+  };
+
+  const handleSendMessage = () => {
+    if (!newMessage.trim() || !selectedClient) return;
+
+    const adminMessage: Message = {
+      id: Date.now().toString(),
+      text: newMessage,
+      isAdmin: true,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, adminMessage]);
+    setNewMessage('');
+
+    setTimeout(() => {
+      const clientMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        text: 'Thank you for your message. We will review it and get back to you.',
+        isAdmin: false,
+        timestamp: new Date()
+      };
+      setMessages(prev => [...prev, clientMessage]);
+    }, 2000);
   };
 
   const getStatusColor = (status: string) => {
@@ -145,13 +127,8 @@ const AdminDashboard = () => {
     }
   };
 
-  if (!adminData) {
-    return <div className="min-h-screen flex items-center justify-center">Loading...</div>;
-  }
-
   return (
     <div className="min-h-screen pt-20 bg-gray-50 dark:bg-gray-900">
-      {/* Header */}
       <div className="bg-white dark:bg-gray-800 shadow-sm border-b">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -160,11 +137,11 @@ const AdminDashboard = () => {
                 <Users className="h-5 w-5 text-red-600" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-gray-800">Admin Dashboard</h1>
-                <p className="text-sm text-gray-600">Secure Administrator Panel</p>
+                <h1 className="text-xl font-bold text-gray-800 dark:text-white">Admin Dashboard</h1>
+                <p className="text-sm text-gray-600 dark:text-gray-400">Secure Administrator Panel</p>
               </div>
             </div>
-            <Button onClick={handleLogout} variant="outline" size="sm" className="rounded-sm">
+            <Button onClick={logoutMutation} variant="outline" size="sm" className="rounded-sm">
               <LogOut className="h-4 w-4 mr-2" />
               Secure Logout
             </Button>
@@ -174,12 +151,11 @@ const AdminDashboard = () => {
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          {/* Client List */}
           <div className="lg:col-span-1">
             <Card className="border-0 shadow-lg rounded-sm">
               <CardHeader>
                 <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">Client Communications</CardTitle>
+                  <CardTitle className="text-lg">Client Management</CardTitle>
                   <Button
                     onClick={() => setShowNewClientForm(!showNewClientForm)}
                     size="sm"
@@ -191,9 +167,8 @@ const AdminDashboard = () => {
               </CardHeader>
               
               <CardContent>
-                {/* New Client Form */}
                 {showNewClientForm && (
-                  <div className="space-y-4 mb-6 p-4 bg-gray-50 rounded-sm">
+                  <div className="space-y-4 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-sm">
                     <h3 className="font-semibold text-sm">Create New Client</h3>
                     <Input
                       placeholder="Client Name"
@@ -214,7 +189,7 @@ const AdminDashboard = () => {
                         size="sm"
                         className="bg-primary hover:bg-primary/90 rounded-sm"
                       >
-                        Create & Send Credentials
+                        Create Client
                       </Button>
                       <Button
                         onClick={() => setShowNewClientForm(false)}
@@ -228,7 +203,6 @@ const AdminDashboard = () => {
                   </div>
                 )}
 
-                {/* Client List */}
                 <div className="space-y-2">
                   {clients.map((client) => (
                     <div
@@ -236,12 +210,15 @@ const AdminDashboard = () => {
                       className={`p-3 rounded-sm cursor-pointer border transition-colors ${
                         selectedClient?.id === client.id
                           ? 'bg-primary/10 border-primary'
-                          : 'bg-white hover:bg-gray-50 border-gray-200'
+                          : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-700'
                       }`}
-                      onClick={() => setSelectedClient(client)}
+                      onClick={() => {
+                        setSelectedClient(client);
+                        setMessages([]);
+                      }}
                     >
                       <div className="flex items-center justify-between mb-2">
-                        <h3 className="font-semibold text-sm">{client.name}</h3>
+                        <h3 className="font-semibold text-sm">{client?.fullName}</h3>
                         {client.unreadCount > 0 && (
                           <Badge variant="default" className="bg-red-500 text-white text-xs">
                             {client.unreadCount}
@@ -249,9 +226,9 @@ const AdminDashboard = () => {
                         )}
                       </div>
                       
-                      <div className="flex items-center justify-between text-xs text-gray-600">
+                      <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
                         <span>{client.email}</span>
-                        <span>{client.lastMessage.toLocaleDateString()}</span>
+                        <span>{client.lastMessage ? client.lastMessage.toLocaleDateString() : 'No messages'}</span>
                       </div>
                       
                       <div className="flex items-center justify-between mt-2">
@@ -261,6 +238,9 @@ const AdminDashboard = () => {
                             <span className="capitalize">{client.status}</span>
                           </span>
                         </Badge>
+                        <span className="text-xs text-gray-500 dark:text-gray-400">
+                          {client.projects} {client.projects === 1 ? 'project' : 'projects'}
+                        </span>
                       </div>
                     </div>
                   ))}
@@ -269,15 +249,14 @@ const AdminDashboard = () => {
             </Card>
           </div>
 
-          {/* Chat Panel */}
           <div className="lg:col-span-2">
             {selectedClient ? (
               <Card className="border-0 shadow-lg rounded-sm h-[600px] flex flex-col">
                 <CardHeader>
                   <div className="flex items-center justify-between">
                     <div>
-                      <CardTitle className="text-lg">{selectedClient.name}</CardTitle>
-                      <p className="text-sm text-gray-600">{selectedClient.email}</p>
+                      <CardTitle className="text-lg">{selectedClient.fullName}</CardTitle>
+                      <p className="text-sm text-gray-600 dark:text-gray-400">{selectedClient.email}</p>
                     </div>
                     
                     <div className="flex space-x-2">
@@ -285,7 +264,11 @@ const AdminDashboard = () => {
                         onClick={() => updateClientStatus(selectedClient.id, 'in-progress')}
                         variant="outline"
                         size="sm"
-                        className="rounded-sm text-orange-600 border-orange-200"
+                        className={`rounded-sm ${
+                          selectedClient.status === 'in-progress' 
+                            ? 'bg-orange-100 text-orange-800 border-orange-200' 
+                            : 'border-gray-200'
+                        }`}
                       >
                         <Clock className="h-4 w-4 mr-1" />
                         In Progress
@@ -294,7 +277,11 @@ const AdminDashboard = () => {
                         onClick={() => updateClientStatus(selectedClient.id, 'completed')}
                         variant="outline"
                         size="sm"
-                        className="rounded-sm text-green-600 border-green-200"
+                        className={`rounded-sm ${
+                          selectedClient.status === 'completed' 
+                            ? 'bg-green-100 text-green-800 border-green-200' 
+                            : 'border-gray-200'
+                        }`}
                       >
                         <CheckCircle className="h-4 w-4 mr-1" />
                         Completed
@@ -304,11 +291,35 @@ const AdminDashboard = () => {
                 </CardHeader>
                 
                 <CardContent className="flex-1 flex flex-col">
-                  <div className="flex-1 flex items-center justify-center text-gray-500">
-                    <div className="text-center">
-                      <Mail className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-                      <p>Select a client to view and manage communications</p>
-                    </div>
+                  <div className="flex-1 overflow-y-auto space-y-4 mb-4 pr-2">
+                    {messages.length > 0 ? (
+                      messages.map((message) => (
+                        <div
+                          key={message.id}
+                          className={`flex ${message.isAdmin ? 'justify-end' : 'justify-start'}`}
+                        >
+                          <div
+                            className={`max-w-[80%] p-4 rounded-lg ${
+                              message.isAdmin
+                                ? 'bg-primary text-white'
+                                : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
+                            }`}
+                          >
+                            <p className="text-sm">{message.text}</p>
+                            <p className={`text-xs mt-2 ${message.isAdmin ? 'text-primary-foreground/70' : 'text-gray-500'}`}>
+                              {message.timestamp.toLocaleTimeString()}
+                            </p>
+                          </div>
+                        </div>
+                      ))
+                    ) : (
+                      <div className="flex-1 flex items-center justify-center text-gray-500">
+                        <div className="text-center">
+                          <MessageSquare className="h-12 w-12 mx-auto mb-4 text-gray-300" />
+                          <p>No messages yet. Start the conversation with {selectedClient.name}</p>
+                        </div>
+                      </div>
+                    )}
                   </div>
                   
                   <div className="border-t pt-4">
@@ -316,9 +327,15 @@ const AdminDashboard = () => {
                       <Input
                         placeholder="Type your message..."
                         className="flex-1 rounded-sm"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
                       />
-                      <Button className="bg-primary hover:bg-primary/90 rounded-sm">
-                        Send
+                      <Button
+                        onClick={handleSendMessage}
+                        disabled={!newMessage.trim()}
+                        className="bg-primary hover:bg-primary/90 rounded-sm"
+                      >
+                        <Send className="h-4 w-4" />
                       </Button>
                     </div>
                   </div>
@@ -329,7 +346,7 @@ const AdminDashboard = () => {
                 <div className="text-center text-gray-500">
                   <Users className="h-16 w-16 mx-auto mb-4 text-gray-300" />
                   <h3 className="text-lg font-semibold mb-2">Select a Client</h3>
-                  <p>Choose a client from the list to view and manage communications</p>
+                  <p>Choose a client from the list to view details and communicate</p>
                 </div>
               </Card>
             )}

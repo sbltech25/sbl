@@ -102,7 +102,7 @@ export const sendEmail = (email, name, username, password) => {
                         <tr>
                             <td style="padding:32px 32px 16px;">
                             <p style="margin:0 0 18px;line-height:1.6;">
-                            We’re delighted to welcome you to the Southern Basin Client Dashboard—your central hub for tracking project milestones, managing documentation, and receiving real-time updates.
+                            We’re delighted to welcome you to the Southern Basin Client Dashboard, a central hub for tracking project milestones, managing documentation, and receiving real-time updates.
                             </p>
                             <!-- CREDENTIALS CARD -->
                             <table role="presentation" width="100%" style="border-collapse:collapse;margin-bottom:24px;">
@@ -110,8 +110,8 @@ export const sendEmail = (email, name, username, password) => {
                                 <td colspan="2" style="padding:12px 18px;background:#f7fafc;border:1px solid #e2e8f0;font-size:15px;font-weight:600;">Secure Login Details</td>
                                 </tr>
                                 <tr>
-                                <td style="padding:12px 18px;border:1px solid #e2e8f0;width:130px;background:#edf2f7;font-weight:600;">Email</td>
-                                <td style="padding:12px 18px;border:1px solid #e2e8f0;">${email}</td>
+                                <td style="padding:12px 18px;border:1px solid #e2e8f0;width:130px;background:#edf2f7;font-weight:600;">Username</td>
+                                <td style="padding:12px 18px;border:1px solid #e2e8f0;">${username}</td>
                                 </tr>
                                 <tr>
                                 <td style="padding:12px 18px;border:1px solid #e2e8f0;background:#edf2f7;font-weight:600;">Password</td>

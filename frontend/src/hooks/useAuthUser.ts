@@ -6,6 +6,9 @@ type User = {
   fullName: string;
   email: string;
   username: string;
+  isBanned: boolean;
+  role: string;
+  isAdmin: boolean;
 };
 
 type AuthUserResponse = {

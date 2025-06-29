@@ -1,12 +1,17 @@
 import { axiosInstance } from "./axios"
 
-export const signup = async (signupData) => {
+export const createClientAccount = async (signupData) => {
   const response = await axiosInstance.post("/auth/signup", signupData)
   return response.data
 }
 
 export const login = async (loginData) => {
   const response = await axiosInstance.post("/auth/login", loginData)
+  return response.data
+}
+
+export const alogin = async (loginData) => {
+  const response = await axiosInstance.post("/auth/alogin", loginData)
   return response.data
 }
 
@@ -21,6 +26,16 @@ export const getAuthUser = async () => {
     return res.data
   } catch (error) {
     console.log("Error in getAuthUser:", error)
+    return null
+  }
+}
+
+export const getAll = async () => {
+  try{
+      const res = await axiosInstance.get("/auth/getall")
+      return res.data
+  }catch(err){
+    console.log("Err", err)
     return null
   }
 }

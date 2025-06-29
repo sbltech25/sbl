@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import { Provider } from "react-redux";
-import { Routes, Route, Navigate } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet } from "react-router-dom";
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
 import Chatbot from './components/chatbot/Chatbot';
@@ -25,35 +24,41 @@ import EditBlogPost from "./pages/EditBlogPost";
 import NotFound from "./pages/NotFound";
 import Certification from "./pages/Certification";
 import ScrollToTop from './components/layout/ScrollTop';
-import PageLoader from './components/layout/PageLoader.js';
+import PageLoader from './components/layout/PageLoader';
 import useAuthUser from './hooks/useAuthUser';
+
+// Auth wrapper components
+const PublicRoute = () => {
+  const { isLoading, authUser } = useAuthUser();
+  if (isLoading) return <PageLoader />;
+  return authUser ? <Navigate to={authUser.role === 'admin' ? '/secured/v1/admin' : '/s/client/dashboard'} /> : <Outlet />;
+};
+
+const ClientRoute = () => {
+  const { isLoading, authUser } = useAuthUser();
+  if (isLoading) return <PageLoader />;
+  return authUser?.role === 'client' ? <Outlet /> : <Navigate to="/s/login" />;
+};
+
+const AdminRoute = () => {
+  const { isLoading, authUser } = useAuthUser();
+  if (isLoading) return <PageLoader />;
+  return authUser?.role === 'admin' ? <Outlet /> : <Navigate to="/secured/v1/login" />;
+};
 
 const App = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('light');
   
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    if (savedTheme) {
-      setTheme(savedTheme);
-    } else if (window.matchMedia('(prefers-color-scheme: light)').matches) {
-      setTheme('light');
-    }
+    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
+    setTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
   }, []);
 
   useEffect(() => {
     localStorage.setItem('theme', theme);
-    if (theme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    document.documentElement.classList.toggle('dark', theme === 'dark');
   }, [theme]);
-
-  const { isLoading, authUser } = useAuthUser();
-  const isAuthenticated = Boolean(authUser);
-  console.log(authUser)
-
-  if (isLoading) return <PageLoader />;
 
   const toggleTheme = () => {
     setTheme(prev => prev === 'light' ? 'dark' : 'light');
@@ -69,6 +74,7 @@ const App = () => {
           <Header theme={theme} toggleTheme={toggleTheme} />
           <main className="flex-1">
             <Routes>
+              {/* Public routes */}
               <Route path="/" element={<Index />} />
               <Route path="/services" element={<Services />} />
               <Route path="/about" element={<About />} />
@@ -78,19 +84,27 @@ const App = () => {
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
               <Route path="/contact" element={<Contact />} />
-              <Route 
-                path="/s/login" 
-                element={isAuthenticated ? <Navigate to="/s/client/dashboard" /> : <ClientLogin />} 
-              />
-              <Route 
-                path="/s/client/dashboard" 
-                element={isAuthenticated ? <ClientDashboard /> : <Navigate to="/s/login" />} 
-              />
-              <Route path="/secured/v1/login" element={<AdminLogin />} />
-              <Route path="/secured/v1/admin" element={<AdminDashboard />} />                
-              <Route path="/secured/v1/admin/blog-management" element={<BlogManagement />} />
-              <Route path="/secured/v1/admin/blog-management/new" element={<NewBlogPost />} />
-              <Route path="/secured/v1/admin/blog-management/:id/edit" element={<EditBlogPost />} />
+              
+              {/* Auth routes */}
+              <Route element={<PublicRoute />}>
+                <Route path="/s/login" element={<ClientLogin />} />
+                <Route path="/secured/v1/login" element={<AdminLogin />} />
+              </Route>
+              
+              {/* Client protected routes */}
+              <Route element={<ClientRoute />}>
+                <Route path="/s/client/dashboard" element={<ClientDashboard />} />
+              </Route>
+              
+              {/* Admin protected routes */}
+              <Route element={<AdminRoute />}>
+                <Route path="/secured/v1/admin" element={<AdminDashboard />} />                
+                <Route path="/secured/v1/admin/blog-management" element={<BlogManagement />} />
+                <Route path="/secured/v1/admin/blog-management/new" element={<NewBlogPost />} />
+                <Route path="/secured/v1/admin/blog-management/:id/edit" element={<EditBlogPost />} />
+              </Route>
+              
+              {/* 404 */}
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>

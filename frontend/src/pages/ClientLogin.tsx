@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
@@ -9,18 +8,18 @@ import { useToast } from "@/hooks/use-toast";
 import useLogin from '../hooks/useLogin';
 import PageLoader from '@/components/layout/PageLoader';
 
+interface LoginFormData {
+  username: string;
+  password: string;
+}
+
 const ClientLogin = () => {
-  const [formData, setFormData] = useState({
+  const [formData, setFormData] = useState<LoginFormData>({
     username: '',
     password: ''
   });
-
-
-  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
   const { toast } = useToast();
-
-  
   const { isPending, error, loginMutation } = useLogin();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -32,21 +31,10 @@ const ClientLogin = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsLoading(true);
-
-    try {    
-         
-      loginMutation(formData);
-    
-      } finally {
-      setIsLoading(false);
-    }
+    await loginMutation(formData);
   };
 
-
-    if(isLoading){
-      return <PageLoader />
-    }
+  if (isPending) return <PageLoader />;
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-secondary/10 to-primary/10 px-4 pt-20">
@@ -101,12 +89,18 @@ const ClientLogin = () => {
               </div>
             </div>
 
+            {error && (
+              <div className="text-red-500 text-sm">
+                {error.message}
+              </div>
+            )}
+
             <Button
               type="submit"
               className="w-full bg-primary hover:bg-primary/90 text-white py-3 rounded-sm"
-              disabled={isLoading}
+              disabled={isPending}
             >
-              {isLoading ? 'Signing In...' : 'Sign In'}
+              {isPending ? 'Signing In...' : 'Sign In'}
             </Button>
           </form>
 

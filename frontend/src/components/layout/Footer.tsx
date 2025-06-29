@@ -1,12 +1,17 @@
-
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { COMPANY_INFO } from '@/lib/constants';
 
 const Footer = () => {
+  const location = useLocation();
+  const hiddenPaths = ['/secured/v1/admin', '/secured/v1/login', '/s/login', '/s/client/dashboard'];
+
+  if (hiddenPaths.includes(location.pathname)) return null;
+
+
   return (
     <footer className="bg-[#212685] text-white">
       <div className="container mx-auto px-4 py-12">
