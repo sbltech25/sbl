@@ -241,21 +241,21 @@ export const CERTIFICATIONS = [
     title: "ISO 45001:2018 Occupational Health & Safety Management System",
     issuer: "United Accreditation Foundation, USA",
     date: "2024",
-    image: "/certs/ISO45001.pdf",
+    image: "/certs/c45001.PNG",
     description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry."
   },
   {
     title: "ISO 14001:2015 Environmental Management System",
     issuer: "United Accreditation Foundation, USA",
     date: "2024",
-    image: "/certs/ISO14001.pdf",
+    image: "/certs/c14001.PNG",
     description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry."
   },
   {
     title: "ISO 9001:2015 Quality Management System",
     issuer: "United Accreditation Foundation, USA",
     date: "2024",
-    image: "/certs/ISO9001.pdfqq",
+    image: "/certs/c9001.PNG",
     description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry."
   },
 ];
