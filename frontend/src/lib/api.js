@@ -39,3 +39,26 @@ export const getAll = async () => {
     return null
   }
 }
+
+export const createProject = async () => {
+
+} 
+
+export const getClientProjects = async () => {
+
+} 
+
+export const createProjectReport= async () => {
+
+} 
+
+export const createGanttChart= async () => {
+
+} 
+
+export const sendMessage= async () => {
+
+} 
+export const getProjectMessages= async () => {
+
+} 

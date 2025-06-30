@@ -11,20 +11,18 @@ interface HeaderProps {
 }
 
 const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
+  const { isLoading, authUser } = useAuthUser();
+  const isAuthenticated = Boolean(authUser);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(true);
   const location = useLocation();
+  const hiddenPaths = ['/secured/v1/admin', '/s/client/dashboard'];
 
-  useEffect(() => {
-    const handleScroll = () => {
-    };
+  if (hiddenPaths.includes(location.pathname)) {
+    return null;
+  }
 
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
-  const { isLoading, authUser } = useAuthUser();
-  const isAuthenticated = Boolean(authUser);
 
   const navItems = [
     { name: 'Home', path: '/' },
