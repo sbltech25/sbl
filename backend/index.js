@@ -16,10 +16,10 @@ const __dirname = path.resolve();
 
 // Configure allowed origins
 const allowedOrigins = [
-  "https://apisbltd.vercel.app/api",
-  "https://sbltd.vercel.app/api",
-  "http://apisbltd.vercel.app/api",
-  "http://sbltd.vercel.app/api",
+  "https://apisbltd.vercel.app",
+  "https://sbltd.vercel.app",
+  "http://apisbltd.vercel.app",
+  "http://sbltd.vercel.app",
   "http://localhost:8080",
   "http://localhost:5001"
 ];
