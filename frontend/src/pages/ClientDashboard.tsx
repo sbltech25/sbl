@@ -1,5 +1,4 @@
-
-import React, { useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -7,172 +6,183 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { LogOut, Send, Paperclip, FileText, CheckCircle, Clock, AlertCircle, Download, Calendar, Users } from 'lucide-react';
+import { LogOut, Users, Plus, Mail, CheckCircle, Clock, AlertCircle, FileText, MessageSquare, Send, Calendar, BarChart3, Download, Paperclip } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
-import useLogout from "../hooks/useLogout";
 import useAuthUser from '@/hooks/useAuthUser';
-
-interface Message {
-  id: string;
-  subject: string;
-  text: string;
-  isClient: boolean;
-  timestamp: Date;
-  attachments?: { name: string; type: string; url: string }[];
-  isRead: boolean;
-}
-
-interface Project {
-  id: string;
-  name: string;
-  code: string;
-  progress: number;
-  status: 'not-started' | 'in-progress' | 'completed';
-  startDate: Date;
-  endDate: Date;
-  description: string;
-  ganttChart?: string;
-  logReports: LogReport[];
-}
-
-interface LogReport {
-  id: string;
-  date: Date;
-  projectCode: string;
-  fileName: string;
-  url: string;
-}
-
-interface GanttTask {
-  task: string;
-  month: string;
-  completed: boolean;
-}
+import useLogout from "../hooks/useLogout";
+import { 
+  getClientProjects,
+  getProjectMessages,
+  sendMessage,
+  getProjectReports,
+  getProjectGanttCharts,
+  markMessageAsRead,
+  getUnreadMessageCount
+} from "../lib/api";
 
 const ClientDashboard = () => {
-  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
-  const [messages, setMessages] = useState<Message[]>([
-    {
-      id: '1',
-      subject: 'Welcome to Your Project Dashboard',
-      text: 'Welcome to your client dashboard! We are excited to work with you on your project. Please feel free to share any questions or requirements you may have.',
-      isClient: false,
-      timestamp: new Date(Date.now() - 3600000),
-      isRead: false
-    },
-    {
-      id: '2',
-      subject: 'Project Status Update',
-      text: 'Your offshore pipeline installation project is progressing well. We have completed the initial survey phase and are moving into the installation phase.',
-      isClient: false,
-      timestamp: new Date(Date.now() - 86400000),
-      isRead: true,
-      attachments: [{ name: 'survey_report.pdf', type: 'pdf', url: '#' }]
-    }
-  ]);
-  
-  const [projects, setProjects] = useState<Project[]>([
-    {
-      id: '1',
-      name: 'Offshore Pipeline Installation',
-      code: 'DRN.221',
-      progress: 65,
-      status: 'in-progress',
-      startDate: new Date('2024-01-15'),
-      endDate: new Date('2024-03-30'),
-      description: 'Installation of 20km offshore pipeline for enhanced oil recovery operations. This project involves comprehensive seabed preparation, pipeline laying, and connection to existing infrastructure.',
-      ganttChart: 'gantt-chart-url',
-      logReports: [
-        {
-          id: '1',
-          date: new Date('2024-02-15'),
-          projectCode: 'DRN.221',
-          fileName: 'February 15, 2024 - DRN.221 Project Progress Report',
-          url: '#'
-        },
-        {
-          id: '2',
-          date: new Date('2024-02-01'),
-          projectCode: 'DRN.221',
-          fileName: 'February 1, 2024 - DRN.221 Project Progress Report',
-          url: '#'
-        }
-      ]
-    },
-    {
-      id: '2',
-      name: 'Platform Maintenance',
-      code: 'PLT.445',
-      progress: 100,
-      status: 'completed',
-      startDate: new Date('2023-11-01'),
-      endDate: new Date('2024-01-10'),
-      description: 'Quarterly maintenance of offshore platform including structural integrity checks, equipment servicing, and safety system updates.',
-      logReports: [
-        {
-          id: '3',
-          date: new Date('2024-01-10'),
-          projectCode: 'PLT.445',
-          fileName: 'January 10, 2024 - PLT.445 Project Completion Report',
-          url: '#'
-        }
-      ]
-    }
-  ]);
-
+  const [projects, setProjects] = useState([]);
+  const [selectedProject, setSelectedProject] = useState(null);
+  const [messages, setMessages] = useState([]);
+  const [reports, setReports] = useState([]);
+  const [ganttCharts, setGanttCharts] = useState([]);
   const [newMessage, setNewMessage] = useState('');
-  const [replyTo, setReplyTo] = useState<string | null>(null);
-  const { logoutMutation } = useLogout();
-  const { authUser } = useAuthUser();
+  const [attachment, setAttachment] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  
+  const messagesEndRef = useRef(null);
+  const navigate = useNavigate();
   const { toast } = useToast();
+  const { authUser } = useAuthUser();
+  const { logoutMutation } = useLogout();
 
-  const ganttTasks: GanttTask[] = [
-    { task: 'Site Survey & Planning', month: 'January 2024', completed: true },
-    { task: 'Pipeline Manufacturing', month: 'February 2024', completed: true },
-    { task: 'Seabed Preparation', month: 'March 2024', completed: false },
-    { task: 'Pipeline Installation', month: 'April 2024', completed: false },
-    { task: 'Testing & Commissioning', month: 'May 2024', completed: false }
-  ];
-
-  const handleSendMessage = (messageId?: string) => {
-    if (!newMessage.trim()) return;
-
-    const clientMessage: Message = {
-      id: Date.now().toString(),
-      subject: messageId ? `Re: ${messages.find(m => m.id === messageId)?.subject}` : 'New Message',
-      text: newMessage,
-      isClient: true,
-      timestamp: new Date(),
-      isRead: true
+  // Load projects on mount
+  useEffect(() => {
+    const loadProjects = async () => {
+      try {
+        const { data } = await getClientProjects(authUser._id);
+        setProjects(data);
+      } catch (error) {
+        toast({
+          title: "Error",
+          description: "Failed to load projects",
+          variant: "destructive",
+        });
+      }
     };
+    loadProjects();
+  }, [authUser._id]);
 
-    setMessages(prev => [clientMessage, ...prev]);
-    setNewMessage('');
-    setReplyTo(null);
+  // Load messages when project changes
+  useEffect(() => {
+    if (selectedProject) {
+      const loadMessages = async () => {
+        try {
+          const { data } = await getProjectMessages(selectedProject._id);
+          setMessages(data);
+        } catch (error) {
+          toast({
+            title: "Error",
+            description: "Failed to load messages",
+            variant: "destructive",
+          });
+        }
+      };
+      loadMessages();
+    }
+  }, [selectedProject]);
 
-    toast({
-      title: "Message Sent",
-      description: "Your message has been sent successfully.",
-    });
-  };
+  // Load reports when project changes
+  useEffect(() => {
+    if (selectedProject) {
+      const loadReports = async () => {
+        try {
+          const { data } = await getProjectReports(selectedProject._id);
+          setReports(data);
+        } catch (error) {
+          toast({
+            title: "Error",
+            description: "Failed to load reports",
+            variant: "destructive",
+          });
+        }
+      };
+      loadReports();
+    }
+  }, [selectedProject]);
 
-  const markAsRead = (messageId: string) => {
-    setMessages(prev => prev.map(msg => 
-      msg.id === messageId ? { ...msg, isRead: true } : msg
-    ));
-  };
+  // Load Gantt charts when project changes
+  useEffect(() => {
+    if (selectedProject) {
+      const loadGanttCharts = async () => {
+        try {
+          const { data } = await getProjectGanttCharts(selectedProject._id);
+          setGanttCharts(data);
+        } catch (error) {
+          toast({
+            title: "Error",
+            description: "Failed to load Gantt charts",
+            variant: "destructive",
+          });
+        }
+      };
+      loadGanttCharts();
+    }
+  }, [selectedProject]);
 
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'not-started': return 'bg-gray-100 text-gray-800';
-      case 'in-progress': return 'bg-orange-100 text-orange-800';
-      case 'completed': return 'bg-green-100 text-green-800';
-      default: return 'bg-gray-100 text-gray-800';
+  // Auto-scroll messages
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+  const handleSelectProject = async (project) => {
+    setSelectedProject(project);
+    try {
+      const [
+        { data: messages },
+        { data: reports },
+        { data: ganttCharts }
+      ] = await Promise.all([
+        getProjectMessages(project._id),
+        getProjectReports(project._id),
+        getProjectGanttCharts(project._id)
+      ]);
+      setMessages(messages);
+      setReports(reports);
+      setGanttCharts(ganttCharts);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load project data",
+        variant: "destructive",
+      });
     }
   };
 
-  const getStatusIcon = (status: string) => {
+  const handleSendMessage = async () => {
+    try {
+    console.log(selectedProject?.clientId?._id)
+    await sendMessage({
+      subject: `Project Update: ${selectedProject.name}`,
+      text: newMessage,
+      receiverId: selectedProject?.clientId?._id, // Ensure this is just the ID string
+      projectId: selectedProject?._id, // Ensure this is just the ID string
+      attachment: attachment
+    });
+    setNewMessage('');
+    setAttachment(null);
+    // Refresh messages
+    const { data } = await getProjectMessages(selectedProject._id);
+    setMessages(data);
+  } catch (error) {
+    console.error('Failed to send message:', error);
+    // Handle error
+  }
+};
+
+  const handleMarkAsRead = async (messageId) => {
+    try {
+      await markMessageAsRead(messageId);
+      setMessages(prev => prev.map(msg => 
+        msg._id === messageId ? { ...msg, isRead: true } : msg
+      ));
+    } catch (error) {
+      console.error('Failed to mark message as read:', error);
+    }
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case 'not-started': return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
+      case 'in-progress': return 'bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200';
+      case 'completed': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
+      default: return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200';
+    }
+  };
+
+  const getStatusIcon = (status) => {
     switch (status) {
       case 'not-started': return <AlertCircle className="h-4 w-4" />;
       case 'in-progress': return <Clock className="h-4 w-4" />;
@@ -181,62 +191,66 @@ const ClientDashboard = () => {
     }
   };
 
+  const formatDate = (dateString) => {
+    const options = { year: 'numeric', month: 'short', day: 'numeric' };
+    return new Date(dateString).toLocaleDateString(undefined, options);
+  };
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
-      <div className="bg-white dark:bg-gray-800 shadow-sm border-b">
+      <div className="bg-white dark:bg-gray-800 shadow-sm border-b dark:border-gray-700">
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex flex-col">
               <h1 className="text-xl font-bold text-secondary">Client Dashboard</h1>
-              <p className="text-sm text-gray-600">Welcome, {authUser?.username}</p>
+              <p className="text-sm text-gray-600 dark:text-gray-400">Welcome, {authUser.name}</p>
             </div>
-            <Button onClick={logoutMutation} variant="outline" size="sm" className="rounded-sm">
+            <Button 
+              onClick={logoutMutation} 
+              variant="outline" 
+              size="sm" 
+              className="rounded-sm"
+              disabled={logoutMutation.isLoading}
+            >
               <LogOut className="h-4 w-4 mr-2" />
-              Logout
+              {logoutMutation.isLoading ? 'Logging out...' : 'Logout'}
             </Button>
           </div>
         </div>
       </div>
 
       <div className="container mx-auto px-4 py-8">
-        <div className="grid grid-cols-4 gap-8">
-          {/* Left Column - Projects List (1/4) */}
-          <div className="col-span-1">
-            <Card className="border-0 shadow-lg rounded-sm">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Projects List */}
+          <div className="lg:col-span-1">
+            <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
               <CardHeader>
                 <CardTitle className="text-lg">My Projects</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="space-y-3">
+                <div className="space-y-2">
                   {projects.map((project) => (
                     <div
-                      key={project.id}
+                      key={project._id}
                       className={`p-3 rounded-sm cursor-pointer border transition-colors ${
-                        selectedProject?.id === project.id
-                          ? 'bg-primary/10 border-primary'
+                        selectedProject?._id === project._id
+                          ? 'bg-primary/10 border-primary dark:bg-primary/20'
                           : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-700'
                       }`}
-                      onClick={() => setSelectedProject(project)}
+                      onClick={() => handleSelectProject(project)}
                     >
-                      <h3 className="font-semibold text-sm mb-2">{project.name}</h3>
-                      <p className="text-xs text-gray-600 mb-2">Code: {project.code}</p>
-                      <Badge className={`text-xs ${getStatusColor(project.status)} rounded-sm`}>
-                        <span className="flex items-center space-x-1">
-                          {getStatusIcon(project.status)}
-                          <span className="capitalize">{project.status.replace('-', ' ')}</span>
-                        </span>
-                      </Badge>
-                      <div className="mt-2">
-                        <div className="flex justify-between text-xs mb-1">
-                          <span>Progress</span>
-                          <span>{project.progress}%</span>
-                        </div>
-                        <div className="w-full bg-gray-200 rounded-full h-1">
-                          <div 
-                            className="bg-primary h-1 rounded-full" 
-                            style={{ width: `${project.progress}%` }}
-                          ></div>
+                      <h3 className="font-semibold text-sm mb-1">{project.name}</h3>
+                      <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">Code: {project.code}</p>
+                      <div className="flex justify-between items-center">
+                        <Badge className={`text-xs ${getStatusColor(project.status)} rounded-sm`}>
+                          <span className="flex items-center space-x-1">
+                            {getStatusIcon(project.status)}
+                            <span className="capitalize">{project?.status?.replace('-', ' ')}</span>
+                          </span>
+                        </Badge>
+                        <div className="text-xs text-gray-500 dark:text-gray-400">
+                          {formatDate(project.startDate)} - {formatDate(project.endDate)}
                         </div>
                       </div>
                     </div>
@@ -246,17 +260,17 @@ const ClientDashboard = () => {
             </Card>
           </div>
 
-          {/* Right Column - Project Details (3/4) */}
-          <div className="col-span-3">
+          {/* Project Details */}
+          <div className="lg:col-span-3">
             {selectedProject ? (
               <div className="space-y-6">
                 {/* Project Header */}
-                <Card className="border-0 shadow-lg rounded-sm">
+                <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
                   <CardHeader>
                     <div className="flex items-center justify-between">
                       <div>
-                        <CardTitle className="text-2xl">{selectedProject.name}</CardTitle>
-                        <p className="text-gray-600 mt-2">{selectedProject.description}</p>
+                        <CardTitle className="text-xl">{selectedProject.name}</CardTitle>
+                        <p className="text-gray-600 dark:text-gray-400 mt-2">{selectedProject.description}</p>
                       </div>
                       <Badge className={`text-sm ${getStatusColor(selectedProject.status)} rounded-sm`}>
                         <span className="flex items-center space-x-2">
@@ -265,10 +279,12 @@ const ClientDashboard = () => {
                         </span>
                       </Badge>
                     </div>
-                    <div className="flex items-center space-x-6 text-sm text-gray-600 mt-4">
+                    <div className="flex items-center space-x-6 text-sm text-gray-600 dark:text-gray-400 mt-4">
                       <div className="flex items-center space-x-2">
                         <Calendar className="h-4 w-4" />
-                        <span>{selectedProject.startDate.toLocaleDateString()} - {selectedProject.endDate.toLocaleDateString()}</span>
+                        <span>
+                          {formatDate(selectedProject.startDate)} - {formatDate(selectedProject.endDate)}
+                        </span>
                       </div>
                       <div className="flex items-center space-x-2">
                         <Users className="h-4 w-4" />
@@ -279,146 +295,189 @@ const ClientDashboard = () => {
                 </Card>
 
                 {/* Gantt Chart */}
-                <Card className="border-0 shadow-lg rounded-sm">
-                  <CardHeader>
-                    <CardTitle className="text-lg">Project Timeline</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-3">
-                      {ganttTasks.map((task, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 bg-gray-50 rounded-sm">
-                          <div className="flex items-center space-x-3">
-                            <div className={`w-4 h-4 rounded-full ${task.completed ? 'bg-green-500' : 'bg-gray-300'}`}></div>
-                            <span className={`font-medium ${task.completed ? 'text-green-700' : 'text-gray-700'}`}>
-                              {task.task}
-                            </span>
-                          </div>
-                          <span className="text-sm text-gray-600">{task.month}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Project Log Reports */}
-                <Card className="border-0 shadow-lg rounded-sm">
-                  <CardHeader>
-                    <CardTitle className="text-lg">Project Progress Reports</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="space-y-2">
-                      {selectedProject.logReports.map((report) => (
-                        <div key={report.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-sm hover:bg-gray-100 transition-colors">
-                          <div className="flex items-center space-x-3">
-                            <FileText className="h-5 w-5 text-red-600" />
-                            <span className="font-medium">{report.fileName}</span>
-                          </div>
-                          <Button variant="outline" size="sm" className="rounded-sm">
-                            <Download className="h-4 w-4 mr-2" />
-                            Download
-                          </Button>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-
-                {/* Messages Section */}
-                <Card className="border-0 shadow-lg rounded-sm">
-                  <CardHeader>
-                    <CardTitle className="text-lg">Project Messages</CardTitle>
-                  </CardHeader>
-                  <CardContent>
-                    <Accordion type="single" collapsible className="w-full">
-                      {messages.map((message) => (
-                        <AccordionItem key={message.id} value={message.id}>
-                          <AccordionTrigger 
-                            className="hover:no-underline"
-                            onClick={() => markAsRead(message.id)}
-                          >
-                            <div className="flex items-center justify-between w-full mr-4">
-                              <div className="flex items-center space-x-3">
-                                <div className={`w-2 h-2 rounded-full ${message.isRead ? 'bg-gray-300' : 'bg-blue-500'}`}></div>
-                                <span className={`font-medium ${!message.isRead ? 'font-bold' : ''}`}>
-                                  {message.subject}
-                                </span>
-                                {message.attachments && (
-                                  <Paperclip className="h-4 w-4 text-gray-400" />
-                                )}
-                              </div>
-                              <span className="text-sm text-gray-500">
-                                {message.timestamp.toLocaleDateString()}
+                {ganttCharts.length > 0 && (
+                  <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Project Timeline</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-3">
+                        {ganttCharts[0].tasks.map((task, index) => (
+                          <div key={index} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-sm">
+                            <div className="flex items-center space-x-3">
+                              <div className={`w-4 h-4 rounded-full ${task.completed ? 'bg-green-500' : 'bg-gray-300'}`}></div>
+                              <span className={`font-medium ${task.completed ? 'text-green-700 dark:text-green-300' : 'text-gray-700 dark:text-gray-300'}`}>
+                                {task.task}
                               </span>
                             </div>
-                          </AccordionTrigger>
-                          <AccordionContent>
-                            <div className="pt-4">
-                              <div className="bg-gray-50 p-4 rounded-sm mb-4">
-                                <div className="flex items-center justify-between mb-2">
-                                  <span className="text-sm font-medium">
-                                    {message.isClient ? 'You' : 'Southern Basin Limited'}
-                                  </span>
-                                  <span className="text-xs text-gray-500">
-                                    {message.timestamp.toLocaleString()}
-                                  </span>
-                                </div>
-                                <p className="text-sm text-gray-700">{message.text}</p>
-                                {message.attachments && (
-                                  <div className="mt-3 space-y-2">
-                                    {message.attachments.map((attachment, index) => (
-                                      <div key={index} className="flex items-center space-x-2 text-sm">
-                                        <Paperclip className="h-4 w-4" />
-                                        <a href={attachment.url} className="text-primary hover:underline">
-                                          {attachment.name}
-                                        </a>
-                                      </div>
-                                    ))}
-                                  </div>
-                                )}
-                              </div>
-                              
-                              {/* Reply Section */}
-                              <div className="space-y-3">
-                                <Textarea
-                                  placeholder="Type your reply..."
-                                  value={replyTo === message.id ? newMessage : ''}
-                                  onChange={(e) => {
-                                    setNewMessage(e.target.value);
-                                    setReplyTo(message.id);
-                                  }}
-                                  className="rounded-sm"
-                                  rows={3}
-                                />
-                                <div className="flex space-x-2">
-                                  <Button
-                                    onClick={() => handleSendMessage(message.id)}
-                                    disabled={!newMessage.trim() || replyTo !== message.id}
-                                    size="sm"
-                                    className="bg-primary hover:bg-primary/90 rounded-sm"
-                                  >
-                                    <Send className="h-4 w-4 mr-2" />
-                                    Send Reply
-                                  </Button>
-                                  <Button
-                                    variant="outline"
-                                    size="sm"
-                                    className="rounded-sm"
-                                  >
-                                    <Paperclip className="h-4 w-4 mr-2" />
-                                    Attach File
-                                  </Button>
-                                </div>
-                              </div>
+                            <span className="text-sm text-gray-600 dark:text-gray-400">{task.month}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Reports */}
+                {reports.length > 0 && (
+                  <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
+                    <CardHeader>
+                      <CardTitle className="text-lg">Project Progress Reports</CardTitle>
+                    </CardHeader>
+                    <CardContent>
+                      <div className="space-y-2">
+                        {reports.map((report) => (
+                          <div key={report._id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                            <div className="flex items-center space-x-3">
+                              <FileText className="h-5 w-5 text-red-600 dark:text-red-300" />
+                              <span className="font-medium">
+                                {new Date(report.date).toLocaleDateString()} - {report.projectCode} Report
+                              </span>
                             </div>
-                          </AccordionContent>
-                        </AccordionItem>
-                      ))}
-                    </Accordion>
+                            <Button variant="outline" size="sm" className="rounded-sm">
+                              <Download className="h-4 w-4 mr-2" />
+                              Download
+                            </Button>
+                          </div>
+                        ))}
+                      </div>
+                    </CardContent>
+                  </Card>
+                )}
+
+                {/* Messages Section - Email Style */}
+                <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
+                  <CardHeader>
+                    <CardTitle className="text-lg">Project Communication</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div className="max-h-96 overflow-y-auto space-y-4 pb-4">
+                        {messages.length === 0 ? (
+                          <div className="text-center py-8 text-gray-500">
+                            <MessageSquare className="h-8 w-8 mx-auto mb-2" />
+                            <p>No messages yet. Start the conversation!</p>
+                          </div>
+                        ) : (
+                          messages.map((message) => (
+                            <div
+                              key={message._id}
+                              className={`border rounded-sm p-4 ${
+                                message.senderId._id === authUser._id
+                                  ? 'border-primary bg-primary/5'
+                                  : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800'
+                              }`}
+                              onClick={() => !message.isRead && handleMarkAsRead(message._id)}
+                            >
+                              <div className="flex justify-between items-start mb-2">
+                                <div>
+                                  <p className="font-medium">
+                                    {message.senderId._id === authUser._id ? 'You' : message.senderId.name}
+                                  </p>
+                                  <p className="text-sm text-gray-500 dark:text-gray-400">
+                                    To: {message.receiverId._id === authUser._id ? 'You' : message.receiverId.name}
+                                  </p>
+                                </div>
+                                <div className="flex items-center space-x-2">
+                                  {!message.isRead && message.receiverId._id === authUser._id && (
+                                    <span className="h-2 w-2 rounded-full bg-blue-500"></span>
+                                  )}
+                                  <p className="text-xs text-gray-500 dark:text-gray-400">
+                                    {new Date(message.createdAt).toLocaleString()}
+                                  </p>
+                                </div>
+                              </div>
+                              <div className="mb-2">
+                                <p className="font-semibold">{message.subject}</p>
+                              </div>
+                              <div className="whitespace-pre-line mb-3">
+                                {message.text}
+                              </div>
+                              {message.attachments && message.attachments.length > 0 && (
+                                <div className="mt-2">
+                                  {message.attachments.map((attachment, index) => (
+                                    <div key={index} className="flex items-center space-x-2 mt-1">
+                                      <Paperclip className="h-4 w-4" />
+                                      <a 
+                                        href={attachment.url} 
+                                        target="_blank" 
+                                        rel="noopener noreferrer"
+                                        className="text-sm underline hover:text-blue-600"
+                                      >
+                                        {attachment.name}
+                                      </a>
+                                    </div>
+                                  ))}
+                                </div>
+                              )}
+                            </div>
+                          ))
+                        )}
+                        <div ref={messagesEndRef} />
+                      </div>
+                      
+                      <div className="border-t pt-4 dark:border-gray-700">
+                        <div className="space-y-3">
+                          <Input
+                            placeholder="Subject"
+                            value={`Project Update: ${selectedProject.name}`}
+                            readOnly
+                            className="rounded-sm bg-gray-100 dark:bg-gray-800"
+                          />
+                          <Textarea
+                            placeholder="Type your message..."
+                            className="rounded-sm"
+                            value={newMessage}
+                            onChange={(e) => setNewMessage(e.target.value)}
+                            rows={5}
+                          />
+                          {attachment && (
+                            <div className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-2 rounded-sm">
+                              <div className="flex items-center space-x-2">
+                                <Paperclip className="h-4 w-4" />
+                                <span className="text-sm">{attachment.name}</span>
+                              </div>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                onClick={() => setAttachment(null)}
+                                className="text-red-500 hover:text-red-700"
+                              >
+                                Remove
+                              </Button>
+                            </div>
+                          )}
+                          <div className="flex justify-between items-center">
+                            <label className="inline-flex items-center justify-center rounded-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
+                              <input
+                                type="file"
+                                className="hidden"
+                                onChange={(e) => {
+                                  if (e.target.files?.[0]) {
+                                    setAttachment(e.target.files[0]);
+                                  }
+                                }}
+                              />
+                              <Paperclip className="h-4 w-4 mr-2" />
+                              <span className="text-sm">Attach File</span>
+                            </label>
+                            <Button
+                              onClick={handleSendMessage}
+                              disabled={!newMessage.trim() || isLoading}
+                              className="bg-primary hover:bg-primary/90 rounded-sm"
+                            >
+                              <Send className="h-4 w-4 mr-2" />
+                              {isLoading ? 'Sending...' : 'Send Message'}
+                            </Button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </CardContent>
                 </Card>
               </div>
             ) : (
-              <Card className="border-0 shadow-lg rounded-sm h-[600px] flex items-center justify-center">
+              <Card className="border-0 shadow-lg rounded-sm h-[600px] flex items-center justify-center dark:border dark:border-gray-700">
                 <div className="text-center text-gray-500">
                   <FileText className="h-16 w-16 mx-auto mb-4 text-gray-300" />
                   <h3 className="text-lg font-semibold mb-2">Select a Project</h3>

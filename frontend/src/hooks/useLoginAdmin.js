@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import { alogin } from "../lib/api";
+import { adminLogin } from "../lib/api";
 import { useToast } from "@/hooks/use-toast";
 import {useNavigate} from 'react-router-dom'
 
@@ -13,7 +13,7 @@ const useLoginAdmin = () => {
     isPending,
     error,                            
   } = useMutation({
-    mutationFn: alogin,
+    mutationFn: adminLogin,
 
     onSuccess: (_data) => {
       queryClient.invalidateQueries({ queryKey: ["authUser"] });

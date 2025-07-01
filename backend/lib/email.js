@@ -1,15 +1,23 @@
 import { Resend } from 'resend';
 import { passwordGen } from './gen.js';
 
+const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const sendEmail = (email, name, username, password) => {
-
-    const resend = new Resend(process.env.RESEND_API_KEY);
-
-
+export const sendEmail = ({to, subject, text, html}) => {
     try{
+        resend.emails.send({
+            from: 'noreply-alert@southernbasin.com',
+            to,
+            subject,
+            html
+        })
+    }catch(err){
+        console.log(err.message)
+    }
+}
 
-
+export const sendCredentialsEmail = (email, name, username, password) => {
+    try{
         resend.emails.send({
             from: 'service@southernbasin.com',
             to: email,

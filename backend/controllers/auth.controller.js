@@ -1,7 +1,6 @@
 import User from "../models/User.js";
 import jwt from "jsonwebtoken";
-import cloudinary from "../lib/cloudinary.js";
-import { sendEmail } from "../lib/email.js";
+import { sendCredentialsEmail } from "../lib/email.js";
 import { passwordGen, userNameGen } from "../lib/gen.js";
 
 export async function signup(req, res) {    
@@ -34,7 +33,7 @@ export async function signup(req, res) {
     });
 
     if(newUser){
-        sendEmail(email, name, username, password)
+        sendCredentialsEmail(email, name, username, password)
         console.log("Sent email to user!")
     }
 

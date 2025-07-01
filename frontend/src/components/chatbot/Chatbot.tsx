@@ -4,6 +4,9 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { MessageCircle, X, Send } from 'lucide-react';
 import { COMPANY_INFO } from '@/lib/constants';
+import { Link, useLocation } from 'react-router-dom';
+
+
 
 interface Message {
   id: string;
@@ -13,6 +16,12 @@ interface Message {
 }
 
 const Chatbot = () => {
+  const location = useLocation();
+  const hiddenPaths = ['/secured/v1/admin', '/secured/v1/login', '/s/client/dashboard'];
+
+  if (hiddenPaths.includes(location.pathname)) return null;
+
+  
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<Message[]>([
     {
