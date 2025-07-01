@@ -257,7 +257,7 @@ export const CERTIFICATIONS = [
     date: "2024",
     image: "/certs/c9001.PNG",
     description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry."
-  },Q
+  },
 ];
 
 export const EQUIPMENT = [
