@@ -73,6 +73,7 @@ export const getAll = async () => {
 
 export const getAuthUser = async () => {
   const response = await axiosInstance.get('/auth/me');
+  console.log(response)
   return response.data;
 };
 

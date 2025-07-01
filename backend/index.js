@@ -27,6 +27,7 @@ app.use((req, res, next) => {
 
   if (allowedOrigins.includes(origin)) {
     res.setHeader("Access-Control-Allow-Origin", origin);  
+    res.setHeader("Vary", "Origin"); // Required for dynamic origins
   }
 
   res.setHeader("Access-Control-Allow-Credentials", "true");
