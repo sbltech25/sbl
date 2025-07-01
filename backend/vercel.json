@@ -15,28 +15,10 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "index.js"
-    }
-  ],
-  "env": {
-    "NODE_ENV": "production"
-  },
-  "headers": [
-    {
-      "source": "/(.*)",
-      "headers": [
-        {
-          "key": "Access-Control-Allow-Credentials",
-          "value": "true"
-        },
-        {
-          "key": "Access-Control-Allow-Origin",
-          "value": "https://sbltd.vercel.app"
-        }
-      ]
+      "source": "/api/:path*",
+      "destination": "https://apisbltd.vercel.app/api/:path*"
     }
   ]
 }
