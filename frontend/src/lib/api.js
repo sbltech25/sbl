@@ -45,37 +45,95 @@ import { axiosInstance } from "./axios"
 // );
 
 // Auth API
+// export const login = async (credentials) => {
+//   const response = await axiosInstance.post('/auth/login', credentials);
+//   return response.data;
+// };
+
+// export const adminLogin = async (credentials) => {
+//   const response = await axiosInstance.post('/auth/adminlogin', credentials);
+//   return response.data;
+// };
+
+// export const logout = async () => {
+//   const response = await axiosInstance.post('/auth/logout');
+//   return response.data;
+// };
+
+// export const getAll = async () => {
+//   try{
+//       const res = await axiosInstance.get("/auth/getall")
+//       return res.data
+//   }catch(err){
+//     console.log("Err", err)
+//     return null
+//   }
+// }
+
+
+// export const getAuthUser = async () => {
+//   const response = await axiosInstance.get('/auth/me');
+//   console.log(response)
+//   return response.data;
+// };
+
 export const login = async (credentials) => {
   const response = await axiosInstance.post('/auth/login', credentials);
+  // Store token in localStorage upon successful login
+  if (response.data.success && response.data.token) {
+    localStorage.setItem('jwtToken', response.data.token);
+    localStorage.setItem('user', JSON.stringify(response.data.user));
+  }
   return response.data;
 };
 
 export const adminLogin = async (credentials) => {
   const response = await axiosInstance.post('/auth/adminlogin', credentials);
+  // Store token in localStorage upon successful login
+  if (response.data.success && response.data.token) {
+    localStorage.setItem('jwtToken', response.data.token);
+    localStorage.setItem('user', JSON.stringify(response.data.user));
+  }
   return response.data;
 };
 
 export const logout = async () => {
-  const response = await axiosInstance.post('/auth/logout');
-  return response.data;
+  // Remove token from localStorage
+  localStorage.removeItem('jwtToken');
+  localStorage.removeItem('user');
+  // Optional: Call backend logout if needed
+  try {
+    await axiosInstance.post('/auth/logout');
+  } catch (error) {
+    console.log("Logout error:", error);
+  }
+  return { success: true };
 };
 
 export const getAll = async () => {
-  try{
-      const res = await axiosInstance.get("/auth/getall")
-      return res.data
-  }catch(err){
-    console.log("Err", err)
-    return null
+  try {
+    const res = await axiosInstance.get("/auth/getall");
+    return res.data;
+  } catch (err) {
+    console.log("Err", err);
+    return null;
   }
-}
-
+};
 
 export const getAuthUser = async () => {
-  const response = await axiosInstance.get('/auth/me');
-  console.log(response)
-  return response.data;
+  try {
+    const response = await axiosInstance.get('/auth/me');
+    // Update user in localStorage if needed
+    if (response.data.success && response.data.user) {
+      localStorage.setItem('user', JSON.stringify(response.data.user));
+    }
+    return response.data;
+  } catch (error) {
+    console.log("Error in getAuthUser:", error);
+    return null;
+  }
 };
+
 
 // User API
 export const getAllClients = async () => {

@@ -56,10 +56,101 @@ export async function signup(req, res) {
   }
 }
  
+// export async function login(req, res) {
+//   try {
+//     const { email, username, password } = req.body;
+//     let user 
+
+//     if (!email && !username || !password) {
+//       return res.status(400).json({ message: "All fields are required" });
+//     }
+
+//     if(email) {
+//       user = await User.findOne({ email });
+//     }
+
+//     if(username){
+//       user = await User.findOne({ username });
+//     }
+    
+//     if (!user) return res.status(401).json({ message: "Invalid email or password" });
+
+//     const isPasswordCorrect = await user.matchPassword(password);
+//     if (!isPasswordCorrect) return res.status(401).json({ message: "Invalid email or password" });
+
+//     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
+//       expiresIn: "7d",
+//     });
+
+//     res.cookie("jwt", token, {
+//       maxAge: 7 * 24 * 60 * 60 * 1000,
+//       httpOnly: true, // prevent XSS attacks,
+//       sameSite: "strict", // prevent CSRF attacks
+//       secure: process.env.NODE_ENV === "production",
+//     });
+
+//     console.log(user)
+//     res.status(200).json({ success: true, user });
+//   } catch (error) {
+//     console.log("Error in login controller", error.message);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// }
+
+// export async function adminlogin(req, res) {
+//   try {
+//     const { email, password } = req.body;
+//     console.log({ email, password })
+
+//     if(email !== "@sbladmin"){
+//       return res.status(400).json({ message: "You are not allowed here! "})
+//     }
+
+//     if (!email || !password) {
+//       return res.status(400).json({ message: "All fields are required" });
+//     }
+
+//     const user = await User.findOne({ email });
+      
+//     if (!user) return res.status(401).json({ message: "Invalid email or password" });
+
+//     if(user.role != "admin"){
+//       return res.status(400).json({ message: "You are not allowed here! "})
+//     }
+
+//     const isPasswordCorrect = await user.matchPassword(password);
+//     if (!isPasswordCorrect) return res.status(401).json({ message: "Invalid email or password" });
+
+//     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET_KEY, {
+//       expiresIn: "7d",
+//     });
+
+//      res.cookie("jwt", token, {
+//       maxAge: 7 * 24 * 60 * 60 * 1000,
+//       httpOnly: true,
+//       sameSite: "none", // Required for cross-domain cookies
+//       secure: true, // Must be true with sameSite: none
+//       domain: process.env.NODE_ENV === "production" ? "apisbltd.vercel.app" : undefined
+//     });
+
+
+//     console.log(user)
+//     res.status(200).json({ success: true, user });
+//   } catch (error) {
+//     console.log("Error in login controller", error.message);
+//     res.status(500).json({ message: "Internal Server Error" });
+//   }
+// }
+
+// export function logout(req, res) {
+//   res.clearCookie("jwt");
+//   res.status(200).json({ success: true, message: "Logout successful" });
+// }
+
 export async function login(req, res) {
   try {
     const { email, username, password } = req.body;
-    let user 
+    let user;
 
     if (!email && !username || !password) {
       return res.status(400).json({ message: "All fields are required" });
@@ -82,15 +173,12 @@ export async function login(req, res) {
       expiresIn: "7d",
     });
 
-    res.cookie("jwt", token, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true, // prevent XSS attacks,
-      sameSite: "strict", // prevent CSRF attacks
-      secure: process.env.NODE_ENV === "production",
+    // Return token in response for frontend to store in localStorage
+    res.status(200).json({ 
+      success: true, 
+      user,
+      token // Send token in response body
     });
-
-    console.log(user)
-    res.status(200).json({ success: true, user });
   } catch (error) {
     console.log("Error in login controller", error.message);
     res.status(500).json({ message: "Internal Server Error" });
@@ -125,17 +213,11 @@ export async function adminlogin(req, res) {
       expiresIn: "7d",
     });
 
-     res.cookie("jwt", token, {
-      maxAge: 7 * 24 * 60 * 60 * 1000,
-      httpOnly: true,
-      sameSite: "none", // Required for cross-domain cookies
-      secure: true, // Must be true with sameSite: none
-      domain: process.env.NODE_ENV === "production" ? "apisbltd.vercel.app" : undefined
+    res.status(200).json({ 
+      success: true, 
+      user,
+      token // Send token in response body
     });
-
-
-    console.log(user)
-    res.status(200).json({ success: true, user });
   } catch (error) {
     console.log("Error in login controller", error.message);
     res.status(500).json({ message: "Internal Server Error" });
@@ -143,7 +225,7 @@ export async function adminlogin(req, res) {
 }
 
 export function logout(req, res) {
-  res.clearCookie("jwt");
+  // Since we're using localStorage, the frontend will handle token removal
   res.status(200).json({ success: true, message: "Logout successful" });
 }
 
