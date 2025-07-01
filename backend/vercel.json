@@ -15,10 +15,10 @@
       }
     }
   ],
-  "routes": [
+  "rewrites": [
     {
-      "src": "/api/(.*)",
-      "dest": "index.js"
+      "source": "/api/:path*",
+      "destination": "https://apisbltd.vercel.app/api/:path*"
     }
   ],
   "env": {
