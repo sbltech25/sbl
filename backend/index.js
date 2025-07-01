@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   const allowedOrigins = [
     "https://sbltd.vercel.app",
     "https://apisbltd.vercel.app",
-    "http://localhost:8080q",
+    "http://localhost:8080",
     "http://localhost:5001"
   ];
 
