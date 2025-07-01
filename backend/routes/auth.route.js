@@ -12,7 +12,7 @@ router.get("/getall", getUsers);
 
 
 
-router.get("/me",protectRoute, (req, res) => {
+router.get("/me", (req, res) => {
   res.status(200).json({ success: true, user: req.user });
 });
 
