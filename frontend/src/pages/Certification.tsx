@@ -44,13 +44,6 @@ const Certification = () => {
             {CERTIFICATIONS.map((cert, index) => (
               <Card key={index} className="border-0 shadow-xl rounded-sm overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                 <CardContent className="p-0">
-                  <div className="overflow-hidden">
-                    <img 
-                      src={cert.image}
-                      alt={cert.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-4">
                       <Badge variant="secondary" className="bg-primary/10 text-primary rounded-sm">
@@ -77,6 +70,13 @@ const Certification = () => {
                         Download Certificate
                     </a>
                     </div> */}
+                  </div>
+                  <div className="overflow-hidden">
+                    <img 
+                      src={cert.image}
+                      alt={cert.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    />
                   </div>
                 </CardContent>
               </Card>
