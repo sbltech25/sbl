@@ -3,10 +3,12 @@ export const COMPANY_INFO = {
   name: "Southern Basin Limited",
   tagline: "Engineering Excellence in Oil & Gas, Construction & Logistics",
   email: "info@southernbasin.com",
-  phone: "+234 703 127 8694",
+  phone: "+234 703 127 8694, +1 (832) 329 0594",
   alternatePhone: "+234 809 020 6642",
   whatsapp: "2347031278694",
   address: "11D Circular Road, Presidential Estate, Port Harcourt, Rivers State, Nigeria",
+  addressi: "5900 Balcones Drive STE 100 Austin TX 78731, USA",
+  addressii: "Epenal Yard, 41/42 Eastern Bypass Port Harcourt, Nigeria",
   registrationNumber: "RC 999968",
   foundedYear: "2011",
   social: {

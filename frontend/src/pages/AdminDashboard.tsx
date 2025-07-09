@@ -854,7 +854,7 @@ const AdminDashboard = () => {
                 </Card>
 
                 {/* Gantt Charts Section */}
-                <Accordion type="single" collapsible>
+                {/* <Accordion type="single" collapsible>
                   <AccordionItem value="gantt-charts">
                     <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
                       <CardHeader className="p-0">
@@ -939,7 +939,7 @@ const AdminDashboard = () => {
                       </AccordionContent>
                     </Card>
                   </AccordionItem>
-                </Accordion>
+                </Accordion> */}
 
                 {/* Reports Section */}
                 <Accordion type="single" collapsible>
@@ -958,7 +958,7 @@ const AdminDashboard = () => {
                                 setShowLogForm(true);
                               }}
                               size="sm"
-                              className="bg-primary hover:bg-primary/90 rounded-sm"
+                              className="bg-primary mr-3 hover:bg-primary/90 rounded-sm"
                             >
                               <Plus className="h-4 w-4 mr-2" />
                               Add Report

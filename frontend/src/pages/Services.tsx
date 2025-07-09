@@ -7,11 +7,11 @@ const Services = () => {
   const serviceDetails = {
     "oil-gas": {
       image: "https://images.unsplash.com/photo-1745725427797-d0b3e3b7a8af?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8b2lsJTIwYW5kJTIwZ2FzJTIwbmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=800&h=600&fit=crop",
-      details: "With our in-depth knowledge of the oil industry, and a total of over 4 years experience gained by the Top Management of SOUTHERN BASIN we are in a position to offer a wide range of consultancy services in the oil and gas industry. Our special focus is on Manpower Supply, Value-for-money Audit, Supply Chain and Material Management services. Pipeline Integrity Survey Repair Services Working with one of the world's largest and most experienced conglomerate companies in the Pipeline Integrity Survey and Repair Services SOUTHERN BASIN can handle these services under the most severe conditions."
+      details: "With our in-depth knowledge of the Oil & Gas industry, and over 25 years experience gained by the Top Management of SOUTHERN BASIN amplified by 13 years of corporate experience, we are in a position to offer a wide range of construction and environmental management services in the Oil and Gas industry. Our special focus is on Civil, Mechanical Upgrade & Fabrication, Environmental remediation and regeneration and related services. Working with several of the world's largest and most experienced steelz oil tools and geosynthetics manufacturing conglomerate companies in Asia and Europe, SOUTHERN BASIN can handle these services under the most terrains and environmental conditions."
     },
     "design-planning": {
       image: "https://plus.unsplash.com/premium_photo-1744428941961-e35e85b16433?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZW5naW5lZXJpbmclMjBkZXNpZ24lMjBuaWdlcmlhfGVufDB8fDB8fHww?w=800&h=600&fit=crop",
-      details: "Projects are more powerful when driven by a purpose. The purpose that brings experts together with our clients is to create, enhance and sustain the world's built, natural and social environments. The scope and scale of this aspiration unites scientists, planners, architects, engineers, program, cost and construction managers. It partners us with public sector clients at every level and private sector clients in every industry. We work at every scale, from an intimate garden, to a city block, to a national infrastructure program."
+      details: "Project development is more powerful when driven by a purpose. The purpose that brings experts together to realize the conceived vision of the project. Southern Basin understands the cruciality of engineering design and planning in the development of any products, systems, and infrastructure. Our expertise brings to bear this essence in each project we embark on by creation of innovative, functional, and efficient solutions that meet user needs and requirements."
     },
     "mechanical-fabrication": {
       image: "https://images.unsplash.com/photo-1701448149957-b96dbd1926ff?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWVjaGFuaWNhbCUyMGZhYnJpY2F0aW9uJTIwZW5naW5lZXJpbmclMjBuaWdlcmlhfGVufDB8fDB8fHww?w=800&h=600&fit=crop",
@@ -79,15 +79,24 @@ const Services = () => {
                             {service.id === 'oil-gas' && (
                               <>
                                 <li>• Pipeline Integrity Survey & Repair Services</li>
-                                <li>• Manpower Supply & Value-for-money Audit</li>
-                                <li>• Supply Chain & Material Management</li>
+                                <li>• Steel Fabrication</li>
+                                <li>• Facility Upgrade</li>
+                                <li>• Pipe/Flowline construction</li>
+                                <li>• Civil Construction</li>
+                                <li>• Environmental waste management and construction</li>
+                                <li>• Industrial Logistics</li>
+                                <li>• Operations Workshop & Material Management</li>
                               </>
                             )}
                             {service.id === 'design-planning' && (
                               <>
-                                <li>• Architectural & Engineering Design</li>
-                                <li>• Project Planning & Management</li>
-                                <li>• Environmental Impact Assessment</li>
+                                <li>• Defining problems and requirements</li>
+                                <li>• Researching and analyzing solutions</li>
+                                <li>• Developing and testing prototypes</li>
+                                <li>• Iterating and refining designs</li>
+                                <li>• Considering factors like safety, sustainability, and cost-effectiveness</li>
+                                <li>• Collaborating with stakeholders and team members</li>
+                                <li>• Documenting and communicating designs</li>
                               </>
                             )}
                             {service.id === 'mechanical-fabrication' && (

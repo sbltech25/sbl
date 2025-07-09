@@ -1,17 +1,23 @@
-
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import { COMPANY_INFO, TEAM_MEMBERS } from '@/lib/constants';
-import { Globe, Linkedin, Twitter, MessageCircle } from 'lucide-react';
-
+import { Globe, Linkedin, Twitter, MessageCircle, Download } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 const About = () => {
+  const handleDownload = () => {
+    const link = document.createElement('a');
+    link.href = '/sbl-company-profile.pdf';
+    link.download = 'sbl-company-profile.pdf';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="min-h-screen pt-20">
-      {/* Hero Section */}
-     <section className="relative py-20 bg-gradient-to-br from-secondary to-primary text-white overflow-hidden">
-        {/* Background Image with constrained dimensions */}
-                <div className="absolute inset-0 bg-black/50"></div>
+      <section className="relative py-20 bg-gradient-to-br from-secondary to-primary text-white overflow-hidden">
+        <div className="absolute inset-0 bg-black/50"></div>
 
         <div className="absolute inset-0">
           <img
@@ -21,16 +27,22 @@ const About = () => {
           />
         </div>
 
-       
         <div className="container mx-auto relative px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6">About Us</h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
+          <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90 mb-8">
             Know more about who we are and what we stand for in the engineering and construction industry.
           </p>
+          <Button 
+            onClick={handleDownload}
+            variant="outline"
+            className="bg-white/10 hover:bg-white/20 border-white/30 text-white backdrop-blur-sm"
+          >
+            <Download className="w-4 h-4 mr-2" />
+            Download Company Profile
+          </Button>
         </div>
       </section>
 
-      {/* Company Overview */}
       <section className="py-10">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
@@ -64,7 +76,6 @@ const About = () => {
             </div>
           </div>
 
-          {/* Vision, Mission, Values */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
             <Card className="border-0 shadow-xl rounded-sm overflow-hidden">
               <CardContent className="p-0">
@@ -108,7 +119,6 @@ const About = () => {
         </div>
       </section>
 
-      {/* Key Strengths */}
       <section className="py-100 bg-accent/50">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -152,10 +162,6 @@ const About = () => {
         </div>
       </section>
 
-   
-
-      {/* Team Section */}
-      
       <section className="py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
@@ -166,62 +172,59 @@ const About = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-          {TEAM_MEMBERS.map((member, index) => (
-            <Card key={index} className="border-0 shadow-lg rounded-xl overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <CardContent className="p-0 flex flex-col h-full">
-                {/* Image with oval mask and gradient overlay */}
-                <div className="relative pt-8 px-8">
-                  <div className="relative mx-auto w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                    <img 
-                      src={member.image}
-                      alt={member.name}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            {TEAM_MEMBERS.map((member, index) => (
+              <Card key={index} className="border-0 shadow-lg rounded-xl overflow-hidden group hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+                <CardContent className="p-0 flex flex-col h-full">
+                  <div className="relative pt-8 px-8">
+                    <div className="relative mx-auto w-40 h-40 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                      <img 
+                        src={member.image}
+                        alt={member.name}
+                        className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-primary/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+                    </div>
                   </div>
-                </div>
 
-                {/* Content with subtle background */}
-                <div className="flex-1 p-6 text-center bg-gradient-to-b from-white to-gray-50">
-                  <div className="mb-4">
-                    <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
-                    <p className="text-primary font-medium text-sm uppercase tracking-wider">{member.position}</p>
+                  <div className="flex-1 p-6 text-center bg-gradient-to-b from-white to-gray-50">
+                    <div className="mb-4">
+                      <h3 className="text-xl font-bold text-gray-900 mb-1">{member.name}</h3>
+                      <p className="text-primary font-medium text-sm uppercase tracking-wider">{member.position}</p>
+                    </div>
+                    
+                    <p className="text-gray-600 text-sm md:text-base mb-6 line-clamp-3">{member.bio}</p>
+                    
+                    <div className="flex justify-center space-x-3">
+                      {member.website && (
+                        <a href={member.website} target="_blank" rel="noopener noreferrer" 
+                          className="p-2 rounded-full bg-gray-100 hover:bg-primary/10 text-gray-500 hover:text-primary transition-all">
+                          <Globe className="w-4 h-4" />
+                        </a>
+                      )}
+                      {member.linkedin && (
+                        <a href={member.linkedin} target="_blank" rel="noopener noreferrer" 
+                          className="p-2 rounded-full bg-gray-100 hover:bg-blue-600/10 text-gray-500 hover:text-blue-600 transition-all">
+                          <Linkedin className="w-4 h-4" />
+                        </a>
+                      )}
+                      {member.twitter && (
+                        <a href={member.twitter} target="_blank" rel="noopener noreferrer" 
+                          className="p-2 rounded-full bg-gray-100 hover:bg-blue-400/10 text-gray-500 hover:text-blue-400 transition-all">
+                          <Twitter className="w-4 h-4" />
+                        </a>
+                      )}
+                      {member.whatsapp && (
+                        <a href={member.whatsapp} target="_blank" rel="noopener noreferrer" 
+                          className="p-2 rounded-full bg-gray-100 hover:bg-green-500/10 text-gray-500 hover:text-green-500 transition-all">
+                          <MessageCircle className="w-4 h-4" />
+                        </a>
+                      )}
+                    </div>
                   </div>
-                  
-                  <p className="text-gray-600 text-sm md:text-base mb-6 line-clamp-3">{member.bio}</p>
-                  
-                  {/* Social links with subtle hover effects */}
-                  <div className="flex justify-center space-x-3">
-                    {member.website && (
-                      <a href={member.website} target="_blank" rel="noopener noreferrer" 
-                        className="p-2 rounded-full bg-gray-100 hover:bg-primary/10 text-gray-500 hover:text-primary transition-all">
-                        <Globe className="w-4 h-4" />
-                      </a>
-                    )}
-                    {member.linkedin && (
-                      <a href={member.linkedin} target="_blank" rel="noopener noreferrer" 
-                        className="p-2 rounded-full bg-gray-100 hover:bg-blue-600/10 text-gray-500 hover:text-blue-600 transition-all">
-                        <Linkedin className="w-4 h-4" />
-                      </a>
-                    )}
-                    {member.twitter && (
-                      <a href={member.twitter} target="_blank" rel="noopener noreferrer" 
-                        className="p-2 rounded-full bg-gray-100 hover:bg-blue-400/10 text-gray-500 hover:text-blue-400 transition-all">
-                        <Twitter className="w-4 h-4" />
-                      </a>
-                    )}
-                    {member.whatsapp && (
-                      <a href={member.whatsapp} target="_blank" rel="noopener noreferrer" 
-                        className="p-2 rounded-full bg-gray-100 hover:bg-green-500/10 text-gray-500 hover:text-green-500 transition-all">
-                        <MessageCircle className="w-4 h-4" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
         </div>
       </section>
     </div>
