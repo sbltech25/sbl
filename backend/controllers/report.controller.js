@@ -1,6 +1,6 @@
 import Report from '../models/Report.js';
 import Project from '../models/Project.js';
-import { uploadFile } from '../lib/cloudinary.js';
+import cloudinary from '../lib/cloudinary.js';
 import { sendEmail } from '../lib/email.js';
 import User from '../models/User.js';
 
@@ -37,7 +37,7 @@ export const createReport = async (req, res) => {
     let images = [];
     if (req.files && req.files.length > 0) {
       for (const file of req.files) {
-        const uploadResponse = await uploadFile(file);
+        const uploadResponse = await cloudinary(file);
         images.push({
           name: file.originalname,
           url: uploadResponse.url,

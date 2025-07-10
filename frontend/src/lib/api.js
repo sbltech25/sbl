@@ -182,24 +182,50 @@ export const deleteProject = async (projectId) => {
   return response.data;
 };
 
-// Message API
-export const sendMessage = async (messageData) => {
-  const formData = new FormData();
-  Object.keys(messageData).forEach(key => {
-    if (key === 'attachment' && messageData[key]) {
-      formData.append('attachment', messageData[key]);
-    } else {
-      formData.append(key, messageData[key]);
-    }
-  });
+// Updated uploadMessageAttachment function
+export const uploadMessageAttachment = async (file) => {
+  try {
+    // Convert file to base64
+    const base64Data = await new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(reader.result.split(',')[1]);
+      reader.onerror = error => reject(error);
+      reader.readAsDataURL(file);
+    });
 
-  const response = await axiosInstance.post('/messages', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data',
-    }
-  });
-  return response.data;
+    const response = await axiosInstance.post('/messages/upload', {
+      file: base64Data,
+      type: file.type.startsWith('image/') ? 'image' : 
+            file.type.startsWith('video/') ? 'video' : 'document',
+      name: file.name,
+      mimeType: file.type
+    });
+    
+    return response.data;
+  } catch (error) {
+    console.error("Attachment upload error:", error);
+    return { success: false, message: error.message };
+  }
 };
+
+// Keep sendMessage function the same as before
+export const sendMessage = async (messageData) => {
+  try {
+    const response = await axiosInstance.post('/messages', {
+      subject: messageData.subject,
+      text: messageData.text,
+      receiverId: messageData.receiverId,
+      projectId: messageData.projectId,
+      attachments: messageData.attachments
+    });
+    
+    return response.data;
+  } catch (error) {
+    console.error("Message sending error:", error);
+    return { success: false, message: error.message || "Failed to send message" };
+  }
+};
+
 
 export const getProjectMessages = async (projectId) => {
   const response = await axiosInstance.get(`/messages/project/${projectId}`);

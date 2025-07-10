@@ -1,63 +1,108 @@
 import Message from '../models/Message.js';
 import Project from '../models/Project.js';
 import User from '../models/User.js';
-import { uploadFile } from '../lib/cloudinary.js';
-import { sendEmail } from '../lib/email.js';
+import cloudinary from '../lib/cloudinary.js';
 
 
-export const sendMessage = async (req, res) => {
+// In message.controller.js
+export const uploadMessageAttachment = async (req, res) => {
   try {
-    const { subject, text, receiverId, projectId } = req.body;
-    const senderId = req.user._id; // Ensure this is a string/ObjectId
+    const { file: base64File, type, name, mimeType } = req.body;
 
-    // Validate required fields
-    if (!subject || !text || !receiverId || !projectId) {
-      return res.status(400).json({ message: 'Please provide all required fields' });
+    if (!base64File) {
+      return res.status(400).json({ success: false, message: "No file provided" });
     }
 
-    // Check if project exists
-    const project = await Project.findById(projectId);
-    if (!project) {
-      return res.status(404).json({ message: 'Project not found' });
-    }
+    const uploadOptions = {
+      folder: 'sbl-messages',
+      resource_type: type === 'video' ? 'video' : 'auto',
+    };
 
-    // Check if receiver exists
-    const receiver = await User.findById(receiverId);
-    if (!receiver) {
-      return res.status(404).json({ message: 'Receiver not found' });
-    }
+    // Construct the data URI for Cloudinary
+    const dataUri = `data:${mimeType};base64,${base64File}`;
 
-    // Handle file upload if present
-    let attachments = [];
-    if (req.file) {
-      const uploadResponse = await uploadFile(req.file);
-      attachments.push({
-        name: req.file.originalname,
-        url: uploadResponse.url,
-        type: req.file.mimetype
-      });
-    }
+    const result = await cloudinary.uploader.upload(dataUri, uploadOptions);
 
-    const message = await Message.create({
-      subject,
-      text,
-      senderId, // This should be a string/ObjectId
-      receiverId, // This should be a string/ObjectId
-      projectId, // This should be a string/ObjectId
-      attachments
+    res.status(200).json({ 
+      success: true, 
+      file: {
+        url: result.secure_url,
+        publicId: result.public_id,
+        type,
+        name: name || 'file',
+        mimeType
+      }
     });
-
-    res.status(201).json({ success: true, data: message });
   } catch (error) {
-    console.error('Error sending message:', error);
+    console.error("Attachment upload error:", error);
     res.status(500).json({ 
-      message: 'Failed to send message', 
-      error: error.message 
+      success: false, 
+      message: "Failed to upload attachment",
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
     });
   }
 };
 
-// Get all messages for a project
+export const sendMessage = async (req, res) => {
+  try {
+    const { subject, text, receiverId, projectId, attachments = [] } = req.body;
+    const senderId = req.user._id;
+
+    // Validate required fields
+    if (!subject || !text || !receiverId || !projectId) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Please provide all required fields' 
+      });
+    }
+
+    // Ensure attachments is an array
+    const attachmentsArray = Array.isArray(attachments) ? attachments : [];
+
+    // Validate each attachment
+    const validatedAttachments = attachmentsArray.map(attachment => ({
+      url: attachment.url || '',
+      publicId: attachment.publicId || '',
+      type: attachment.type || 'document',
+      name: attachment.name || 'file',
+      mimeType: attachment.mimeType || 'application/octet-stream'
+    }));
+
+    const message = await Message.create({
+      subject,
+      text,
+      senderId,
+      receiverId,
+      projectId,
+      attachments: validatedAttachments
+    });
+
+    res.status(201).json({ 
+      success: true, 
+      message: 'Message sent successfully',
+      data: message 
+    });
+  } catch (error) {
+    console.error('Error sending message:', error);
+    
+    // Handle validation errors specifically
+    if (error.name === 'ValidationError') {
+      const errors = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({
+        success: false,
+        message: "Validation failed",
+        errors
+      });
+    }
+
+    res.status(500).json({ 
+      success: false,
+      message: 'Failed to send message', 
+      error: process.env.NODE_ENV === 'development' ? error.message : undefined
+    });
+  }
+};
+
 export const getProjectMessages = async (req, res) => {
   try {
     const { projectId } = req.params;

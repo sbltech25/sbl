@@ -111,45 +111,139 @@ export const TEAM_MEMBERS = [
     whatsapp: ""
   },
   {
-    name: "Andy Ojokoh",
-    position: "ED Corporate and Public Affairs",
-    image: "/uploads/ao.jpg",
-    bio: "Corporate communications leader managing stakeholder relationships and public affairs.",
+    name: "Diepreye David Charles-Daniel",
+    position: "",
+    image: "/uploads/ddcd.jpg",
+    bio: "Software and Robotics Engineer",
     website: "",
     linkedin: "",
     twitter: "",
     whatsapp: ""
   },
-  {
-    name: "Jerry Akpan",
-    position: "Chief Financial Officer",
-    image: "/uploads/ja.jpg",
-    bio: "Financial strategy expert ensuring operational excellence and fiscal responsibility.",
-    website: "",
-    linkedin: "",
-    twitter: "",
-    whatsapp: ""
-  },
-  {
-    name: "Victor Chukwuma",
-    position: "Business Dev. Executive",
-    image: "/uploads/vc.jpg",
-    bio: "Business development professional focused on growth strategies and client relationships.",
-    website: "",
-    linkedin: "",
-    twitter: "",
-    whatsapp: ""
-  }
+  // {
+  //   name: "Andy Ojokoh",
+  //   position: "ED Corporate and Public Affairs",
+  //   image: "/uploads/ao.jpg",
+  //   bio: "Corporate communications leader managing stakeholder relationships and public affairs.",
+  //   website: "",
+  //   linkedin: "",
+  //   twitter: "",
+  //   whatsapp: ""
+  // },
+  // {
+  //   name: "Jerry Akpan",
+  //   position: "Chief Financial Officer",
+  //   image: "/uploads/ja.jpg",
+  //   bio: "Financial strategy expert ensuring operational excellence and fiscal responsibility.",
+  //   website: "",
+  //   linkedin: "",
+  //   twitter: "",
+  //   whatsapp: ""
+  // },
+  // {
+  //   name: "Victor Chukwuma",
+  //   position: "Business Dev. Executive",
+  //   image: "/uploads/vc.jpg",
+  //   bio: "Business development professional focused on growth strategies and client relationships.",
+  //   website: "",
+  //   linkedin: "",
+  //   twitter: "",
+  //   whatsapp: ""
+  // }
 ];
 
 export const PROJECTS = [
+  {
+    title: "Refurbishment of Oily & Observation Ponds",
+    location: "PHRC Refinery, Nigeria",
+    client: "Tecnimont Spa",
+    image: "https://images.unsplash.com/photo-1568310077736-1c216a598401?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Construction & Replacement of 5.85km 4\" Flowline",
+    location: "Nkali Umuwchem, Nigeria",
+    client: "SPDC",
+    image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Construction & Replacement of 3.5km Gaslift Line",
+    location: "Agenda II, Nigeria",
+    client: "SPDC",
+    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Fabrication & Erection of Bulk Caustic Storage Tanks",
+    location: "HEL Sub, Lekki, Nigeria",
+    image: "https://images.unsplash.com/photo-1663668540209-8f92ce673c89?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Construction & Fabrication of Bulk Storage Tanks",
+    location: "Seme, Benin",
+    image: "https://images.unsplash.com/photo-1568310077736-1c216a598401?w=800&h=600&fit=crop"
+  },
+  {
+    title: "HDPE Lining of 300 Million Liters Tank Farm",
+    location: "Nigeria",
+    area: "120,000 Sqm",
+    image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
+  },
+  {
+    title: "HDPE Lining of Tank Farm",
+    location: "Seme, Benin",
+    area: "54,000 Sqm",
+    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Evacuation, Cleaning & Replacement of Lines",
+    location: "Transcorp Gas Plant, Nigeria",
+    image: "https://images.unsplash.com/photo-1663668540209-8f92ce673c89?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Construction of Asphalt Pavement Road to TCM TCF",
+    location: "PHRC, Nigeria",
+    client: "Tecnimont Spa",
+    image: "https://images.unsplash.com/photo-1568310077736-1c216a598401?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Roof HDP Geomembrane Lining Installation",
+    location: "SPDC, Nigeria",
+    image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Construction of Asphalt Pavement Roads",
+    location: "Indorama EPCL, Nigeria",
+    client: "Daewoo E&C",
+    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Construction of Nwiyara (Okwuowuru) Canada Road",
+    location: "Umudike, Ohaji Egbema, Nigeria",
+    image: "https://images.unsplash.com/photo-1663668540209-8f92ce673c89?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Installation/Repair of Flare Stack & Walkway",
+    location: "NES 1 & NES 2, Nigeria",
+    client: "SPDC",
+    image: "https://images.unsplash.com/photo-1568310077736-1c216a598401?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Precast Concrete Sheets Piles Shore Protection",
+    location: "Epenal, Nigeria",
+    image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
+  },
+  {
+    title: "Installation of Solar Street Lights",
+    location: "Utu Ikpe, Nigeria",
+    client: "NDDC",
+    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
+  },
   {
     title: "Emekuku Layout Road",
     location: "Nigeria",
     area: "2,540 square meters",
     date: "February 2014",
     client: "Southern Basin",
-    image: "https://images.unsplash.com/photo-1568310077736-1c216a598401?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8bmlnZXJpYW4lMjByb2Fkc3xlbnwwfHwwfHx8MA%3D%3D?w=800&h=600&fit=crop"
+    image: "https://images.unsplash.com/photo-1568310077736-1c216a598401?w=800&h=600&fit=crop"
   },
   {
     title: "Ogbogoro Dredging Work",
@@ -157,7 +251,7 @@ export const PROJECTS = [
     area: "992 square meters",
     date: "June 2013",
     client: "Greg International",
-    image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bmlnZXJpYW4lMjByb2Fkc3xlbnwwfHwwfHx8MA%3D%3D?w=800&h=600&fit=crop"
+    image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
   },
   {
     title: "Obowo 2km Road",
@@ -165,7 +259,7 @@ export const PROJECTS = [
     area: "10,000 square meters",
     date: "May 2014",
     client: "CardCompany LLC",
-    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTV8fG5pZ2VyaWFuJTIwcm9hZHN8ZW58MHx8MHx8fDA%3D?w=800&h=600&fit=crop"
+    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
   },
   {
     title: "Ada George Elioparanwo Road",
@@ -173,9 +267,10 @@ export const PROJECTS = [
     area: "1.5km length",
     date: "2011",
     client: "Akpako Inc.",
-    image: "https://images.unsplash.com/photo-1663668540209-8f92ce673c89?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG5pZ2VyaWFuJTIwcm9hZHN8ZW58MHx8MHx8fDA%3D?w=800&h=600&fit=crop"
+    image: "https://images.unsplash.com/photo-1663668540209-8f92ce673c89?w=800&h=600&fit=crop"
   }
 ];
+
 
 export const HOW_WE_WORK_STEPS = [
   {
@@ -263,90 +358,62 @@ export const CERTIFICATIONS = [
 ];
 
 export const EQUIPMENT = [
-  {
-    name: "Excavator CAT 320D",
-    category: "Heavy Machinery",
-    image: "/gallery/civil1.jpg"
-  },
-  {
-    name: "Hydraulic Rock Breaker",
-    category: "Demolition Tools",
-    image: "/gallery/civil2.jpg"
-  },
-  {
-    name: "Vibratory Soil Compactor",
-    category: "Compaction Equipment",
-    image: "/gallery/civil3.jpg"
-  },
-  {
-    name: "Wheel Loader Volvo L90",
-    category: "Heavy Machinery",
-    image: "/gallery/civil4.jpg"
-  },
-  {
-    name: "Concrete Mixer Truck",
-    category: "Concrete Equipment",
-    image: "/gallery/civil5.jpg"
-  },
-  {
-    name: "Motor Grader CAT 140K",
-    category: "Earthmoving",
-    image: "/gallery/civil6.jpg"
-  },
-  {
-    name: "Crawler Crane 80T",
-    category: "Lifting Equipment",
-    image: "/gallery/civil7.jpg"
-  },
-  {
-    name: "Asphalt Paver Machine",
-    category: "Road Equipment",
-    image: "/gallery/civil8.jpg"
-  },
-  {
-    name: "Tower Light Set",
-    category: "Site Equipment",
-    image: "/gallery/civil9.jpg"
-  },
-  {
-    name: "Diesel Generator 500KVA",
-    category: "Power Equipment",
-    image: "/gallery/civil10.jpg"
-  },
-  {
-    name: "Scaffolding Frames",
-    category: "Construction Tools",
-    image: "/gallery/civil11.jpg"
-  },
-  {
-    name: "Trench Shoring System",
-    category: "Safety Equipment",
-    image: "/gallery/civil12.jpg"
-  },
-  {
-    name: "Backhoe Loader JCB 3CX",
-    category: "Earthmoving",
-    image: "/gallery/civil13.jpg"
-  },
-  {
-    name: "Portable Concrete Pump",
-    category: "Concrete Equipment",
-    image: "/gallery/civil14.jpg"
-  },
-  {
-    name: "Welding Generator Set",
-    category: "Fabrication",
-    image: "/gallery/civil15.jpg"
-  },
-  {
-    name: "Total Station - Leica",
-    category: "Survey Equipment",
-    image: "/gallery/civil16.jpg"
-  },
-  {
-    name: "Skid Steer Loader",
-    category: "Site Equipment",
-    image: "/gallery/civil17.jpg"
-  }
+  { name: "", category: "", image: "/uploads/e2.jpg" },
+  { name: "", category: "", image: "/uploads/e3.jpg" },
+  { name: "", category: "", image: "/uploads/e4.jpg" },
+  { name: "", category: "", image: "/uploads/e5.jpg" },
+  { name: "", category: "", image: "/uploads/e6.jpg" },
+  { name: "", category: "", image: "/uploads/e7.jpg" },
+  { name: "", category: "", image: "/uploads/e8.jpg" },
+  { name: "", category: "", image: "/uploads/e9.jpg" },
+  { name: "", category: "", image: "/uploads/e10.jpg" },
+  { name: "", category: "", image: "/uploads/e11.jpg" },
+  { name: "", category: "", image: "/uploads/e12.jpg" },
+  { name: "", category: "", image: "/uploads/e13.jpg" },
+  { name: "", category: "", image: "/uploads/e14.jpg" },
+  { name: "", category: "", image: "/uploads/e15.jpg" },
+  { name: "", category: "", image: "/uploads/e16.jpg" },
+  { name: "", category: "", image: "/uploads/e17.jpg" },
+  { name: "", category: "", image: "/uploads/e18.jpg" },
+  { name: "", category: "", image: "/uploads/e19.jpg" },
+  { name: "", category: "", image: "/uploads/e20.jpg" },
+  { name: "", category: "", image: "/uploads/e21.jpg" },
+  { name: "", category: "", image: "/uploads/e22.jpg" },
+  { name: "", category: "", image: "/uploads/e23.jpg" },
+  { name: "", category: "", image: "/uploads/e24.jpg" },
+  { name: "", category: "", image: "/uploads/e25.jpg" },
+  { name: "", category: "", image: "/uploads/e26.jpg" },
+  { name: "", category: "", image: "/uploads/e27.jpg" },
+  { name: "", category: "", image: "/uploads/e28.jpg" },
+  { name: "", category: "", image: "/uploads/e29.jpg" },
+  { name: "", category: "", image: "/uploads/e30.jpg" },
+  { name: "", category: "", image: "/uploads/e31.jpg" },
+  { name: "", category: "", image: "/uploads/e32.jpg" },
+  { name: "", category: "", image: "/uploads/e33.jpg" },
+  { name: "", category: "", image: "/uploads/e34.jpg" },
+  { name: "", category: "", image: "/uploads/e35.jpg" },
+  { name: "", category: "", image: "/uploads/e36.jpg" },
+  { name: "", category: "", image: "/uploads/e37.jpg" },
+  { name: "", category: "", image: "/uploads/e38.jpg" },
+  { name: "", category: "", image: "/uploads/e39.jpg" },
+  { name: "", category: "", image: "/uploads/e40.jpg" },
+  { name: "", category: "", image: "/uploads/e1.jpg" },
+  { name: "Excavator CAT 320D", category: "Heavy Machinery", image: "/gallery/civil1.jpg" },
+  { name: "Concrete Batching Plant", category: "Demolition Tools", image: "/gallery/civil2.jpg" },
+  { name: "Vibratory Soil Compactor", category: "Compaction Equipment", image: "/gallery/civil3.jpg" },
+  { name: "Wheel Loader Volvo L90", category: "Heavy Machinery", image: "/gallery/civil4.jpg" },
+  { name: "Concrete Mixer Truck", category: "Concrete Equipment", image: "/gallery/civil5.jpg" },
+  { name: "Motor Grader CAT 140K", category: "Earthmoving", image: "/gallery/civil6.jpg" },
+  { name: "Crawler Crane 80T", category: "Lifting Equipment", image: "/gallery/civil7.jpg" },
+  { name: "Asphalt Paver Machine", category: "Road Equipment", image: "/gallery/civil8.jpg" },
+  { name: "Mobile Wheel Grader", category: "Site Equipment", image: "/gallery/civil9.jpg" },
+  { name: "Diesel Generator 500KVA", category: "Power Equipment", image: "/gallery/civil10.jpg" },
+  { name: "Scaffolding Frames", category: "Construction Tools", image: "/gallery/civil11.jpg" },
+  { name: "Trench Shoring System", category: "Safety Equipment", image: "/gallery/civil12.jpg" },
+  { name: "Backhoe Loader JCB 3CX", category: "Earthmoving", image: "/gallery/civil13.jpg" },
+  { name: "Portable Concrete Pump", category: "Concrete Equipment", image: "/gallery/civil14.jpg" },
+  { name: "Asphalt Concrete Road Miling Operations", category: "Fabrication", image: "/gallery/civil15.jpg" },
+  { name: "Bobcat Skid Steered Loader", category: "", image: "/gallery/civil16.jpg" },
+  { name: "Asphalt Concrete Road Milling Machine", category: "Site Equipment", image: "/gallery/civil17.jpg" }
 ];
 

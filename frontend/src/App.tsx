@@ -43,7 +43,7 @@ const ClientRoute = () => {
 const AdminRoute = () => {
   const { isLoading, authUser } = useAuthUser();
   if (isLoading) return <PageLoader />;
-  console.log(authUser)
+  // console.log(authUser)
   return authUser?.role === 'admin' ? <Outlet /> : <Navigate to="/secured/v1/login" />;
 };
 

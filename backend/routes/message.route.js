@@ -3,14 +3,15 @@ import {
   sendMessage,
   getProjectMessages,
   markMessageAsRead,
-  getUnreadMessageCount
+  getUnreadMessageCount,
+  uploadMessageAttachment
 } from '../controllers/message.controller.js';
 import { protectRoute } from '../middleware/auth.middleware.js';
-import upload from '../lib/multer.js';
 
 const router = express.Router();
 
-router.post('/', protectRoute, upload.single('attachment'), sendMessage);
+router.post('/', protectRoute, sendMessage);
+router.post('/upload', protectRoute, uploadMessageAttachment);
 router.get('/project/:projectId', protectRoute, getProjectMessages);
 router.put('/:messageId/read', protectRoute, markMessageAsRead);
 router.get('/unread/count', protectRoute, getUnreadMessageCount);

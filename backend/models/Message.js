@@ -31,11 +31,18 @@ const messageSchema = new mongoose.Schema(
       type: Boolean,
       default: false
     },
-    attachments: [{
-      name: String,
-      url: String,
-      type: String
-    }]
+    attachments: {
+      type: [
+        {
+          url: { type: String, required: true },
+          publicId: { type: String, required: true },
+          type: { type: String, required: true, enum: ['image', 'video', 'document'] },
+          name: { type: String, required: true },
+          mimeType: { type: String, required: true }
+        }
+      ],
+      default: []
+    }
   },
   { 
     timestamps: true,
@@ -44,7 +51,6 @@ const messageSchema = new mongoose.Schema(
   }
 );
 
-// Indexes for faster querying
 messageSchema.index({ projectId: 1 });
 messageSchema.index({ senderId: 1 });
 messageSchema.index({ receiverId: 1 });

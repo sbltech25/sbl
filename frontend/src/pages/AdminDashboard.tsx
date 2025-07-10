@@ -8,32 +8,35 @@ import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
-import { 
-  LogOut, Users, Plus, Mail, CheckCircle, Clock, AlertCircle, 
-  FileText, MessageSquare, Send, Calendar, BarChart3, Download, 
-  Paperclip, Loader2, PauseCircle, ChevronDown, ChevronUp, ArrowRight
+import {
+  LogOut, Users, Plus, Mail, CheckCircle, Clock, AlertCircle,
+  FileText, MessageSquare, Send, Calendar, BarChart3, Download,
+  Paperclip, Loader2, PauseCircle, ChevronDown, ChevronUp, ArrowRight,
+  XIcon, Eye
 } from 'lucide-react';
 import { useToast } from "@/hooks/use-toast";
 import useAuthUser from '@/hooks/useAuthUser';
 import useLogout from "../hooks/useLogout";
-import { 
-  createClientAccount, 
-  getAllClients, 
-  createProject, 
-  getClientProjects, 
-  createProjectReport, 
-  createGanttChart, 
-  sendMessage, 
+import {
+  createClientAccount,
+  getAllClients,
+  createProject,
+  getClientProjects,
+  createProjectReport,
+  createGanttChart,
+  sendMessage,
   getProjectMessages,
   updateClientStatus,
   updateProjectStatus,
   getProjectReports,
   getProjectGanttCharts,
   downloadReport,
-  updateTaskStatus
+  updateTaskStatus,
+  uploadMessageAttachment
 } from "../lib/api";
 
 const AdminDashboard = () => {
+  // State declarations
   const [clients, setClients] = useState([]);
   const [selectedClient, setSelectedClient] = useState(null);
   const [selectedProject, setSelectedProject] = useState(null);
@@ -56,8 +59,10 @@ const AdminDashboard = () => {
     ganttCharts: false,
     sending: false
   });
-
-  const subjectPrefix = `Project Update: ${selectedProject?.name} - `;
+  const [attachments, setAttachments] = useState([]);
+  const [previewUrls, setPreviewUrls] = useState([]);
+  const [isPreviewOpen, setIsPreviewOpen] = useState(false);
+  const [currentPreviewIndex, setCurrentPreviewIndex] = useState(0);
 
   const [newProjectForm, setNewProjectForm] = useState({
     name: '',
@@ -67,10 +72,12 @@ const AdminDashboard = () => {
     endDate: '',
     budget: ''
   });
+
   const [ganttForm, setGanttForm] = useState({
     projectTitle: '',
     tasks: [{ task: '', month: '', status: 'not-started' }]
   });
+
   const [logForm, setLogForm] = useState({
     date: new Date().toISOString().split('T')[0],
     project: '',
@@ -84,72 +91,17 @@ const AdminDashboard = () => {
     feedback: '',
     conclusion: ''
   });
-  const [attachment, setAttachment] = useState(null);
-  
+
+  const subjectPrefix = "Subject: ";
+
+  // Refs
   const messagesEndRef = useRef(null);
   const navigate = useNavigate();
   const { toast } = useToast();
   const { authUser } = useAuthUser();
   const { logoutMutation } = useLogout();
 
-  // Load all clients on mount
-  useEffect(() => {
-    const fetchClients = async () => {
-      try {
-        setLoading(prev => ({ ...prev, clients: true }));
-        const { data } = await getAllClients();
-        setClients(data);
-      } catch (error) {
-        toast({
-          title: "Error",
-          description: "Failed to load clients",
-          variant: "destructive",
-        });
-      } finally {
-        setLoading(prev => ({ ...prev, clients: false }));
-      }
-    };
-    fetchClients();
-  }, []);
-
-  // Load project data when project changes
-  useEffect(() => {
-    if (selectedProject) {
-      const loadProjectData = async () => {
-        try {
-          setLoading(prev => ({ ...prev, messages: true, reports: true, ganttCharts: true }));
-          const [
-            { data: messages },
-            { data: reports },
-            { data: ganttCharts }
-          ] = await Promise.all([
-            getProjectMessages(selectedProject._id),
-            getProjectReports(selectedProject._id),
-            getProjectGanttCharts(selectedProject._id)
-          ]);
-          setMessages(messages);
-          setReports(reports);
-          setGanttCharts(ganttCharts);
-        } catch (error) {
-          toast({
-            title: "Error",
-            description: "Failed to load project data",
-            variant: "destructive",
-          });
-        } finally {
-          setLoading(prev => ({ ...prev, messages: false, reports: false, ganttCharts: false }));
-        }
-      };
-      loadProjectData();
-    }
-  }, [selectedProject]);
-
-  // Auto-scroll messages
-  useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
-  }, [messages]);
-
-  // Helper functions for status and UI
+  // Helper functions
   const getStatusColor = (status) => {
     switch (status) {
       case 'new': return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200';
@@ -198,9 +150,9 @@ const AdminDashboard = () => {
   };
 
   const formatDateTime = (dateString) => {
-    const options = { 
-      year: 'numeric', 
-      month: 'short', 
+    const options = {
+      year: 'numeric',
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit'
@@ -208,7 +160,239 @@ const AdminDashboard = () => {
     return new Date(dateString).toLocaleDateString(undefined, options);
   };
 
-  // Handler functions
+  const handleFileChange = (e) => {
+    const files = Array.from(e.target.files);
+    if (files.length === 0) return;
+
+    const validFiles = files.filter(file => {
+      const validTypes = [
+        'image/jpeg', 'image/png', 'image/webp', 'image/gif',
+        'video/mp4', 'video/quicktime', 'video/x-msvideo',
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+      ];
+      const maxSize = 50 * 1024 * 1024; // 50MB
+
+      if (!validTypes.includes(file.type)) {
+        toast({
+          title: "Invalid File Type",
+          description: `${file.name} has an unsupported file type`,
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      if (file.size > maxSize) {
+        toast({
+          title: "File Too Large",
+          description: `${file.name} exceeds the 50MB size limit`,
+          variant: "destructive",
+        });
+        return false;
+      }
+
+      return true;
+    });
+
+    if (validFiles.length === 0) return;
+
+    setAttachments(prev => [...prev, ...validFiles]);
+
+    // Create preview URLs for images and videos only
+    const newPreviewUrls = validFiles
+      .filter(file => file.type.startsWith('image/') || file.type.startsWith('video/'))
+      .map(file => URL.createObjectURL(file));
+
+    setPreviewUrls(prev => [...prev, ...newPreviewUrls]);
+  };
+
+  const removeAttachment = (index) => {
+    const newAttachments = [...attachments];
+    const removedFile = newAttachments.splice(index, 1)[0];
+
+    // If it was an image/video, find and revoke the corresponding URL
+    if (removedFile.type.startsWith('image/') || removedFile.type.startsWith('video/')) {
+      const urlIndex = previewUrls.findIndex(url => 
+        url.includes(removedFile.name.split('.')[0])
+      );
+      if (urlIndex !== -1) {
+        const newPreviewUrls = [...previewUrls];
+        URL.revokeObjectURL(newPreviewUrls[urlIndex]);
+        newPreviewUrls.splice(urlIndex, 1);
+        setPreviewUrls(newPreviewUrls);
+      }
+    }
+
+    setAttachments(newAttachments);
+  };
+
+  const openPreview = (index) => {
+    setCurrentPreviewIndex(index);
+    setIsPreviewOpen(true);
+  };
+
+  const closePreview = () => {
+    setIsPreviewOpen(false);
+  };
+
+  const handleSendMessage = async (e) => {
+  e.preventDefault();
+
+  if (!newMessage.trim() || !selectedProject || !selectedClient) {
+    toast({
+      title: "Error",
+      description: "Please enter a message",
+      variant: "destructive",
+    });
+    return;
+  }
+
+  setLoading(prev => ({ ...prev, sending: true }));
+
+  try {
+    // Upload all attachments first
+    const uploadPromises = attachments.map(file => 
+      uploadMessageAttachment(file)
+        .then(res => res?.success ? res.file : null)
+        .catch(error => {
+          console.error(`Failed to upload ${file.name}:`, error);
+          return null;
+        })
+    );
+
+    const uploadedFiles = await Promise.all(uploadPromises);
+    const successfulUploads = uploadedFiles.filter(Boolean);
+
+    if (attachments.length > 0 && successfulUploads.length === 0) {
+      throw new Error("Failed to upload all attachments");
+    }
+
+    // Prepare the message data with properly structured attachments
+    const messageData = {
+      subject: subjectPrefix + subjectSuffix,
+      text: newMessage,
+      receiverId: selectedClient._id,
+      projectId: selectedProject._id,
+      attachments: successfulUploads.map(file => ({
+        url: file.url,
+        publicId: file.publicId,
+        type: file.type,
+        name: file.name,
+        mimeType: file.mimeType
+      }))
+    };
+
+    const response = await sendMessage(messageData);
+
+    if (!response.success) {
+      throw new Error(response.message || 'Failed to send message');
+    }
+
+    // Refresh messages
+    const { data } = await getProjectMessages(selectedProject._id);
+    setMessages(data);
+
+    // Reset form
+    setNewMessage('');
+    setSubjectSuffix('');
+    setAttachments([]);
+    setPreviewUrls([]);
+
+    // Revoke all preview URLs
+    previewUrls.forEach(url => URL.revokeObjectURL(url));
+
+    toast({
+      title: "Success",
+      description: "Message sent successfully",
+    });
+  } catch (error) {
+    console.error("Error sending message:", error);
+    toast({
+      title: "Error",
+      description: error.message || "Failed to send message. Please try again.",
+      variant: "destructive",
+    });
+  } finally {
+    setLoading(prev => ({ ...prev, sending: false }));
+  }
+};
+
+  // Data fetching functions
+  const fetchClients = async () => {
+    try {
+      setLoading(prev => ({ ...prev, clients: true }));
+      const { data } = await getAllClients();
+      setClients(data);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load clients",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(prev => ({ ...prev, clients: false }));
+    }
+  };
+
+  const handleLoadClientProjects = async (clientId) => {
+    try {
+      setLoading(prev => ({ ...prev, projects: true }));
+      const { data } = await getClientProjects(clientId);
+      setClientProjects(data);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load projects",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(prev => ({ ...prev, projects: false }));
+    }
+  };
+
+  const handleSelectClient = async (client) => {
+    setSelectedClient(client);
+    setSelectedProject(null);
+    setMessages([]);
+    setReports([]);
+    setGanttCharts([]);
+    await handleLoadClientProjects(client._id);
+  };
+
+  const handleSelectProject = async (project) => {
+    setSelectedProject(project);
+  };
+
+  const loadProjectData = async () => {
+    if (!selectedProject) return;
+
+    try {
+      setLoading(prev => ({ ...prev, messages: true, reports: true, ganttCharts: true }));
+      const [
+        { data: messages },
+        { data: reports },
+        { data: ganttCharts }
+      ] = await Promise.all([
+        getProjectMessages(selectedProject._id),
+        getProjectReports(selectedProject._id),
+        getProjectGanttCharts(selectedProject._id)
+      ]);
+      setMessages(messages);
+      setReports(reports);
+      setGanttCharts(ganttCharts);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to load project data",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(prev => ({ ...prev, messages: false, reports: false, ganttCharts: false }));
+    }
+  };
+
+  // CRUD operations
   const handleCreateClient = async () => {
     if (!newClientForm.name || !newClientForm.email) {
       toast({
@@ -284,67 +468,6 @@ const AdminDashboard = () => {
     }
   };
 
-  const handleLoadClientProjects = async (clientId) => {
-    try {
-      setLoading(prev => ({ ...prev, projects: true }));
-      const { data } = await getClientProjects(clientId);
-      setClientProjects(data);
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to load projects",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(prev => ({ ...prev, projects: false }));
-    }
-  };
-
-  const handleSelectClient = async (client) => {
-    setSelectedClient(client);
-    setSelectedProject(null);
-    setMessages([]);
-    setReports([]);
-    setGanttCharts([]);
-    await handleLoadClientProjects(client._id);
-  };
-
-  const handleSelectProject = async (project) => {
-    setSelectedProject(project);
-  };
-
-  const handleSendMessage = async () => {
-    if (!newMessage.trim() || !selectedProject || !selectedClient) return;
-
-    try {
-      setLoading(prev => ({ ...prev, sending: true }));
-      await sendMessage({
-        subject: subjectPrefix + subjectSuffix,
-        text: newMessage,
-        receiverId: selectedClient._id,
-        projectId: selectedProject._id,
-        attachment: attachment
-      });
-      setNewMessage('');
-      setSubjectSuffix('');
-      setAttachment(null);
-      const { data } = await getProjectMessages(selectedProject._id);
-      setMessages(data);
-      toast({
-        title: "Success",
-        description: "Message sent successfully",
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: error.response?.data?.message || "Failed to send message",
-        variant: "destructive",
-      });
-    } finally {
-      setLoading(prev => ({ ...prev, sending: false }));
-    }
-  };
-
   const handleCreateGanttChart = async () => {
     if (!selectedProject || !ganttForm.projectTitle || ganttForm.tasks.some(t => !t.task || !t.month)) {
       toast({
@@ -364,10 +487,10 @@ const AdminDashboard = () => {
       });
       setShowGanttForm(false);
       setGanttForm({ projectTitle: '', tasks: [{ task: '', month: '', status: 'not-started' }] });
-      
+
       const { data } = await getProjectGanttCharts(selectedProject._id);
       setGanttCharts(data);
-      
+
       toast({
         title: "Success",
         description: "Gantt chart created successfully",
@@ -414,10 +537,10 @@ const AdminDashboard = () => {
         feedback: '',
         conclusion: ''
       });
-      
+
       const { data } = await getProjectReports(selectedProject._id);
       setReports(data);
-      
+
       toast({
         title: "Success",
         description: "Report created successfully",
@@ -480,17 +603,10 @@ const AdminDashboard = () => {
     }));
   };
 
-  const removeGanttTask = (index) => {
-    setGanttForm(prev => ({
-      ...prev,
-      tasks: prev.tasks.filter((_, i) => i !== index)
-    }));
-  };
-
   const updateGanttTask = (index, field, value) => {
     setGanttForm(prev => ({
       ...prev,
-      tasks: prev.tasks.map((task, i) => 
+      tasks: prev.tasks.map((task, i) =>
         i === index ? { ...task, [field]: value } : task
       )
     }));
@@ -499,7 +615,7 @@ const AdminDashboard = () => {
   const handleStatusChange = async (clientId, status) => {
     try {
       await updateClientStatus(clientId, status);
-      setClients(prev => prev.map(c => 
+      setClients(prev => prev.map(c =>
         c._id === clientId ? { ...c, status } : c
       ));
       if (selectedClient?._id === clientId) {
@@ -521,7 +637,7 @@ const AdminDashboard = () => {
   const handleProjectStatusChange = async (projectId, status) => {
     try {
       await updateProjectStatus(projectId, status);
-      setClientProjects(prev => prev.map(p => 
+      setClientProjects(prev => prev.map(p =>
         p._id === projectId ? { ...p, status } : p
       ));
       if (selectedProject?._id === projectId) {
@@ -592,6 +708,21 @@ const AdminDashboard = () => {
     </div>
   );
 
+  // Effects
+  useEffect(() => {
+    fetchClients();
+  }, []);
+
+  useEffect(() => {
+    if (selectedProject) {
+      loadProjectData();
+    }
+  }, [selectedProject]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
   return (
     <div className="min-h-screen bg-gray-50 dark:bg-gray-900">
       {/* Header */}
@@ -607,10 +738,10 @@ const AdminDashboard = () => {
                 <p className="text-sm text-gray-600 dark:text-gray-400">Welcome, {authUser?.name}</p>
               </div>
             </div>
-            <Button 
-              onClick={logoutMutation} 
-              variant="outline" 
-              size="sm" 
+            <Button
+              onClick={logoutMutation}
+              variant="outline"
+              size="sm"
               className="rounded-sm"
               disabled={logoutMutation.isLoading}
             >
@@ -623,131 +754,141 @@ const AdminDashboard = () => {
 
       <div className="container mx-auto px-4 py-8">
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Client List */}
+          {/* Left Sidebar */}
           <div className="lg:col-span-1 space-y-4">
-            <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <CardTitle className="text-lg">Client Management</CardTitle>
-                  <Button
-                    onClick={() => setShowNewClientForm(!showNewClientForm)}
-                    size="sm"
-                    className="bg-primary hover:bg-primary/90 rounded-sm"
-                  >
-                    <Plus className="h-4 w-4" />
-                  </Button>
-                </div>
-              </CardHeader>
-              
-              <CardContent>
-                {/* New Client Form */}
-                {showNewClientForm && (
-                  <div className="space-y-4 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-sm border border-gray-200 dark:border-gray-700">
-                    <h3 className="font-semibold text-sm">Create New Client</h3>
-                    <Input
-                      placeholder="Client Name"
-                      value={newClientForm.name}
-                      onChange={(e) => setNewClientForm({ ...newClientForm, name: e.target.value })}
-                      className="rounded-sm"
-                    />
-                    <Input
-                      placeholder="Client Email"
-                      type="email"
-                      value={newClientForm.email}
-                      onChange={(e) => setNewClientForm({ ...newClientForm, email: e.target.value })}
-                      className="rounded-sm"
-                    />
-                    <div className="flex space-x-2">
-                      <Button
-                        onClick={handleCreateClient}
-                        size="sm"
-                        className="bg-primary hover:bg-primary/90 rounded-sm"
-                        disabled={loading.sending}
-                      >
-                        {loading.sending ? (
-                          <Loader2 className="h-4 w-4 animate-spin" />
-                        ) : 'Create Client'}
-                      </Button>
-                      <Button
-                        onClick={() => setShowNewClientForm(false)}
-                        variant="outline"
-                        size="sm"
-                        className="rounded-sm"
-                      >
-                        Cancel
-                      </Button>
-                    </div>
-                  </div>
-                )}
-
-                {/* Client List */}
-                <div className="space-y-2">
-                  {loading.clients ? (
-                    <>
-                      <ClientSkeleton />
-                      <ClientSkeleton />
-                      <ClientSkeleton />
-                    </>
-                  ) : clients.length > 0 ? (
-                    clients.map((client) => (
-                      <div
-                        key={client._id}
-                        className={`p-3 rounded-sm cursor-pointer border transition-colors ${
-                          selectedClient?._id === client._id
-                            ? 'bg-primary/10 border-primary dark:bg-primary/20'
-                            : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-700'
-                        }`}
-                        onClick={() => handleSelectClient(client)}
-                      >
-                        <div className="flex items-center justify-between mb-2">
-                          <h3 className="font-semibold text-sm">{client.name}</h3>
-                          {client.unreadCount > 0 && (
-                            <Badge variant="default" className="bg-red-500 text-white text-xs">
-                              {client.unreadCount}
-                            </Badge>
-                          )}
-                        </div>
-                        
-                        <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
-                          <span>{client.email}</span>
-                          <span>{client.lastMessage ? formatDate(client.lastMessage) : 'No messages'}</span>
-                        </div>
-                        
-                        <div className="flex items-center justify-between mt-2">
-                          <div className="flex space-x-1">
-                            <Badge 
-                              className={`text-xs ${getStatusColor(client.status)} rounded-sm cursor-pointer`}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                const newStatus = 
-                                  client.status === 'new' ? 'in-progress' :
-                                  client.status === 'in-progress' ? 'completed' : 'new';
-                                handleStatusChange(client._id, newStatus);
-                              }}
-                            >
-                              <span className="flex items-center space-x-1">
-                                {getStatusIcon(client.status)}
-                                <span className="capitalize">{client?.status?.replace('-', ' ')}</span>
-                              </span>
-                            </Badge>
-                          </div>
-                          <span className="text-xs text-gray-500 dark:text-gray-400">
-                            {client.projects} {client.projects === 1 ? 'project' : 'projects'}
-                          </span>
-                        </div>
+            {/* Client Management - Collapsible */}
+            <Accordion type="single" collapsible defaultValue="clients">
+              <AccordionItem value="clients">
+                <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
+                  <CardHeader className="p-0">
+                    <AccordionTrigger className="hover:no-underline px-6 py-4">
+                      <div className="flex items-center justify-between w-full">
+                        <CardTitle className="text-lg">Client Management</CardTitle>
+                        <Button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setShowNewClientForm(!showNewClientForm);
+                          }}
+                          size="sm"
+                          className="bg-primary hover:bg-primary/90 rounded-sm"
+                        >
+                          <Plus className="h-4 w-4" />
+                        </Button>
                       </div>
-                    ))
-                  ) : (
-                    <div className="text-center py-4 text-gray-500">
-                      <Users className="h-6 w-6 mx-auto mb-2" />
-                      <p>No clients found</p>
-                    </div>
-                  )}
-                </div>
-              </CardContent>
-            </Card>
+                    </AccordionTrigger>
+                  </CardHeader>
+                  <AccordionContent>
+                    <CardContent>
+                      {/* New Client Form */}
+                      {showNewClientForm && (
+                        <div className="space-y-4 mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-sm border border-gray-200 dark:border-gray-700">
+                          <h3 className="font-semibold text-sm">Create New Client</h3>
+                          <Input
+                            placeholder="Client Name"
+                            value={newClientForm.name}
+                            onChange={(e) => setNewClientForm({ ...newClientForm, name: e.target.value })}
+                            className="rounded-sm"
+                          />
+                          <Input
+                            placeholder="Client Email"
+                            type="email"
+                            value={newClientForm.email}
+                            onChange={(e) => setNewClientForm({ ...newClientForm, email: e.target.value })}
+                            className="rounded-sm"
+                          />
+                          <div className="flex space-x-2">
+                            <Button
+                              onClick={handleCreateClient}
+                              size="sm"
+                              className="bg-primary hover:bg-primary/90 rounded-sm"
+                              disabled={loading.sending}
+                            >
+                              {loading.sending ? (
+                                <Loader2 className="h-4 w-4 animate-spin" />
+                              ) : 'Create Client'}
+                            </Button>
+                            <Button
+                              onClick={() => setShowNewClientForm(false)}
+                              variant="outline"
+                              size="sm"
+                              className="rounded-sm"
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      )}
 
-            {/* Projects List */}
+                      {/* Client List */}
+                      <div className="space-y-2">
+                        {loading.clients ? (
+                          <>
+                            <ClientSkeleton />
+                            <ClientSkeleton />
+                            <ClientSkeleton />
+                          </>
+                        ) : clients.length > 0 ? (
+                          clients.map((client) => (
+                            <div
+                              key={client._id}
+                              className={`p-3 rounded-sm cursor-pointer border transition-colors ${
+                                selectedClient?._id === client._id
+                                  ? 'bg-primary/10 border-primary dark:bg-primary/20'
+                                  : 'bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-700 border-gray-200 dark:border-gray-700'
+                              }`}
+                              onClick={() => handleSelectClient(client)}
+                            >
+                              <div className="flex items-center justify-between mb-2">
+                                <h3 className="font-semibold text-sm">{client.name}</h3>
+                                {client.unreadCount > 0 && (
+                                  <Badge variant="default" className="bg-red-500 text-white text-xs">
+                                    {client.unreadCount}
+                                  </Badge>
+                                )}
+                              </div>
+
+                              <div className="flex items-center justify-between text-xs text-gray-600 dark:text-gray-400">
+                                <span>{client.email}</span>
+                              </div>
+
+                              <div className="flex items-center justify-between mt-2">
+                                <div className="flex space-x-1">
+                                  <Badge
+                                    className={`text-xs ${getStatusColor(client.status)} rounded-sm cursor-pointer`}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      const newStatus =
+                                        client.status === 'new' ? 'in-progress' :
+                                        client.status === 'in-progress' ? 'completed' : 'new';
+                                      handleStatusChange(client._id, newStatus);
+                                    }}
+                                  >
+                                    <span className="flex items-center space-x-1">
+                                      {getStatusIcon(client.status)}
+                                      <span className="capitalize">{client?.status?.replace('-', ' ')}</span>
+                                    </span>
+                                  </Badge>
+                                </div>
+                                <span className="text-xs text-gray-500 dark:text-gray-400">
+                                  {client.projects} {client.projects === 1 ? 'project' : 'projects'}
+                                </span>
+                              </div>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-center py-4 text-gray-500">
+                            <Users className="h-6 w-6 mx-auto mb-2" />
+                            <p>No clients found</p>
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </AccordionContent>
+                </Card>
+              </AccordionItem>
+            </Accordion>
+
+            {/* Projects List - Only shown when client is selected */}
             {selectedClient && (
               <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
                 <CardHeader>
@@ -762,9 +903,8 @@ const AdminDashboard = () => {
                     </Button>
                   </div>
                 </CardHeader>
-                
+
                 <CardContent>
-                  {/* Projects List */}
                   <div className="space-y-2">
                     {loading.projects ? (
                       <>
@@ -785,11 +925,11 @@ const AdminDashboard = () => {
                           <h3 className="font-semibold text-sm mb-1">{project.name}</h3>
                           <p className="text-xs text-gray-600 dark:text-gray-400 mb-2">Code: {project.code}</p>
                           <div className="flex justify-between items-center">
-                            <Badge 
-                              className={`text-xs ${getStatusColor(project.status)} rounded-sm cursor-pointer`}
+                            <Badge
+                              className={`hidden text-xs ${getStatusColor(project.status)} rounded-sm cursor-pointer`}
                               onClick={(e) => {
                                 e.stopPropagation();
-                                const newStatus = 
+                                const newStatus =
                                   project.status === 'not-started' ? 'in-progress' :
                                   project.status === 'in-progress' ? 'paused' :
                                   project.status === 'paused' ? 'completed' : 'not-started';
@@ -819,7 +959,7 @@ const AdminDashboard = () => {
             )}
           </div>
 
-          {/* Project Details and Communication */}
+          {/* Main Content Area */}
           <div className="lg:col-span-3">
             {selectedProject ? (
               <div className="space-y-6">
@@ -831,7 +971,7 @@ const AdminDashboard = () => {
                         <CardTitle className="text-xl">{selectedProject.name}</CardTitle>
                         <p className="text-gray-600 dark:text-gray-400 mt-2">{selectedProject.description}</p>
                       </div>
-                      <Badge className={`text-sm ${getStatusColor(selectedProject.status)} rounded-sm`}>
+                      <Badge className={`hidden text-sm ${getStatusColor(selectedProject.status)} rounded-sm`}>
                         <span className="flex items-center space-x-2">
                           {getStatusIcon(selectedProject.status)}
                           <span className="capitalize">{selectedProject?.status?.replace('-', ' ')}</span>
@@ -853,162 +993,8 @@ const AdminDashboard = () => {
                   </CardHeader>
                 </Card>
 
-                {/* Gantt Charts Section */}
-                {/* <Accordion type="single" collapsible>
-                  <AccordionItem value="gantt-charts">
-                    <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
-                      <CardHeader className="p-0">
-                        <AccordionTrigger className="hover:no-underline px-6 py-4">
-                          <div className="flex items-center justify-between w-full">
-                            <div className="flex items-center space-x-3">
-                              <BarChart3 className="h-5 w-5 text-primary" />
-                              <CardTitle className="text-lg">Project Timeline</CardTitle>
-                            </div>
-                            <Button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setShowGanttForm(true);
-                              }}
-                              size="sm"
-                              className="bg-primary hover:bg-primary/90 rounded-sm"
-                            >
-                              <Plus className="h-4 w-4 mr-2" />
-                              Add Gantt Chart
-                            </Button>
-                          </div>
-                        </AccordionTrigger>
-                      </CardHeader>
-                      <AccordionContent>
-                        <CardContent>
-                          {loading.ganttCharts ? (
-                            <GanttSkeleton />
-                          ) : ganttCharts.length > 0 ? (
-                            <div className="space-y-4">
-                              {ganttCharts.map((chart) => (
-                                <div key={chart._id} className="space-y-3">
-                                  <h3 className="font-medium text-gray-700 dark:text-gray-300">{chart.title}</h3>
-                                  <div className="space-y-2">
-                                    {chart.tasks.map((task) => (
-                                      <div 
-                                        key={task._id} 
-                                        className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-sm"
-                                      >
-                                        <div className="flex items-center space-x-3">
-                                          <Badge 
-                                            className={`text-xs ${getTaskStatusColor(task.status)} rounded-sm cursor-pointer`}
-                                            onClick={() => {
-                                              const newStatus = 
-                                                task.status === 'not-started' ? 'in-progress' :
-                                                task.status === 'in-progress' ? 'paused' :
-                                                task.status === 'paused' ? 'completed' : 'not-started';
-                                              handleTaskStatusChange(chart._id, task._id, newStatus);
-                                            }}
-                                          >
-                                            <span className="flex items-center space-x-1">
-                                              {getTaskStatusIcon(task.status)}
-                                              <span className="capitalize">{task?.status?.replace('-', ' ')}</span>
-                                            </span>
-                                          </Badge>
-                                          <span className={`font-medium ${
-                                            task.status === 'completed' ? 'line-through text-gray-500' : ''
-                                          }`}>
-                                            {task.task}
-                                          </span>
-                                        </div>
-                                        <div className="flex items-center space-x-4">
-                                          <span className="text-sm text-gray-600 dark:text-gray-400">
-                                            {task.month}
-                                          </span>
-                                          <span className="text-xs text-gray-500">
-                                            {task.updatedAt ? formatDate(task.updatedAt) : ''}
-                                          </span>
-                                        </div>
-                                      </div>
-                                    ))}
-                                  </div>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <div className="text-center py-8 text-gray-500">
-                              <BarChart3 className="h-8 w-8 mx-auto mb-2" />
-                              <p>No Gantt charts created yet</p>
-                            </div>
-                          )}
-                        </CardContent>
-                      </AccordionContent>
-                    </Card>
-                  </AccordionItem>
-                </Accordion> */}
-
-                {/* Reports Section */}
-                <Accordion type="single" collapsible>
-                  <AccordionItem value="reports">
-                    <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
-                      <CardHeader className="p-0">
-                        <AccordionTrigger className="hover:no-underline px-6 py-4">
-                          <div className="flex items-center justify-between w-full">
-                            <div className="flex items-center space-x-3">
-                              <FileText className="h-5 w-5 text-primary" />
-                              <CardTitle className="text-lg">Project Reports</CardTitle>
-                            </div>
-                            <Button
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setShowLogForm(true);
-                              }}
-                              size="sm"
-                              className="bg-primary mr-3 hover:bg-primary/90 rounded-sm"
-                            >
-                              <Plus className="h-4 w-4 mr-2" />
-                              Add Report
-                            </Button>
-                          </div>
-                        </AccordionTrigger>
-                      </CardHeader>
-                      <AccordionContent>
-                        <CardContent>
-                          {loading.reports ? (
-                            <>
-                              <ReportSkeleton />
-                              <ReportSkeleton />
-                            </>
-                          ) : reports.length > 0 ? (
-                            <div className="space-y-2">
-                              {reports.map((report) => (
-                                <div key={report._id} className="flex items-center justify-between p-3 bg-gray-50 dark:bg-gray-800 rounded-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
-                                  <div className="flex items-center space-x-3">
-                                    <FileText className="h-5 w-5 text-red-600 dark:text-red-300" />
-                                    <span className="font-medium">
-                                      {new Date(report.date).toLocaleDateString()} - {report.projectCode} Report
-                                    </span>
-                                  </div>
-                                  <Button 
-                                    variant="outline" 
-                                    size="sm" 
-                                    className="rounded-sm"
-                                    onClick={() => handleDownloadReport(report._id)}
-                                  >
-                                    <Download className="h-4 w-4 mr-2" />
-                                    Download
-                                  </Button>
-                                </div>
-                              ))}
-                            </div>
-                          ) : (
-                            <div className="text-center py-8 text-gray-500">
-                              <FileText className="h-8 w-8 mx-auto mb-2" />
-                              <p>No reports created yet</p>
-                            </div>
-                          )}
-                        </CardContent>
-                      </AccordionContent>
-                    </Card>
-                  </AccordionItem>
-                </Accordion>
-
-                {/* Email-style Communication Section */}
-                <Accordion type="single" collapsible>
+                {/* Communication Section */}
+                <Accordion type="single">
                   <AccordionItem value="communication">
                     <Card className="border-0 shadow-lg rounded-sm dark:border dark:border-gray-700">
                       <CardHeader className="p-0">
@@ -1022,7 +1008,8 @@ const AdminDashboard = () => {
                       <AccordionContent>
                         <CardContent>
                           <div className="space-y-4">
-                            {/* Email List */}
+                            {/* Message List */}
+                              <div ref={messagesEndRef} />
                             <div className="max-h-96 overflow-y-auto space-y-4 pb-4">
                               {loading.messages ? (
                                 <>
@@ -1044,46 +1031,72 @@ const AdminDashboard = () => {
                                         : 'border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800'
                                     }`}
                                   >
-                                    {/* Email Header */}
+                                    {/* Message Header */}
                                     <div className="flex justify-between items-start mb-4">
-                                      <div>
+                                      <div className="flex w-full items-center p-2 justify-between">
                                         <p className="font-medium flex items-center">
-                                          {message.senderId._id === authUser._id ? 'You' : message.senderId.name}
+                                          {message?.senderId?._id === authUser?._id ? 'You' : message?.senderId?.name}
                                           <ArrowRight className="h-4 w-4 mx-2 text-gray-500" />
-                                          {message.receiverId._id === authUser._id ? 'You' : message.receiverId.name}
+                                          {message?.senderId?._id !== authUser?._id ? 'You' : message?.receiverId?.name}
                                         </p>
                                         <p className="text-sm text-gray-500 dark:text-gray-400">
                                           {formatDateTime(message.createdAt)}
                                         </p>
                                       </div>
                                     </div>
-                                    
-                                    {/* Email Subject */}
+
+                                    {/* Message Subject */}
                                     <div className="mb-4">
                                       <p className="font-semibold text-lg">{message.subject}</p>
                                     </div>
-                                    
-                                    {/* Email Body */}
+
+                                    {/* Message Body */}
                                     <div className="whitespace-pre-line mb-4 border-t pt-4 dark:border-gray-700">
                                       {message.text}
                                     </div>
-                                    
+
                                     {/* Attachments */}
                                     {message.attachments && message.attachments.length > 0 && (
                                       <div className="mt-4 pt-4 border-t dark:border-gray-700">
                                         <p className="text-sm font-medium mb-2">Attachments:</p>
-                                        <div className="space-y-2">
+                                        <div className="grid grid-cols-3 gap-2">
                                           {message.attachments.map((attachment, index) => (
-                                            <div key={index} className="flex items-center space-x-2">
-                                              <Paperclip className="h-4 w-4" />
-                                              <a 
-                                                href={attachment.url} 
-                                                target="_blank" 
-                                                rel="noopener noreferrer"
-                                                className="text-sm underline hover:text-blue-600"
-                                              >
-                                                {attachment.name}
-                                              </a>
+                                            <div key={index} className="relative group border rounded-sm p-2">
+                                              <div className="flex items-center space-x-2">
+                                                {attachment.type === 'image' ? (
+                                                  <img
+                                                    src={attachment.url}
+                                                    alt={attachment.name}
+                                                    className="h-10 w-10 object-cover rounded-sm cursor-pointer"
+                                                    onClick={() => window.open(attachment.url, '_blank')}
+                                                  />
+                                                ) : attachment.type === 'video' ? (
+                                                  <video className="h-10 w-10 object-cover rounded-sm">
+                                                    <source src={attachment.url} type={attachment.mimeType} />
+                                                  </video>
+                                                ) : (
+                                                  <FileText className="h-10 w-10 text-gray-400" />
+                                                )}
+                                                <div className="flex-1 min-w-0">
+                                                  <p className="text-xs truncate">{attachment.name}</p>
+                                                </div>
+                                                <a
+                                                  href={attachment.url}
+                                                  download={attachment.name}
+                                                  className="text-blue-500 hover:text-blue-700"
+                                                  onClick={(e) => e.stopPropagation()}
+                                                >
+                                                  <Download className="h-4 w-4" />
+                                                </a>
+                                                {(attachment.type === 'image' || attachment.type === 'video') && (
+                                                  <button
+                                                    onClick={() => window.open(attachment.url, '_blank')}
+                                                    className="text-gray-500 hover:text-gray-700"
+                                                  >
+                                                    <Eye className="h-4 w-4" />
+                                                  </button>
+                                                )}
+                                              </div>
                                             </div>
                                           ))}
                                         </div>
@@ -1092,10 +1105,9 @@ const AdminDashboard = () => {
                                   </div>
                                 ))
                               )}
-                              <div ref={messagesEndRef} />
                             </div>
-                            
-                            {/* New Email Composition */}
+
+                            {/* New Message Composition */}
                             <div className="border-t pt-4 dark:border-gray-700">
                               <div className="space-y-3">
                                 <Input
@@ -1116,35 +1128,58 @@ const AdminDashboard = () => {
                                   onChange={(e) => setNewMessage(e.target.value)}
                                   rows={5}
                                 />
-                                {attachment && (
-                                  <div className="flex items-center justify-between bg-gray-100 dark:bg-gray-800 p-2 rounded-sm">
-                                    <div className="flex items-center space-x-2">
-                                      <Paperclip className="h-4 w-4" />
-                                      <span className="text-sm">{attachment.name}</span>
-                                    </div>
-                                    <Button
-                                      variant="ghost"
-                                      size="sm"
-                                      onClick={() => setAttachment(null)}
-                                      className="text-red-500 hover:text-red-700"
-                                    >
-                                      Remove
-                                    </Button>
+
+                                {/* Attachments preview */}
+                                {attachments.length > 0 && (
+                                  <div className="grid grid-cols-3 gap-2 mb-3">
+                                    {attachments.map((file, index) => (
+                                      <div key={index} className="relative group border rounded-sm p-2">
+                                        <div className="flex items-center space-x-2">
+                                          {file.type.startsWith('image/') ? (
+                                            <img
+                                              src={URL.createObjectURL(file)}
+                                              alt={`Preview ${index}`}
+                                              className="h-10 w-10 object-cover rounded-sm cursor-pointer"
+                                              onClick={() => openPreview(index)}
+                                            />
+                                          ) : file.type.startsWith('video/') ? (
+                                            <video className="h-10 w-10 object-cover rounded-sm">
+                                              <source src={URL.createObjectURL(file)} type={file.type} />
+                                            </video>
+                                          ) : (
+                                            <FileText className="h-10 w-10 text-gray-400" />
+                                          )}
+                                          <div className="flex-1 min-w-0">
+                                            <p className="text-xs truncate">{file.name}</p>
+                                            <p className="text-xs text-gray-500">
+                                              {(file.size / 1024).toFixed(1)} KB
+                                            </p>
+                                          </div>
+                                          <button
+                                            type="button"
+                                            onClick={() => removeAttachment(index)}
+                                            className="text-red-500 hover:text-red-700"
+                                          >
+                                            <XIcon className="h-4 w-4" />
+                                          </button>
+                                        </div>
+                                      </div>
+                                    ))}
                                   </div>
                                 )}
+
                                 <div className="flex justify-between items-center">
                                   <label className="inline-flex items-center justify-center rounded-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 cursor-pointer hover:bg-gray-50 dark:hover:bg-gray-700">
                                     <input
                                       type="file"
                                       className="hidden"
-                                      onChange={(e) => {
-                                        if (e.target.files?.[0]) {
-                                          setAttachment(e.target.files[0]);
-                                        }
-                                      }}
+                                      onChange={handleFileChange}
+                                      multiple
+                                      accept="image/*,video/*,.pdf,.doc,.docx,.xls,.xlsx,.ppt,.pptx,.txt"
+                                      id="message-attachments"
                                     />
                                     <Paperclip className="h-4 w-4 mr-2" />
-                                    <span className="text-sm">Attach File</span>
+                                    <span className="text-sm">Attach Files</span>
                                   </label>
                                   <Button
                                     onClick={handleSendMessage}
@@ -1188,6 +1223,70 @@ const AdminDashboard = () => {
           </div>
         </div>
       </div>
+
+      {/* Preview Modal */}
+      <Dialog open={isPreviewOpen} onOpenChange={setIsPreviewOpen}>
+        <DialogContent className="max-w-4xl">
+          <div className="relative h-[80vh]">
+            {previewUrls[currentPreviewIndex] &&
+            attachments[currentPreviewIndex]?.type.startsWith('image/') ? (
+              <img
+                src={previewUrls[currentPreviewIndex]}
+                alt={`Preview ${currentPreviewIndex}`}
+                className="w-full h-full object-contain"
+              />
+            ) : previewUrls[currentPreviewIndex] &&
+            attachments[currentPreviewIndex]?.type.startsWith('video/') ? (
+              <video controls className="w-full h-full">
+                <source
+                  src={previewUrls[currentPreviewIndex]}
+                  type={attachments[currentPreviewIndex].type}
+                />
+                Your browser does not support the video tag.
+              </video>
+            ) : (
+              <div className="h-full flex items-center justify-center">
+                <FileText className="h-16 w-16 text-gray-400" />
+                <p className="mt-2">Preview not available for this file type</p>
+              </div>
+            )}
+
+            <div className="absolute bottom-4 left-0 right-0 flex justify-center space-x-2">
+              {previewUrls.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentPreviewIndex(index)}
+                  className={`h-2 w-2 rounded-full ${currentPreviewIndex === index ? 'bg-primary' : 'bg-gray-300'}`}
+                />
+              ))}
+            </div>
+
+            <div className="absolute top-4 right-4 flex space-x-2">
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => {
+                  const link = document.createElement('a');
+                  link.href = previewUrls[currentPreviewIndex] ||
+                            URL.createObjectURL(attachments[currentPreviewIndex]);
+                  link.download = attachments[currentPreviewIndex].name;
+                  link.click();
+                }}
+              >
+                <Download className="h-4 w-4 mr-2" />
+                Download
+              </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={closePreview}
+              >
+                Close
+              </Button>
+            </div>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* New Project Dialog */}
       <Dialog open={showNewProjectForm} onOpenChange={setShowNewProjectForm}>
@@ -1241,10 +1340,10 @@ const AdminDashboard = () => {
               onChange={(e) => setNewProjectForm({ ...newProjectForm, budget: e.target.value })}
               className="rounded-sm"
             />
-            
+
             <div className="flex space-x-2 pt-4">
-              <Button 
-                onClick={handleCreateProject} 
+              <Button
+                onClick={handleCreateProject}
                 className="rounded-sm"
                 disabled={loading.sending}
               >
@@ -1252,94 +1351,9 @@ const AdminDashboard = () => {
                   <Loader2 className="h-4 w-4 mr-2 animate-spin" />
                 ) : 'Create Project'}
               </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => setShowNewProjectForm(false)} 
-                className="rounded-sm"
-              >
-                Cancel
-              </Button>
-            </div>
-          </div>
-        </DialogContent>
-      </Dialog>
-
-      {/* Gantt Chart Dialog */}
-      <Dialog open={showGanttForm} onOpenChange={setShowGanttForm}>
-        <DialogContent className="max-w-2xl">
-          <DialogHeader>
-            <DialogTitle>Create Gantt Chart for {selectedProject?.name}</DialogTitle>
-          </DialogHeader>
-          <div className="space-y-4">
-            <Input
-              placeholder="Gantt Chart Title"
-              value={ganttForm.projectTitle}
-              onChange={(e) => setGanttForm({ ...ganttForm, projectTitle: e.target.value })}
-              className="rounded-sm"
-            />
-            
-            <div className="space-y-3">
-              <div className="flex items-center justify-between">
-                <h4 className="font-medium">Project Tasks</h4>
-                <Button onClick={addGanttTask} size="sm" variant="outline" className="rounded-sm">
-                  <Plus className="h-4 w-4 mr-2" />
-                  Add Task
-                </Button>
-              </div>
-              
-              {ganttForm.tasks.map((task, index) => (
-                <div key={index} className="grid grid-cols-2 gap-3 items-center">
-                  <div className="flex space-x-2 col-span-2">
-                    <Input
-                      placeholder={`Task ${index + 1}`}
-                      value={task.task}
-                      onChange={(e) => updateGanttTask(index, 'task', e.target.value)}
-                      className="rounded-sm flex-1"
-                    />
-                    <Input
-                      placeholder="Completion Month"
-                      value={task.month}
-                      onChange={(e) => updateGanttTask(index, 'month', e.target.value)}
-                      className="rounded-sm flex-1"
-                    />
-                    <select
-                      value={task.status}
-                      onChange={(e) => updateGanttTask(index, 'status', e.target.value)}
-                      className="rounded-sm border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 px-3 py-2 text-sm"
-                    >
-                      <option value="not-started">Not Started</option>
-                      <option value="in-progress">In Progress</option>
-                      <option value="paused">Paused</option>
-                      <option value="completed">Completed</option>
-                    </select>
-                    {ganttForm.tasks.length > 1 && (
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => removeGanttTask(index)}
-                        className="text-red-500 hover:text-red-700"
-                      >
-                        Remove
-                      </Button>
-                    )}
-                  </div>
-                </div>
-              ))}
-            </div>
-            
-            <div className="flex space-x-2 pt-4">
-              <Button 
-                onClick={handleCreateGanttChart} 
-                className="rounded-sm"
-                disabled={loading.sending}
-              >
-                {loading.sending ? (
-                  <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                ) : 'Create Gantt Chart'}
-              </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => setShowGanttForm(false)} 
+              <Button
+                variant="outline"
+                onClick={() => setShowNewProjectForm(false)}
                 className="rounded-sm"
               >
                 Cancel
@@ -1478,8 +1492,8 @@ const AdminDashboard = () => {
             </div>
           </div>
           <div className="flex space-x-2 pt-4">
-            <Button 
-              onClick={handleCreateLogReport} 
+            <Button
+              onClick={handleCreateLogReport}
               className="rounded-sm"
               disabled={loading.sending}
             >
@@ -1487,9 +1501,9 @@ const AdminDashboard = () => {
                 <Loader2 className="h-4 w-4 mr-2 animate-spin" />
               ) : 'Create Report'}
             </Button>
-            <Button 
-              variant="outline" 
-              onClick={() => setShowLogForm(false)} 
+            <Button
+              variant="outline"
+              onClick={() => setShowLogForm(false)}
               className="rounded-sm"
             >
               Cancel

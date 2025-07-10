@@ -58,18 +58,18 @@ const Gallery = () => {
                         <span className="font-semibold">Location:</span>
                         <span>{project.location}</span>
                       </div>
-                      <div className="flex justify-between">
+                     {project.area && <div className="flex justify-between">
                         <span className="font-semibold">Surface Area:</span>
                         <span>{project.area}</span>
-                      </div>
-                      <div className="flex justify-between">
+                      </div>}
+                     {project.date && <div className="flex justify-between">
                         <span className="font-semibold">Completion Date:</span>
                         <span>{project.date}</span>
-                      </div>
-                      <div className="flex justify-between">
+                      </div>}
+                      {project.client && <div className="flex justify-between">
                         <span className="font-semibold">Client:</span>
                         <span>{project.client}</span>
-                      </div>
+                      </div>}
                     </div>
                   </div>
                 </CardContent>

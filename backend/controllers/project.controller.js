@@ -1,5 +1,4 @@
 import Project from '../models/Project.js';
-import { uploadFile } from '../lib/cloudinary.js';
 
 // Create a new project
 export const createProject = async (req, res) => {
