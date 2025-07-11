@@ -13,6 +13,8 @@ import HowWeWork from "./pages/HowWeWork";
 import BlogPost from "./pages/BlogPost";
 import Blogs from "./pages/Blogs";
 import Gallery from "./pages/Gallery";
+import Project from "./pages/Project";
+import Equipment from "./pages/Equipment";
 import Contact from "./pages/Contact";
 import ClientLogin from "./pages/ClientLogin";
 import ClientDashboard from "./pages/ClientDashboard";
@@ -80,7 +82,9 @@ const App = () => {
               <Route path="/services" element={<Services />} />
               <Route path="/about" element={<About />} />
               <Route path="/how-we-work" element={<HowWeWork />} />
-              <Route path="/projects-and-equipments/" element={<Gallery />} />                
+              <Route path="/gallery" element={<Gallery />} />
+              <Route path="/projects" element={<Project />} />
+              <Route path="/equipments" element={<Equipment />} />                
               <Route path="/certifications" element={<Certification />} />                
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/blog/:slug" element={<BlogPost />} />

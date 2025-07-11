@@ -1,17 +1,42 @@
-
+// app/gallery/page.tsx
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
-import { PROJECTS } from '@/lib/constants';
-import EquipmentCarousel from '../components/layout/EquipmentCarousel';
+import { PROJECTS, EQUIPMENT } from '@/lib/constants';
+import { Swiper, SwiperSlide } from 'swiper/react';
+import { Autoplay, Pagination, Navigation, EffectCoverflow } from 'swiper/modules';
+
+// Import Swiper styles
+import 'swiper/css';
+import 'swiper/css/pagination';
+import 'swiper/css/navigation';
+import 'swiper/css/effect-coverflow';
 
 const Gallery = () => {
+  // Breakpoints for responsive swiper
+  const breakpoints = {
+    320: {
+      slidesPerView: 1,
+      spaceBetween: 10,
+    },
+    640: {
+      slidesPerView: 1,
+      spaceBetween: 20,
+    },
+    768: {
+      slidesPerView: 2,
+      spaceBetween: 30,
+    },
+    1024: {
+      slidesPerView: 3,
+      spaceBetween: 40,
+    },
+  };
+
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
-     <section className="relative py-20 bg-gradient-to-br from-secondary to-primary text-white overflow-hidden">
-        {/* Background Image with constrained dimensions */}
-                <div className="absolute inset-0 bg-black/50"></div>
-
+      <section className="relative py-20 bg-gradient-to-br from-secondary to-primary text-white overflow-hidden">
+        <div className="absolute inset-0 bg-black/50"></div>
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1663296997689-f5e35ad7ac7d?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fG9pbCUyMGFuZCUyMGdhcyUyMGVuZ2luZWVyaW5nJTIwTmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=1920&h=1080&fit=crop"
@@ -21,167 +46,258 @@ const Gallery = () => {
         </div>
 
         <div className="container mx-auto px-4 relative text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Our Projects & Equipments</h1>
-          <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
-            Explore our portfolio of completed projects showcasing our expertise across various engineering and construction sectors.
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">Project Gallery</h1>
+          <p className="text-lg sm:text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
+            Visual showcase of our completed projects across various sectors and locations.
           </p>
         </div>
       </section>
 
-      {/* Projects Gallery */}
-      <section className="py-20">
+      {/* Featured Projects Slider */}
+      <section className="hidden py-16 sm:py-20">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">Project Showcase</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              From road construction to pipeline engineering, discover the breadth and quality of our completed projects.
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-secondary mb-4">Featured Projects</h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+              Highlights from our portfolio of successful engineering projects
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {PROJECTS.map((project, index) => (
-              <Card key={index} className="border-0 shadow-xl rounded-sm overflow-hidden group hover:shadow-2xl transition-all duration-300">
-                <CardContent className="p-0">
-                  <div className="aspect-video overflow-hidden">
-                    <img 
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-8">
-                    <div className="h-1 w-20 bg-gradient-to-r from-primary to-secondary mb-6"></div>
-                    <h3 className="text-2xl font-bold text-secondary mb-4">{project.title}</h3>
-                    
-                    <div className="space-y-3 text-gray-600">
-                      <div className="flex justify-between">
-                        <span className="font-semibold">Location:</span>
-                        <span>{project.location}</span>
+          <div className="px-2 sm:px-4">
+            <Swiper
+              effect={'coverflow'}
+              grabCursor={true}
+              centeredSlides={true}
+              slidesPerView={'auto'}
+              coverflowEffect={{
+                rotate: 0,
+                stretch: 0,
+                depth: 100,
+                modifier: 2.5,
+                slideShadows: false,
+              }}
+              pagination={{
+                clickable: true,
+              }}
+              navigation={true}
+              modules={[EffectCoverflow, Pagination, Navigation]}
+              className="featuredSwiper"
+              breakpoints={{
+                640: {
+                  coverflowEffect: {
+                    rotate: 0,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 2.5,
+                  }
+                },
+                1024: {
+                  coverflowEffect: {
+                    rotate: 0,
+                    stretch: -50,
+                    depth: 200,
+                    modifier: 2,
+                  }
+                }
+              }}
+            >
+              {PROJECTS.map((project, index) => (
+                <SwiperSlide key={index} className="max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg">
+                  <Card className="border-0 shadow-xl rounded-lg overflow-hidden group h-full">
+                    <CardContent className="p-0 h-full flex flex-col">
+                      <div className="aspect-video overflow-hidden">
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
                       </div>
-                     {project.area && <div className="flex justify-between">
-                        <span className="font-semibold">Surface Area:</span>
-                        <span>{project.area}</span>
-                      </div>}
-                     {project.date && <div className="flex justify-between">
-                        <span className="font-semibold">Completion Date:</span>
-                        <span>{project.date}</span>
-                      </div>}
-                      {project.client && <div className="flex justify-between">
-                        <span className="font-semibold">Client:</span>
-                        <span>{project.client}</span>
-                      </div>}
+                      <div className="p-6 flex-grow">
+                        <div className="h-1 w-20 bg-gradient-to-r from-primary to-secondary mb-4"></div>
+                        <h3 className="text-xl sm:text-2xl font-bold text-secondary mb-3">{project.title}</h3>
+                        <p className="text-gray-600 mb-4">{project.description || 'Engineering excellence at its finest'}</p>
+                        <div className="flex justify-between items-center">
+                          <span className="text-sm font-medium text-primary">{project.location}</span>
+                          {project.date && <span className="text-sm text-gray-500">{project.date}</span>}
+                        </div>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </div>
+      </section>
+
+      {/* Project Categories */}
+      <section className="hidden py-16 sm:py-20 bg-accent/30">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-secondary mb-4">Project Categories</h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+              Explore our work across different engineering disciplines
+            </p>
+          </div>
+
+          <div className="px-2 sm:px-4">
+            <Swiper
+              slidesPerView={1}
+              spaceBetween={20}
+              pagination={{
+                clickable: true,
+              }}
+              breakpoints={{
+                640: {
+                  slidesPerView: 2,
+                  spaceBetween: 20,
+                },
+                1024: {
+                  slidesPerView: 3,
+                  spaceBetween: 30,
+                },
+              }}
+              modules={[Pagination]}
+              className="categorySwiper"
+            >
+              {[
+                {
+                  title: "Infrastructure",
+                  description: "Roads, bridges, and public works projects",
+                  image: "/uploads/p5.jpg?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5mcmFzdHJ1Y3R1cmUlMjBuaWdlcmlhfGVufDB8fDB8fHww?w=800&h=600&fit=crop",
+                },
+                {
+                  title: "Oil & Gas",
+                  description: "Pipeline construction and facility development",
+                  image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8b2lsJTIwZ2FzJTIwZmFjaWxpdHl8ZW58MHx8MHx8fDA%3D?w=800&h=600&fit=crop",
+                },
+                {
+                  title: "Marine",
+                  description: "Offshore installations and port facilities",
+                  image: "https://images.unsplash.com/photo-1605100804763-247f67b3557e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTB8fG1hcmluZSUyMGNvbnN0cnVjdGlvbnxlbnwwfHwwfHx8MA%3D%3D?w=800&h=600&fit=crop",
+                },
+                {
+                  title: "Industrial",
+                  description: "Factory and plant construction",
+                  image: "/uploads/p3.jpg?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aW5kdXN0cmlhbCUyMGNvbnN0cnVjdGlvbnxlbnwwfHwwfHx8MA%3D%3D?w=800&h=600&fit=crop",
+                },
+              ].map((category, index) => (
+                <SwiperSlide key={index} className="pb-10">
+                  <Card className="border-0 shadow-lg rounded-lg overflow-hidden group h-full">
+                    <CardContent className="p-0 h-full">
+                      <div className="aspect-video overflow-hidden">
+                        <img
+                          src={category.image}
+                          alt={category.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                        />
+                      </div>
+                      <div className="p-6">
+                        <h3 className="text-xl font-bold text-secondary mb-2">{category.title}</h3>
+                        <p className="text-gray-600">{category.description}</p>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </SwiperSlide>
+              ))}
+            </Swiper>
+          </div>
+        </div>
+      </section>
+
+      {/* Full Project Gallery */}
+      <section className="py-16 sm:py-20">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl hidden sm:text-4xl md:text-5xl font-bold text-secondary mb-4">Project Gallery</h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+              Browse through our gallery
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
+            {EQUIPMENT.flatMap((project, i) =>  (
+                <div key={`${i}`} className="group relative overflow-hidden rounded-lg aspect-square">
+                  <img
+                    src={project.image}
+                    alt={` ${i + 1}`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
+                    <div>
+                      <h3 className="text-white font-bold text-lg">{project.name}</h3>
+                      <p className="text-white/80 text-sm">{project.location}</p>
                     </div>
                   </div>
-                </CardContent>
-              </Card>
-            ))}
+                </div>
+              )
+            )}
+          </div>
+
+          <div className="mt-12 text-center">
+            <button className="px-8 py-3 bg-primary text-white font-medium rounded-full hover:bg-primary/90 transition-colors duration-300">
+              Load More Projects
+            </button>
           </div>
         </div>
       </section>
 
-        <section className="py-20 bg-accent/50">
+      {/* Testimonials Slider */}
+      <section className="py-16 sm:py-20 bg-accent/30">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">Our Equipments</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              State-of-the-art machinery and equipment that enables us to deliver exceptional results across all our projects.
+          <div className="text-center mb-12 sm:mb-16">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-secondary mb-4">Client Testimonials</h2>
+            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
+              What our clients say about working with us
             </p>
           </div>
 
-          <EquipmentCarousel />
-        </div>
-      </section>
-
-      {/* Additional Project Categories */}
-      <section className="py-20 bg-accent/50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">Project Categories</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our diverse project portfolio spans across multiple engineering and construction disciplines.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-lg rounded-sm overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-0">
-                <img 
-                  src="https://images.unsplash.com/photo-1563382454-400a632d7c4e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5mcmFzdHJ1Y3R1cmUlMjBkZXYlMjBuaWdlcmlhfGVufDB8fDB8fHww?w=400&h=300&fit=crop"
-                  alt="Infrastructure Projects"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-secondary mb-2">Infrastructure Development</h3>
-                  <p className="text-gray-600">Roads, bridges, and essential infrastructure projects across Nigeria.</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg rounded-sm overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-0">
-                <img 
-                  src="https://images.unsplash.com/photo-1745725427797-d0b3e3b7a8af?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Q1JVREUlMjBPSUwlMjBpbmZyYXN0cnVjdHVyZSUyMGRldiUyMG5pZ2VyaWF8ZW58MHx8MHx8fDA%3D?w=400&h=300&fit=crop"
-                  alt="Oil & Gas Projects"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-secondary mb-2">Oil & Gas Facilities</h3>
-                  <p className="text-gray-600">Pipeline construction, storage tanks, and petrochemical facilities.</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg rounded-sm overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-0">
-                <img 
-                  src="https://plus.unsplash.com/premium_photo-1661954406469-f2ed5ac1e0e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bWFyaW5lJTIwaW5mcmFzdHJ1Y3R1cmUlMjBkZXYlMjBuaWdlcmlhfGVufDB8fDB8fHww?w=400&h=300&fit=crop"
-                  alt="Marine Projects"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-secondary mb-2">Marine & Logistics</h3>
-                  <p className="text-gray-600">Offshore installations, marine facilities, and logistics support.</p>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </section>
-
-      {/* Project Stats */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">Project Statistics</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Numbers that showcase our experience and commitment to delivering quality projects.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="text-center p-8">
-              <div className="text-5xl font-bold text-primary mb-4">50+</div>
-              <h3 className="text-xl font-semibold text-secondary mb-2">Projects Completed</h3>
-              <p className="text-gray-600">Successfully delivered across various sectors</p>
-            </div>
-
-            <div className="text-center p-8">
-              <div className="text-5xl font-bold text-primary mb-4">12+</div>
-              <h3 className="text-xl font-semibold text-secondary mb-2">Years Experience</h3>
-              <p className="text-gray-600">Combined leadership experience</p>
-            </div>
-
-            <div className="text-center p-8">
-              <div className="text-5xl font-bold text-primary mb-4">100%</div>
-              <h3 className="text-xl font-semibold text-secondary mb-2">Nigerian Owned</h3>
-              <p className="text-gray-600">Indigenous company supporting local content</p>
-            </div>
-
-            <div className="text-center p-8">
-              <div className="text-5xl font-bold text-primary mb-4">24/7</div>
-              <h3 className="text-xl font-semibold text-secondary mb-2">Service Support</h3>
-              <p className="text-gray-600">Round-the-clock project support</p>
-            </div>
+          <div className="max-w-4xl mx-auto px-4">
+            <Swiper
+              slidesPerView={1}
+              spaceBetween={30}
+              loop={true}
+              autoplay={{
+                delay: 5000,
+                disableOnInteraction: false,
+              }}
+              pagination={{
+                clickable: true,
+              }}
+              modules={[Autoplay, Pagination]}
+              className="testimonialSwiper"
+            >
+              {[
+                {
+                  quote: "The team delivered our pipeline project ahead of schedule while maintaining excellent safety standards.",
+                  name: "John Adekunle",
+                  position: "Project Manager, NNPC",
+                },
+                {
+                  quote: "Their attention to detail and engineering expertise was evident throughout our refinery expansion project.",
+                  name: "Amina Mohammed",
+                  position: "Director, Dangote Refinery",
+                },
+                {
+                  quote: "Reliable, professional, and technically competent. We've partnered with them on multiple projects.",
+                  name: "Chukwuma Okoro",
+                  position: "CEO, Sterling Oil",
+                },
+              ].map((testimonial, index) => (
+                <SwiperSlide key={index}>
+                  <div className="bg-white p-8 sm:p-10 rounded-xl shadow-lg text-center">
+                    <svg className="w-12 h-12 mx-auto text-primary mb-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path>
+                    </svg>
+                    <p className="text-lg sm:text-xl text-gray-700 mb-6">{testimonial.quote}</p>
+                    <div>
+                      <p className="font-bold text-secondary">{testimonial.name}</p>
+                      <p className="text-gray-500 text-sm">{testimonial.position}</p>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
         </div>
       </section>

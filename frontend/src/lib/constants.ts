@@ -112,9 +112,9 @@ export const TEAM_MEMBERS = [
   },
   {
     name: "Diepreye David Charles-Daniel",
-    position: "",
+    position: "Software and Robotics Engineer",
     image: "/uploads/ddcd.jpg",
-    bio: "Software and Robotics Engineer",
+    bio: "Business Analyst and Strategist",
     website: "",
     linkedin: "",
     twitter: "",
@@ -140,16 +140,16 @@ export const TEAM_MEMBERS = [
   //   twitter: "",
   //   whatsapp: ""
   // },
-  // {
-  //   name: "Victor Chukwuma",
-  //   position: "Business Dev. Executive",
-  //   image: "/uploads/vc.jpg",
-  //   bio: "Business development professional focused on growth strategies and client relationships.",
-  //   website: "",
-  //   linkedin: "",
-  //   twitter: "",
-  //   whatsapp: ""
-  // }
+  {
+    name: "Victor Chukwuma",
+    position: "US Hub Business Development Executive",
+    image: "/uploads/vc.jpg",
+    bio: "Business development professional focused on growth strategies and client relationships.",
+    website: "",
+    linkedin: "",
+    twitter: "",
+    whatsapp: ""
+  }
 ];
 
 export const PROJECTS = [
@@ -271,7 +271,6 @@ export const PROJECTS = [
   }
 ];
 
-
 export const HOW_WE_WORK_STEPS = [
   {
     step: 1,
@@ -358,6 +357,33 @@ export const CERTIFICATIONS = [
 ];
 
 export const EQUIPMENT = [
+  { name: "", category: "", image: "/uploads/p1.jpg" },
+  { name: "", category: "", image: "/uploads/p2.jpg" },
+  { name: "", category: "", image: "/uploads/p3.jpg" },
+  { name: "", category: "", image: "/uploads/p4.jpg" },
+  { name: "", category: "", image: "/uploads/p5.jpg" },
+  { name: "", category: "", image: "/uploads/p7.jpg" },
+  { name: "", category: "", image: "/uploads/p8.jpg" },
+  { name: "", category: "", image: "/uploads/p9.jpg" },
+  { name: "", category: "", image: "/uploads/p10.jpg" },
+  { name: "", category: "", image: "/uploads/p11.jpg" },
+  { name: "", category: "", image: "/uploads/p12.jpg" },
+  { name: "", category: "", image: "/uploads/p13.jpg" },
+  { name: "", category: "", image: "/uploads/p14.jpg" },
+  { name: "", category: "", image: "/uploads/p15.jpg" },
+  { name: "", category: "", image: "/uploads/p16.jpg" },
+  { name: "", category: "", image: "/uploads/p17.jpg" },
+  { name: "", category: "", image: "/uploads/p18.jpg" },
+  { name: "", category: "", image: "/uploads/p19.jpg" },
+  { name: "", category: "", image: "/uploads/p20.jpg" },
+  { name: "", category: "", image: "/uploads/p21.jpg" },
+  { name: "", category: "", image: "/uploads/p22.jpg" },
+  { name: "", category: "", image: "/uploads/p23.jpg" },
+  { name: "", category: "", image: "/uploads/p24.jpg" },
+  { name: "", category: "", image: "/uploads/p25.jpg" },
+  { name: "", category: "", image: "/uploads/p26.jpg" },
+  { name: "", category: "", image: "/uploads/p27.jpg" },
+
   { name: "", category: "", image: "/uploads/e2.jpg" },
   { name: "", category: "", image: "/uploads/e3.jpg" },
   { name: "", category: "", image: "/uploads/e4.jpg" },
@@ -398,6 +424,7 @@ export const EQUIPMENT = [
   { name: "", category: "", image: "/uploads/e39.jpg" },
   { name: "", category: "", image: "/uploads/e40.jpg" },
   { name: "", category: "", image: "/uploads/e1.jpg" },
+
   { name: "Excavator CAT 320D", category: "Heavy Machinery", image: "/gallery/civil1.jpg" },
   { name: "Concrete Batching Plant", category: "Demolition Tools", image: "/gallery/civil2.jpg" },
   { name: "Vibratory Soil Compactor", category: "Compaction Equipment", image: "/gallery/civil3.jpg" },
@@ -417,3 +444,24 @@ export const EQUIPMENT = [
   { name: "Asphalt Concrete Road Milling Machine", category: "Site Equipment", image: "/gallery/civil17.jpg" }
 ];
 
+
+export const MACHINES = [
+  { name: "Asphalt Concrete Road Miling Operations", category: "Fabrication", image: "/gallery/civil15.jpg" },
+  { name: "Bobcat Skid Steered Loader", category: "", image: "/gallery/civil16.jpg" },
+  { name: "Asphalt Concrete Road Milling Machine", category: "Site Equipment", image: "/gallery/civil17.jpg" },
+    { name: "Excavator CAT 320D", category: "Heavy Machinery", image: "/gallery/civil1.jpg" },
+    { name: "Mobile Wheel Grader", category: "Site Equipment", image: "/gallery/civil9.jpg" },
+  { name: "Concrete Batching Plant", category: "Demolition Tools", image: "/gallery/civil2.jpg" },
+  { name: "Vibratory Soil Compactor", category: "Compaction Equipment", image: "/gallery/civil3.jpg" },
+  { name: "Wheel Loader Volvo L90", category: "Heavy Machinery", image: "/gallery/civil4.jpg" },
+  { name: "Concrete Mixer Truck", category: "Concrete Equipment", image: "/gallery/civil5.jpg" },
+  { name: "Motor Grader CAT 140K", category: "Earthmoving", image: "/gallery/civil6.jpg" },
+  { name: "Crawler Crane 80T", category: "Lifting Equipment", image: "/gallery/civil7.jpg" },
+  { name: "Asphalt Paver Machine", category: "Road Equipment", image: "/gallery/civil8.jpg" },
+  { name: "Mobile Wheel Grader", category: "Power Equipment", image: "/gallery/civil10.jpg" },
+  { name: "Scaffolding Frames", category: "Construction Tools", image: "/gallery/civil11.jpg" },
+  { name: "Trench Shoring System", category: "Safety Equipment", image: "/gallery/civil12.jpg" },
+  { name: "Backhoe Loader JCB 3CX", category: "Earthmoving", image: "/gallery/civil13.jpg" },
+  { name: "Portable Concrete Pump", category: "Concrete Equipment", image: "/gallery/civil14.jpg" },
+
+]

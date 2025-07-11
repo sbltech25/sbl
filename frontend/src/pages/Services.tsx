@@ -10,7 +10,7 @@ const Services = () => {
       details: "With our in-depth knowledge of the Oil & Gas industry, and over 25 years experience gained by the Top Management of SOUTHERN BASIN amplified by 13 years of corporate experience, we are in a position to offer a wide range of construction and environmental management services in the Oil and Gas industry. Our special focus is on Civil, Mechanical Upgrade & Fabrication, Environmental remediation and regeneration and related services. Working with several of the world's largest and most experienced steelz oil tools and geosynthetics manufacturing conglomerate companies in Asia and Europe, SOUTHERN BASIN can handle these services under the most terrains and environmental conditions."
     },
     "design-planning": {
-      image: "https://plus.unsplash.com/premium_photo-1744428941961-e35e85b16433?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8ZW5naW5lZXJpbmclMjBkZXNpZ24lMjBuaWdlcmlhfGVufDB8fDB8fHww?w=800&h=600&fit=crop",
+      image: "/uploads/p5.jpg?w=800&h=600&fit=crop",
       details: "Project development is more powerful when driven by a purpose. The purpose that brings experts together to realize the conceived vision of the project. Southern Basin understands the cruciality of engineering design and planning in the development of any products, systems, and infrastructure. Our expertise brings to bear this essence in each project we embark on by creation of innovative, functional, and efficient solutions that meet user needs and requirements."
     },
     "mechanical-fabrication": {

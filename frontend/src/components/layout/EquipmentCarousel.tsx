@@ -3,7 +3,7 @@ import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { EQUIPMENT } from '../../lib/constants';
+import { MACHINES } from '../../lib/constants';
 
 const EquipmentCarousel = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -14,7 +14,7 @@ const EquipmentCarousel = () => {
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentIndex((prevIndex) => 
-        prevIndex === EQUIPMENT.length - 1 ? 0 : prevIndex + 1
+        prevIndex === MACHINES.length - 1 ? 0 : prevIndex + 1
       );
     }, 4500);
 
@@ -22,11 +22,11 @@ const EquipmentCarousel = () => {
   }, []);
 
   const goToPrevious = () => {
-    setCurrentIndex(currentIndex === 0 ? EQUIPMENT.length - 1 : currentIndex - 1);
+    setCurrentIndex(currentIndex === 0 ? MACHINES.length - 1 : currentIndex - 1);
   };
 
   const goToNext = () => {
-    setCurrentIndex(currentIndex === EQUIPMENT.length - 1 ? 0 : currentIndex + 1);
+    setCurrentIndex(currentIndex === MACHINES.length - 1 ? 0 : currentIndex + 1);
   };
 
   const handleTouchStart = (e: React.TouchEvent) => {
@@ -66,7 +66,7 @@ const EquipmentCarousel = () => {
             className="flex transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * 100}%)` }}
           >
-            {EQUIPMENT.map((equipment, index) => (
+            {MACHINES.map((equipment, index) => (
               <div key={index} className="w-full flex-shrink-0 px-2">
                 <Card className="border-0 shadow-xl rounded-sm overflow-hidden">
                   <CardContent className="p-0">
@@ -92,7 +92,7 @@ const EquipmentCarousel = () => {
         
         {/* Mobile Dots Indicator */}
         <div className="flex justify-center mt-6 space-x-2">
-          {EQUIPMENT.map((_, index) => (
+          {MACHINES.map((_, index) => (
             <button
               key={index}
               className={`w-2 h-2 rounded-full transition-colors ${
@@ -111,7 +111,7 @@ const EquipmentCarousel = () => {
             className="flex transition-transform duration-500 ease-in-out"
             style={{ transform: `translateX(-${currentIndex * (100 / 3)}%)` }}
           >
-            {EQUIPMENT.map((equipment, index) => (
+            {MACHINES.map((equipment, index) => (
               <div key={index} className="w-1/3 flex-shrink-0 px-4">
                 <Card className="border-0 shadow-xl rounded-sm overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
                   <CardContent className="p-0">
@@ -156,7 +156,7 @@ const EquipmentCarousel = () => {
 
         {/* Desktop Dots Indicator */}
         <div className="flex justify-center mt-8 space-x-2">
-          {Array.from({ length: Math.ceil(EQUIPMENT.length / 3) }).map((_, index) => (
+          {Array.from({ length: Math.ceil(MACHINES.length / 3) }).map((_, index) => (
             <button
               key={index}
               className={`w-3 h-3 rounded-full transition-colors ${
