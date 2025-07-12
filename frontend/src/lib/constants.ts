@@ -179,7 +179,7 @@ export const PROJECTS = [
   {
     title: "Construction & Fabrication of Bulk Storage Tanks",
     location: "Seme, Benin",
-    image: "https://images.unsplash.com/photo-1568310077736-1c216a598401?w=800&h=600&fit=crop"
+    image: "https://th.bing.com/th/id/R.8eb48b945badc9762aa2d77719cf097c?rik=9AZ%2f1VMJRdbsaA&pid=ImgRaw&r=0?w=800&h=600&fit=crop"
   },
   {
     title: "HDPE Lining of 300 Million Liters Tank Farm",
@@ -359,9 +359,11 @@ export const CERTIFICATIONS = [
 export const EQUIPMENT = [
   { name: "", category: "", image: "/uploads/p1.jpg" },
   { name: "", category: "", image: "/uploads/p2.jpg" },
-  // { name: "", category: "", image: "/uploads/p3.jpg" },
-  // { name: "", category: "", image: "/uploads/p4.jpg" },
-  // { name: "", category: "", image: "/uploads/p5.jpg" },
+  { name: "", category: "", image: "/uploads/a1.jpeg" },
+  { name: "", category: "", image: "/uploads/a2.jpeg" },
+  { name: "", category: "", image: "/uploads/a3.jpeg" },
+  { name: "", category: "", image: "/uploads/a4.jpg" },
+  { name: "", category: "", image: "/uploads/a5.jpeg" },
   { name: "", category: "", image: "/uploads/p7.jpg" },
   { name: "", category: "", image: "/uploads/p8.jpg" },
   { name: "", category: "", image: "/uploads/p9.jpg" },
@@ -398,9 +400,6 @@ export const EQUIPMENT = [
 export const MACHINES = [
   { name: "Heavy Duty Wheel Crane", category: "", image: "/uploads/e1.jpg" },
   { name: "Pipe Cutting and Bevelling Machine", category: "", image: "/uploads/e2.jpg" },
-  { name: "", category: "", image: "/uploads/e3.jpg" },
-  { name: "", category: "", image: "/uploads/e4.jpg" },
-  { name: "", category: "", image: "/uploads/e5.jpg" },
   { name: "", category: "", image: "/uploads/e6.jpg" },
   { name: "", category: "", image: "/uploads/e7.jpg" },
   { name: "", category: "", image: "/uploads/e8.jpg" },

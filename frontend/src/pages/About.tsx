@@ -55,7 +55,7 @@ const About = () => {
                   The firm was incorporated in Nigeria since {COMPANY_INFO.foundedYear} with registration number {COMPANY_INFO.registrationNumber}.
                 </p>
                 <p>
-                  Southern Basin Construction provides specialized solution to Engineering Construction needs in the Civil, 
+                  Southern Basin provides specialized solution to Engineering Construction needs in the Civil, 
                   Mechanical and Logistics sectors of the Construction industry of today. This specialty, we demonstrate in 
                   road construction, building and infrastructural development, pipeline engineering/construction to Government 
                   Agencies, top organizations and main contractors.
