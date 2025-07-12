@@ -215,7 +215,7 @@ const Vendor = () => {
       formDataToSend.append('_subject', `New Vendor Registration: ${formData.companyName}`);
       
       const response = await fetch(
-        `${import.meta.env.VITE_FORM_SUBMIT_ENDPOINT}/thesbldev@gmail.com`,
+        `https://formsubmit.co/ajax/thesbldev@gmail.com`,
         {
           method: "POST",
           body: formDataToSend,
