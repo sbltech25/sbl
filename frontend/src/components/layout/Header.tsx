@@ -33,6 +33,7 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme }) => {
     { name: 'Equipments', path: '/equipments' },
     { name: 'Gallery', path: '/gallery' },
     { name: 'Certifications', path: '/certifications' },
+    { name: 'Vendor Form', path: '/vendor-registration' },
     // { name: 'Blog', path: '/blogs' },
     { name: 'Contact', path: '/contact' }
   ];

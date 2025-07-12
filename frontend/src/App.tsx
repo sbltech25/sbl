@@ -15,6 +15,7 @@ import Blogs from "./pages/Blogs";
 import Gallery from "./pages/Gallery";
 import Project from "./pages/Project";
 import Equipment from "./pages/Equipment";
+import Vendor from "./pages/Vendor";
 import Contact from "./pages/Contact";
 import ClientLogin from "./pages/ClientLogin";
 import ClientDashboard from "./pages/ClientDashboard";
@@ -85,6 +86,7 @@ const App = () => {
               <Route path="/gallery" element={<Gallery />} />
               <Route path="/projects" element={<Project />} />
               <Route path="/equipments" element={<Equipment />} />                
+              <Route path="/vendor-registration" element={<Vendor />} />                
               <Route path="/certifications" element={<Certification />} />                
               <Route path="/blogs" element={<Blogs />} />
               <Route path="/blog/:slug" element={<BlogPost />} />
