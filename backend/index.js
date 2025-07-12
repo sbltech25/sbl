@@ -19,10 +19,12 @@ app.use((req, res, next) => {
   const origin = req.headers.origin;
 
   const allowedOrigins = [
-    "https://sbltd.vercel.app",
-    "https://apisbltd.vercel.app",
+    // "https://sbltd.vercel.app",
+    // "https://apisbltd.vercel.app",
+    "https://southernbasin.com",
+    "https://index.southernbasin.com",
     "http://localhost:8080",
-    "http://localhost:5001"
+    "http://localhost:5001",
   ];
 
   if (allowedOrigins.includes(origin)) {
