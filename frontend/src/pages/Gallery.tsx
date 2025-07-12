@@ -234,7 +234,7 @@ const Gallery = () => {
             )}
           </div>
 
-          <div className="mt-12 text-center">
+          <div className="mt-12 hidden text-center">
             <button className="px-8 py-3 bg-primary text-white font-medium rounded-full hover:bg-primary/90 transition-colors duration-300">
               Load More Projects
             </button>
