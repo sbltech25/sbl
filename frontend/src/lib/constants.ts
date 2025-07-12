@@ -179,7 +179,7 @@ export const PROJECTS = [
   {
     title: "Construction & Fabrication of Bulk Storage Tanks",
     location: "Seme, Benin",
-    image: "https://th.bing.com/th/id/R.8eb48b945badc9762aa2d77719cf097c?rik=9AZ%2f1VMJRdbsaA&pid=ImgRaw&r=0?w=800&h=600&fit=crop"
+    image: "https://stiverengineering.com/wp-content/uploads/2016/01/Caisson-4.jpg?w=800&h=600&fit=crop"
   },
   {
     title: "HDPE Lining of 300 Million Liters Tank Farm",
