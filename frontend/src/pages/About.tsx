@@ -71,7 +71,7 @@ const About = () => {
               <img 
                 src="/uploads/about.jpg"
                 alt="About Southern Basin"
-                className="w-full h-96 object-cover shadow-2xl"
+                className="w-full h-full object-cover shadow-2xl"
               />
             </div>
           </div>
