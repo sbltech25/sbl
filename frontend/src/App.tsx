@@ -88,8 +88,8 @@ const App = () => {
               <Route path="/equipments" element={<Equipment />} />                
               <Route path="/vendor-registration" element={<Vendor />} />                
               <Route path="/certifications" element={<Certification />} />                
-              <Route path="/blogs" element={<Blogs />} />
-              <Route path="/blog/:slug" element={<BlogPost />} />
+              <Route path="/articles" element={<Blogs />} />
+              <Route path="/articles/:slug" element={<BlogPost />} />
               <Route path="/contact" element={<Contact />} />
               
               {/* Auth routes */}
