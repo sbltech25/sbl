@@ -121,7 +121,7 @@ const BlogPost: React.FC = () => {
     <div className="min-h-screen pt-24 pb-16 bg-gray-50">
       <div className="container mx-auto px-4">
         {/* Back Button */}
-        <div className="">
+        <div className="mb-4">
           <Button 
             onClick={() => navigate('/articles')} 
             variant="ghost" 
