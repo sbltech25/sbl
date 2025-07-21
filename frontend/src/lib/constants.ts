@@ -157,13 +157,13 @@ export const PROJECTS = [
     title: "Refurbishment of Oily & Observation Ponds",
     location: "PHRC Refinery, Nigeria",
     client: "Tecnimont Spa",
-    image: "https://images.unsplash.com/photo-1568310077736-1c216a598401?w=800&h=600&fit=crop"
+    image: "https://i.ibb.co/pjXYP61Y/oilypond.jpg"
   },
   {
     title: "Construction & Replacement of 5.85km 4\" Flowline",
     location: "Nkali Umuwchem, Nigeria",
     client: "SPDC",
-    image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
+    image: "https://i.ibb.co/pv869rnW/flowline.jpg"
   },
   {
     title: "Construction & Replacement of 3.5km Gaslift Line",
