@@ -174,7 +174,7 @@ export const PROJECTS = [
   {
     title: "Fabrication & Erection of Bulk Caustic Storage Tanks",
     location: "HEL Sub, Lekki, Nigeria",
-    image: "https://images.unsplash.com/photo-1663668540209-8f92ce673c89?w=800&h=600&fit=crop"
+    image: "https://i.ibb.co/Gv4v3JRv/IMG-20250721-WA0001.jpg"
   },
   {
     title: "Construction & Fabrication of Bulk Storage Tanks",
