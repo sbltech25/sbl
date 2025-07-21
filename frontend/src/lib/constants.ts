@@ -169,7 +169,7 @@ export const PROJECTS = [
     title: "Construction & Replacement of 3.5km Gaslift Line",
     location: "Agenda II, Nigeria",
     client: "SPDC",
-    image: "https://i.ibb.co/Ng3MdJfn/IMG-20250721-WA0000.jpg"
+    image: "https://i.ibb.co/1fh1KnRb/IMG-20250721-093123.jpg"
   },
   {
     title: "Fabrication & Erection of Bulk Caustic Storage Tanks",
