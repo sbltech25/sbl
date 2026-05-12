@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -51,23 +51,6 @@ const AdminRoute = () => {
 };
 
 const App = () => {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('theme') as 'light' | 'dark' | null;
-    const prefersLight = window.matchMedia('(prefers-color-scheme: light)').matches;
-    setTheme(savedTheme || (prefersLight ? 'light' : 'dark'));
-  }, []);
-
-  useEffect(() => {
-    localStorage.setItem('theme', theme);
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-  }, [theme]);
-
-  const toggleTheme = () => {
-    setTheme(prev => prev === 'light' ? 'dark' : 'light');
-  };
-
   return (
     <div className="h-screen">
       <TooltipProvider>
@@ -75,7 +58,7 @@ const App = () => {
         <Sonner />
         <div className="min-h-screen flex flex-col bg-background text-foreground">
           <ScrollToTop />
-          <Header theme={theme} toggleTheme={toggleTheme} />
+          <Header />
           <main className="flex-1">
             <Routes>
               {/* Public routes */}

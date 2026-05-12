@@ -67,31 +67,26 @@ const About = () => {
                 </p>
               </div>
             </div>
-            <div>
-              <img 
-                src="/uploads/about.jpg"
-                alt="About Southern Basin"
-                className="w-full h-full object-cover shadow-2xl"
-              />
+
+            {/* Partners Diagram */}
+            <div className="mb-20">
+              <div className="text-center mb-8">
+                <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">Our Technical Partners</h2>
+                <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+                  Strategic alliances with leading global organizations.
+                </p>
+              </div>
+              <div className="flex justify-center">
+                <img
+                  src="/moremedia/about-page-diagram.png"
+                  alt="Southern Basin Technical Partners Diagram"
+                  className="w-full max-w-4xl shadow-xl rounded-sm"
+                />
+              </div>
             </div>
+            
           </div>
 
-          {/* Partners Diagram */}
-          <div className="mb-20">
-            <div className="text-center mb-8">
-              <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">Our Technical Partners</h2>
-              <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-                Strategic alliances with leading global organizations.
-              </p>
-            </div>
-            <div className="flex justify-center">
-              <img
-                src="/moremedia/about-page-diagram.png"
-                alt="Southern Basin Technical Partners Diagram"
-                className="w-full max-w-4xl shadow-xl rounded-sm"
-              />
-            </div>
-          </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-20">
             <Card className="border-0 shadow-xl rounded-sm overflow-hidden">
