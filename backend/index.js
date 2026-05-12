@@ -19,15 +19,20 @@ app.use((req, res, next) => {
   const origin = req.headers.origin;
 
   const allowedOrigins = [
-    // "https://sbltd.vercel.app",
-    // "https://apisbltd.vercel.app",
     "https://southernbasin.com",
     "https://index.southernbasin.com",
     "http://localhost:8080",
-    "http://localhost:5001",
+    "http://localhost:5000",
+    "http://localhost:3000",
   ];
 
-  if (allowedOrigins.includes(origin)) {
+  const replitDomain = process.env.REPLIT_DEV_DOMAIN;
+
+  if (
+    origin &&
+    (allowedOrigins.includes(origin) ||
+      (replitDomain && origin.endsWith(replitDomain)))
+  ) {
     res.setHeader("Access-Control-Allow-Origin", origin);
   }
 
