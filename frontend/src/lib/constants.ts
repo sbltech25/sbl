@@ -16,7 +16,7 @@ export const COMPANY_INFO = {
     facebook: "https://www.facebook.com/southernbasin?mibextid=LQQJ4d",
     twitter: "https://x.com/southernbasin1",
     instagram: "https://www.instagram.com/southernbasin",
-    whatsapp: "https://wa.me/23484556835"
+    whatsapp: "https://wa.me/2347031278694"
   }
 };
 
@@ -179,7 +179,7 @@ export const PROJECTS = [
   {
     title: "Evacuation, Cleaning & Replacement of Lines",
     location: "Transcorp Gas Plant, Nigeria",
-    image: "https://images.unsplash.com/photo-1663668540209-8f92ce673c89?w=800&h=600&fit=crop"
+    image: "/moremedia/IMG_3765.JPG"
   },
   {
     title: "Construction of Asphalt Pavement Road to TCM TCF",
@@ -207,18 +207,18 @@ export const PROJECTS = [
     title: "Installation/Repair of Flare Stack & Walkway",
     location: "NES 1 & NES 2, Nigeria",
     client: "SPDC",
-    image: "https://images.unsplash.com/photo-1568310077736-1c216a598401?w=800&h=600&fit=crop"
+    image: "/moremedia/IMG_20200223_163345.jpg"
   },
   {
     title: "Precast Concrete Sheets Piles Shore Protection",
     location: "Nembe, Nigeria",
-    image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
+    image: "/moremedia/Concrete Sheet Piles Wk.jpeg"
   },
   {
     title: "Installation of Solar Street Lights",
     location: "Utu Ikpe, Nigeria",
     client: "NDDC",
-    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
+    image: "/moremedia/IMG_3546.JPG"
   },
   {
     title: "Emekuku Layout Road",
@@ -234,7 +234,7 @@ export const PROJECTS = [
     area: "10,000 square meters",
     date: "May 2014",
     client: "CardCompany LLC",
-    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
+    image: "/moremedia/IMG_20200223_163345.jpg"
   },
   {
     title: "Ada George Elioparanwo Road",
@@ -242,7 +242,7 @@ export const PROJECTS = [
     area: "1.5km length",
     date: "2011",
     client: "Akpako Inc.",
-    image: "https://images.unsplash.com/photo-1663668540209-8f92ce673c89?w=800&h=600&fit=crop"
+    image: "/moremedia/IMG_20200322_150415.jpg"
   }
 ];
 
@@ -313,21 +313,64 @@ export const CERTIFICATIONS = [
     issuer: "United Accreditation Foundation, USA",
     date: "2024",
     image: "/certs/c45001.PNG",
-    description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry."
+    description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry.",
+    type: "certificate"
   },
   {
     title: "ISO 14001:2015 Environmental Management System",
     issuer: "United Accreditation Foundation, USA",
     date: "2024",
     image: "/certs/c14001.PNG",
-    description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry."
+    description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry.",
+    type: "certificate"
   },
   {
     title: "ISO 9001:2015 Quality Management System",
     issuer: "United Accreditation Foundation, USA",
     date: "2024",
     image: "/certs/c9001.PNG",
-    description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry."
+    description: "Civil Engineering, Construction, Environmental Services, Fabrication Related to Services in the Oil and Gas Industry.",
+    type: "certificate"
+  },
+  {
+    title: "NCDMB Certificate",
+    issuer: "Nigerian Content Development & Monitoring Board",
+    date: "2024",
+    image: "/moremedia/NCDMB.png",
+    description: "Nigerian Content Development & Monitoring Board Certification.",
+    type: "permit"
+  },
+  {
+    title: "NCDMB/NCEC Certificate",
+    issuer: "Nigerian Content Development & Monitoring Board",
+    date: "2024",
+    image: "/moremedia/NCDMB-NCEC.png",
+    description: "NCDMB Nigerian Content Execution Certificate.",
+    type: "permit"
+  },
+  {
+    title: "NMDPRA Permit — Page 1",
+    issuer: "Nigerian Midstream and Downstream Petroleum Regulatory Authority",
+    date: "2024",
+    image: "/moremedia/mndpraPG1.png",
+    description: "NMDPRA Operating Permit.",
+    type: "permit"
+  },
+  {
+    title: "NMDPRA Permit — Page 2",
+    issuer: "Nigerian Midstream and Downstream Petroleum Regulatory Authority",
+    date: "2024",
+    image: "/moremedia/nmdpraPG2.png",
+    description: "NMDPRA Operating Permit.",
+    type: "permit"
+  },
+  {
+    title: "NMDPRA Permit — Page 3",
+    issuer: "Nigerian Midstream and Downstream Petroleum Regulatory Authority",
+    date: "2024",
+    image: "/moremedia/nmdpraPG3.png",
+    description: "NMDPRA Operating Permit.",
+    type: "permit"
   },
 ];
 
