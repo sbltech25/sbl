@@ -6,7 +6,7 @@ import { SERVICES } from '@/lib/constants';
 const Services = () => {
   const serviceDetails = {
     "oil-gas": {
-      image: "https://images.unsplash.com/photo-1745725427797-d0b3e3b7a8af?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8b2lsJTIwYW5kJTIwZ2FzJTIwbmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=800&h=600&fit=crop",
+      image: "/newimages/Oil and gas pic.jpg",
       details: "With our in-depth knowledge of the Oil & Gas industry, and over 25 years experience gained by the Top Management of SOUTHERN BASIN amplified by 13 years of corporate experience, we are in a position to offer a wide range of construction and environmental management services in the Oil and Gas industry. Our special focus is on Civil, Mechanical Upgrade & Fabrication, Environmental remediation and regeneration and related services. Working with several of the world's largest and most experienced steelz oil tools and geosynthetics manufacturing conglomerate companies in Asia and Europe, SOUTHERN BASIN can handle these services under the most terrains and environmental conditions."
     },
     "design-planning": {
@@ -14,7 +14,7 @@ const Services = () => {
       details: "Project development is more powerful when driven by a purpose. The purpose that brings experts together to realize the conceived vision of the project. Southern Basin understands the cruciality of engineering design and planning in the development of any products, systems, and infrastructure. Our expertise brings to bear this essence in each project we embark on by creation of innovative, functional, and efficient solutions that meet user needs and requirements."
     },
     "mechanical-fabrication": {
-      image: "/uploads/p4.jpg?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Nnx8bWVjaGFuaWNhbCUyMGZhYnJpY2F0aW9uJTIwZW5naW5lZXJpbmclMjBuaWdlcmlhfGVufDB8fDB8fHww?w=800&h=600&fit=crop",
+      image: "/newimages/Mechanical & structural fabrication picture(2).avif",
       details: "SOUTHERN BASIN offers solutions in the mechanical construction and structural upgrade and fabrication services within the petrochemical and oil and gas industries. This is in addition to our specialized solutions to Engineering Construction needs in the Civil, Mechanical and Logistics sectors of the Construction industry. This specialty we demonstrate in bulk steel storage tanks construction / rehabilitation, structural upgrade works and pipeline/flowline construction etc."
     },
     "civil-engineering": {
@@ -78,14 +78,13 @@ const Services = () => {
                           <ul className="space-y-2 text-gray-600">
                             {service.id === 'oil-gas' && (
                               <>
-                                <li>• Pipeline Integrity Survey & Repair Services</li>
-                                <li>• Steel Fabrication</li>
+                                <li>• Mechanical/Steel Fabrication — specialized steel fabrication and structural works for oil and gas facilities</li>
                                 <li>• Facility Upgrade</li>
-                                <li>• Pipe/Flowline construction</li>
+                                <li>• Pipeline/Construction and repairs — pipe/flowline construction, replacement and repair services</li>
                                 <li>• Civil Construction</li>
                                 <li>• Environmental waste management and construction</li>
                                 <li>• Industrial Logistics</li>
-                                <li>• Operations Workshop & Material Management</li>
+                                <li>• Operations Workshop, Maintenance & Management</li>
                               </>
                             )}
                             {service.id === 'design-planning' && (

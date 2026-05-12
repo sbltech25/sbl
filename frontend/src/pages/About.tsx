@@ -50,15 +50,15 @@ const About = () => {
               <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-6">Our Story</h2>
               <div className="space-y-6 text-lg text-gray-600 leading-relaxed">
                 <p>
-                  <strong>SOUTHERN BASIN Limited</strong> is an indigenous Engineering, Construction, 
-                  Project Management, Logistics and Procurement Company with 100% stock of Nigerian shareholding. 
+                  <strong>Southern Basin Limited</strong> is an indigenous Oil & Gas Company engaged in Engineering, Construction, 
+                  Project Management, Logistic and Procurement with 100% stock of Nigeria shareholding. 
                   The firm was incorporated in Nigeria since {COMPANY_INFO.foundedYear} with registration number {COMPANY_INFO.registrationNumber}.
                 </p>
                 <p>
                   Southern Basin provides specialized solution to Engineering Construction needs in the Civil, 
-                  Mechanical and Logistics sectors of the Construction industry of today. This specialty, we demonstrate in 
-                  road construction, building and infrastructural development, pipeline engineering/construction to Government 
-                  Agencies, top organizations and main contractors.
+                  Mechanical fabrication & Upgrade and Logistic sectors of the Construction industry of today. This specialty, we demonstrate in 
+                  road construction, building and infrastructural development, pipeline engineering/construction, petroleum & energy to Government 
+                  Agencies, major organization and main contractors.
                 </p>
                 <p>
                   The firm is relatively young in business; its incorporation is a product of immeasurable practical experience 

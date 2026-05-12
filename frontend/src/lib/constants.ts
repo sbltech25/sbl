@@ -3,6 +3,7 @@ export const COMPANY_INFO = {
   name: "Southern Basin Limited",
   tagline: "Engineering Excellence in Oil & Gas, Construction & Logistics",
   email: "info@southernbasin.com",
+  email2: "southernbasinconstruction@yahoo.com",
   phone: "+234 703 127 8694, +1 (832) 329 0594",
   alternatePhone: "+234 809 020 6642",
   whatsapp: "2347031278694",
@@ -13,7 +14,8 @@ export const COMPANY_INFO = {
   foundedYear: "2011",
   social: {
     facebook: "https://www.facebook.com/southernbasin?mibextid=LQQJ4d",
-    twitter: "https://x.com@southernbasin1/",
+    twitter: "https://x.com/southernbasin1",
+    instagram: "https://www.instagram.com/southernbasin",
     whatsapp: "https://wa.me/23484556835"
   }
 };
@@ -120,26 +122,6 @@ export const TEAM_MEMBERS = [
     twitter: "",
     whatsapp: ""
   },
-  // {
-  //   name: "Andy Ojokoh",
-  //   position: "ED Corporate and Public Affairs",
-  //   image: "/uploads/ao.jpg",
-  //   bio: "Corporate communications leader managing stakeholder relationships and public affairs.",
-  //   website: "",
-  //   linkedin: "",
-  //   twitter: "",
-  //   whatsapp: ""
-  // },
-  // {
-  //   name: "Jerry Akpan",
-  //   position: "Chief Financial Officer",
-  //   image: "/uploads/ja.jpg",
-  //   bio: "Financial strategy expert ensuring operational excellence and fiscal responsibility.",
-  //   website: "",
-  //   linkedin: "",
-  //   twitter: "",
-  //   whatsapp: ""
-  // },
   {
     name: "Victor Chukwuma",
     position: "US Hub Business Development Executive",
@@ -157,17 +139,17 @@ export const PROJECTS = [
     title: "Refurbishment of Oily & Observation Ponds",
     location: "PHRC Refinery, Nigeria",
     client: "Tecnimont Spa",
-    image: "https://i.ibb.co/pjXYP61Y/oilypond.jpg"
+    image: "/uploads/p17.jpg"
   },
   {
     title: "Construction & Replacement of 5.85km 4\" Flowline",
     location: "Nkali Umuwchem, Nigeria",
-    client: "SPDC",
+    client: "SPDC/HHOG",
     image: "https://i.ibb.co/pv869rnW/flowline.jpg"
   },
   {
     title: "Construction & Replacement of 3.5km Gaslift Line",
-    location: "Agenda II, Nigeria",
+    location: "AGBADA, Nigeria",
     client: "SPDC",
     image: "https://i.ibb.co/1fh1KnRb/IMG-20250721-093123.jpg"
   },
@@ -179,6 +161,7 @@ export const PROJECTS = [
   {
     title: "Construction & Fabrication of Bulk Storage Tanks",
     location: "Seme, Benin",
+    client: "Petrolex/Willem Olaf. Willem Engineering Ltd.",
     image: "https://stiverengineering.com/wp-content/uploads/2016/01/Caisson-4.jpg?w=800&h=600&fit=crop"
   },
   {
@@ -202,21 +185,21 @@ export const PROJECTS = [
     title: "Construction of Asphalt Pavement Road to TCM TCF",
     location: "PHRC, Nigeria",
     client: "Tecnimont Spa",
-    image: "https://images.unsplash.com/photo-1568310077736-1c216a598401?w=800&h=600&fit=crop"
+    image: "/newimages/Construction of Asphalt pavement roads.jpg"
   },
   {
-    title: "Roof HDP Geomembrane Lining Installation",
+    title: "Roof Deck HDP Geomembrane Lining Installation",
     location: "SPDC, Nigeria",
-    image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
+    image: "/newimages/HDP Geomembrane lining.jpg"
   },
   {
     title: "Construction of Asphalt Pavement Roads",
     location: "Indorama EPCL, Nigeria",
     client: "Daewoo E&C",
-    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
+    image: "/newimages/Construction of Asphalt pavement roads (1).jpg"
   },
   {
-    title: "Construction of Nwiyara (Okwuowuru) Canada Road",
+    title: "Construction of Nwiyara (Okwuowuru) Road",
     location: "Umudike, Ohaji Egbema, Nigeria",
     image: "https://images.unsplash.com/photo-1663668540209-8f92ce673c89?w=800&h=600&fit=crop"
   },
@@ -228,7 +211,7 @@ export const PROJECTS = [
   },
   {
     title: "Precast Concrete Sheets Piles Shore Protection",
-    location: "Epenal, Nigeria",
+    location: "Nembe, Nigeria",
     image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
   },
   {
@@ -243,15 +226,7 @@ export const PROJECTS = [
     area: "2,540 square meters",
     date: "February 2014",
     client: "Southern Basin",
-    image: "https://images.unsplash.com/photo-1568310077736-1c216a598401?w=800&h=600&fit=crop"
-  },
-  {
-    title: "Ogbogoro Dredging Work",
-    location: "Ogbogoro, Nigeria",
-    area: "992 square meters",
-    date: "June 2013",
-    client: "Greg International",
-    image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
+    image: "/newimages/Emekuku Layout road.jpg"
   },
   {
     title: "Obowo 2km Road",
@@ -303,32 +278,32 @@ export const HERO_SLIDE_ITEMS = [
   {
     title: "HSE is SBL Lifestyle",
     subtext: "It's not complete until it's SAFE. Every team member is a Safety Watcher.",
-    image: "https://images.unsplash.com/photo-1722553260680-2a3486a06d73?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8OHx8aW5kdXN0cmlhbCUyMGVuZ2luZWVyaW5nJTIwTmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=1920&h=1080&fit=crop"
+    image: "https://images.unsplash.com/photo-1722553260680-2a3486a06d73?w=1920&h=1080&fit=crop"
   },
   {
     title: "Improvement and Advancement on Execution",
     subtext: "Pivoting new innovation in Mechanical Upgrade and Fabrication Services for modern Oil and Gas project management",
-    image: "https://images.unsplash.com/photo-1727504172743-08f14448fab8?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fGluZHVzdHJpYWwlMjBlbmdpbmVlcmluZyUyME5pZ2VyaWF8ZW58MHx8MHx8fDA%3D?w=1920&h=1080&fit=crop"
+    image: "https://images.unsplash.com/photo-1727504172743-08f14448fab8?w=1920&h=1080&fit=crop"
   },
   {
     title: "In SBL projects, Expertise meets Innovation",
     subtext: "Experiential know-how and specialization synergized with creativity, resulting in ultimate satisfaction.",
-    image: "https://images.unsplash.com/photo-1559585888-6b01c8ea796b?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTF8fG1pbGxpb24lMjBkb2xsYXIlMjBlbmdpbmVlcmluZyUyME5pZ2VyaWF8ZW58MHx8MHx8fDA%3D?w=1920&h=1080&fit=crop"
+    image: "/uploads/p26.jpg"
   },
   {
     title: "Providing Project Solutions Steered by Quality",
     subtext: "Project management designed to meet global standards through customized competitive documentation processes.",
-    image: "https://plus.unsplash.com/premium_photo-1663045861154-b42da4b72dd1?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8b2lsJTIwYW5kJTIwZ2FzJTIwZW5naW5lZXJpbmclMjBOaWdlcmlhfGVufDB8fDB8fHww?w=1920&h=1080&fit=crop"
+    image: "https://plus.unsplash.com/premium_photo-1663045861154-b42da4b72dd1?w=1920&h=1080&fit=crop"
   },
   {
     title: "Transforming Project Challenges into Opportunities",
     subtext: "SBL is established, prepared and continually upgraded in personnel, equipment and expertise to solve industry challenges.",
-    image: "https://images.unsplash.com/photo-1664836443648-71bfcc3830a0?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fG9pbCUyMGFuZCUyMGdhcyUyMGVuZ2luZWVyaW5nJTIwTmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=1920&h=1080&fit=crop"
+    image: "https://images.unsplash.com/photo-1664836443648-71bfcc3830a0?w=1920&h=1080&fit=crop"
   },
   {
     title: "Transforming Energy and Enhancing Lives",
     subtext: "Our existence catalyzes energy provision, bringing fulfillment to industrial comfort.",
-    image: "https://images.unsplash.com/photo-1604145007459-72793769d538?w=400&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTl8fG9pbCUyMGFuZCUyMGdhcyUyMGVuZ2luZWVyaW5nJTIwTmlnZXJpYXxlbnwwfHwwfHx8MA%3D%3D?w=1920&h=1080&fit=crop"
+    image: "/uploads/e26.jpg"
   }
 ];
 
@@ -422,16 +397,16 @@ export const MACHINES = [
   { name: "Asphalt Concrete Road Miling Operations", category: "Fabrication", image: "/gallery/civil15.jpg" },
   { name: "Bobcat Skid Steered Loader", category: "", image: "/gallery/civil16.jpg" },
   { name: "Asphalt Concrete Road Milling Machine", category: "Site Equipment", image: "/gallery/civil17.jpg" },
-    { name: "Excavator CAT 320D", category: "Heavy Machinery", image: "/gallery/civil1.jpg" },
-    { name: "Mobile Wheel Grader", category: "Site Equipment", image: "/gallery/civil9.jpg" },
+  { name: "Excavator CAT 320D", category: "Heavy Machinery", image: "/newimages/IMG_7106.JPG" },
+  { name: "Mobile Wheel Grader", category: "Site Equipment", image: "/newimages/IMG_7107.JPG" },
   { name: "Concrete Batching Plant", category: "Demolition Tools", image: "/gallery/civil2.jpg" },
-  { name: "Wheel Loader Volvo L90", category: "Heavy Machinery", image: "/gallery/civil4.jpg" },
+  { name: "Wheel Loader Volvo L90", category: "Heavy Machinery", image: "/newimages/IMG_7108.JPG" },
   { name: "Concrete Mixer Truck", category: "Concrete Equipment", image: "/gallery/civil5.jpg" },
   { name: "Motor Grader CAT 140K", category: "Earthmoving", image: "/gallery/civil6.jpg" },
   { name: "Crawler Crane 80T", category: "Lifting Equipment", image: "/gallery/civil7.jpg" },
   { name: "Asphalt Paver Machine", category: "Road Equipment", image: "/gallery/civil8.jpg" },
   { name: "Mobile Wheel Grader", category: "Power Equipment", image: "/gallery/civil10.jpg" },
-  { name: "Scaffolding Frames", category: "Construction Tools", image: "/gallery/civil11.jpg" },
+  { name: "Scaffold Equipment", category: "Construction Tools", image: "/gallery/civil11.jpg" },
   { name: "Trench Shoring System", category: "Safety Equipment", image: "/gallery/civil12.jpg" },
   { name: "Backhoe Loader JCB 3CX", category: "Earthmoving", image: "/gallery/civil13.jpg" },
   { name: "Portable Concrete Pump", category: "Concrete Equipment", image: "/gallery/civil14.jpg" },

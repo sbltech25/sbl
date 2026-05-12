@@ -242,6 +242,7 @@ const Contact = () => {
                     <div>
                       <h3 className="font-semibold text-secondary mb-2">Email</h3>
                       <p className="text-gray-600">{COMPANY_INFO.email}</p>
+                      <p className="text-gray-600">{COMPANY_INFO.email2}</p>
                     </div>
                   </CardContent>
                 </Card>
@@ -263,7 +264,7 @@ const Contact = () => {
               {/* Social Links */}
               <div className="pt-8 border-t border-gray-200">
                 <h3 className="font-semibold text-secondary mb-4">Follow Us</h3>
-                <div className="flex space-x-4">
+                <div className="flex space-x-4 flex-wrap gap-y-2">
                   <a 
                     href={COMPANY_INFO.social.facebook} 
                     target="_blank" 
@@ -279,6 +280,14 @@ const Contact = () => {
                     className="text-primary hover:text-primary/80 transition-colors"
                   >
                     Twitter
+                  </a>
+                  <a 
+                    href={COMPANY_INFO.social.instagram} 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-primary hover:text-primary/80 transition-colors"
+                  >
+                    Instagram
                   </a>
                   <a 
                     href={COMPANY_INFO.social.whatsapp} 

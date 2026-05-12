@@ -23,7 +23,7 @@ const Certification = () => {
         </div>
 
         <div className="container mx-auto px-4 relative text-center">
-          <h1 className="text-5xl md:text-6xl font-bold mb-6">Certifications & Licenses</h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6">Certifications, Licenses & Permits</h1>
           <p className="text-xl md:text-2xl max-w-3xl mx-auto opacity-90">
             Our commitment to excellence is backed by industry-recognized certifications and regulatory compliance.
           </p>

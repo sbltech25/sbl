@@ -142,7 +142,7 @@ const Index = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {PARTNERS.map((partner, index) => (
-              <div key={index} className="bg-white dark:bg-gray-700 p-2 rounded-sm shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center">
+              <div key={index} className="bg-sky-200 dark:bg-sky-700 p-2 rounded-sm shadow-lg hover:shadow-xl transition-shadow duration-300 flex items-center justify-center">
                 <div className="text-center">
                   <div className="w-42 h-32 rounded-full flex items-center justify-center mb-3 mx-auto overflow-hidden">
                     <img 

@@ -104,7 +104,7 @@ const Project = () => {
             <Card className="border-0 shadow-lg rounded-sm overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <CardContent className="p-0">
                 <img 
-                  src="https://images.unsplash.com/photo-1745725427797-d0b3e3b7a8af?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8Q1JVREUlMjBPSUwlMjBpbmZyYXN0cnVjdHVyZSUyMGRldiUyMG5pZ2VyaWF8ZW58MHx8MHx8fDA%3D?w=400&h=300&fit=crop"
+                  src="/newimages/Oil and gas pic(2).jpg"
                   alt="Oil & Gas Projects"
                   className="w-full h-48 object-cover"
                 />
@@ -118,7 +118,7 @@ const Project = () => {
             <Card className="border-0 shadow-lg rounded-sm overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <CardContent className="p-0">
                 <img 
-                  src="https://plus.unsplash.com/premium_photo-1661954406469-f2ed5ac1e0e8?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bWFyaW5lJTIwaW5mcmFzdHJ1Y3R1cmUlMjBkZXYlMjBuaWdlcmlhfGVufDB8fDB8fHww?w=400&h=300&fit=crop"
+                  src="/uploads/e27.jpg"
                   alt="Marine Projects"
                   className="w-full h-48 object-cover"
                 />

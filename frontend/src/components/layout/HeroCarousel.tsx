@@ -26,8 +26,7 @@ const HeroCarousel = () => {
       title: "In SBL projects, Expertise meets Innovation",
       subtext:
         "Experiential know-how and specialization synergized with creativity, resulting in ultimate satisfaction.",
-      image:
-        "https://images.unsplash.com/photo-1559585888-6b01c8ea796b?w=1920&h=1080&fit=crop",
+      image: "/uploads/p26.jpg",
     },
     {
       title: "Providing Project Solutions Steered by Quality",
@@ -47,8 +46,7 @@ const HeroCarousel = () => {
       title: "Transforming Energy and Enhancing Lives",
       subtext:
         "Our existence catalyzes energy provision, bringing fulfillment to industrial comfort.",
-      image:
-        "https://images.unsplash.com/photo-1604145007459-72793769d538?w=1920&h=1080&fit=crop",
+      image: "/uploads/e26.jpg",
     },
   ];
 
