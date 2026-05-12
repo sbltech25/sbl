@@ -351,7 +351,7 @@ export const CERTIFICATIONS = [
   {
     title: "NMDPRA Permit — Page 1",
     issuer: "Nigerian Midstream and Downstream Petroleum Regulatory Authority",
-    date: "2024",
+    date: "2025",
     image: "/moremedia/mndpraPG1.png",
     description: "NMDPRA Operating Permit.",
     type: "permit"
@@ -359,7 +359,7 @@ export const CERTIFICATIONS = [
   {
     title: "NMDPRA Permit — Page 2",
     issuer: "Nigerian Midstream and Downstream Petroleum Regulatory Authority",
-    date: "2024",
+    date: "2025",
     image: "/moremedia/nmdpraPG2.png",
     description: "NMDPRA Operating Permit.",
     type: "permit"
@@ -367,7 +367,7 @@ export const CERTIFICATIONS = [
   {
     title: "NMDPRA Permit — Page 3",
     issuer: "Nigerian Midstream and Downstream Petroleum Regulatory Authority",
-    date: "2024",
+    date: "2025",
     image: "/moremedia/nmdpraPG3.png",
     description: "NMDPRA Operating Permit.",
     type: "permit"
