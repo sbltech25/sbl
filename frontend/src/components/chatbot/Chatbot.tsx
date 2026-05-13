@@ -2,7 +2,14 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { MessageCircle, X, Send } from 'lucide-react';
-import { COMPANY_INFO } from '@/lib/constants';
+import {
+  COMPANY_INFO,
+  SERVICES,
+  PROJECTS,
+  TEAM_MEMBERS,
+  MACHINES,
+  CERTIFICATIONS,
+} from '@/lib/constants';
 import { useLocation } from 'react-router-dom';
 
 interface Message {
@@ -49,6 +56,84 @@ const Chatbot = () => {
     scrollToBottom();
   }, [messages]);
 
+  const COMPANY_CONTEXT = `
+COMPANY INFORMATION
+
+Company Name:
+${COMPANY_INFO.name}
+
+Tagline:
+${COMPANY_INFO.tagline}
+
+Founded:
+${COMPANY_INFO.foundedYear}
+
+Registration Number:
+${COMPANY_INFO.registrationNumber}
+
+Main Office:
+${COMPANY_INFO.address}
+
+USA Office:
+${COMPANY_INFO.addressi}
+
+Operational Yard:
+${COMPANY_INFO.addressii}
+
+Phone:
+${COMPANY_INFO.phone}
+
+Alternate Phone:
+${COMPANY_INFO.alternatePhone}
+
+Email:
+${COMPANY_INFO.email}
+
+SERVICES
+
+${SERVICES.map(
+  (service) => `
+- ${service.title}: ${service.description}
+`
+).join('')}
+
+TEAM MEMBERS
+
+${TEAM_MEMBERS.map(
+  (member) => `
+- ${member.name} (${member.position})
+  ${member.bio}
+`
+).join('')}
+
+PROJECTS
+
+${PROJECTS.map(
+  (project) => `
+- ${project.title}
+  Location: ${project.location}
+  Client: ${project.client || 'Confidential'}
+`
+).join('')}
+
+CERTIFICATIONS
+
+${CERTIFICATIONS.map(
+  (cert) => `
+- ${cert.title}
+  Issuer: ${cert.issuer}
+`
+).join('')}
+
+EQUIPMENT
+
+${MACHINES.map(
+  (machine) => `
+- ${machine.name} (${machine.category})
+`
+).join('')}
+`;
+
   const sendMessage = async () => {
     if (!inputText.trim() || isLoading) return;
 
@@ -75,7 +160,7 @@ const Chatbot = () => {
           headers: {
             'Content-Type': 'application/json',
             Authorization:
-              'Bearer YOUR_GROQ_API_KEY'
+              'Bearer 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'
           },
           body: JSON.stringify({
             model: 'llama-3.3-70b-versatile',
@@ -84,15 +169,28 @@ const Chatbot = () => {
               {
                 role: 'system',
                 content: `
-You are a professional customer support representative for ${COMPANY_INFO.name}.
+                  You are the official AI customer support assistant for ${COMPANY_INFO.name}.
 
-Rules:
-- Be concise and helpful.
-- Answer customer questions clearly.
-- If you do not know something, say so politely.
-- Encourage users to contact support for sensitive account issues.
-- Keep responses short and conversational.
-                `
+                  Your responsibility is to:
+                  - answer questions about the company
+                  - explain services
+                  - discuss projects
+                  - describe equipment
+                  - provide company contact information
+                  - help potential clients
+                  - sound professional and knowledgeable
+
+                  Rules:
+                  - Be concise and professional
+                  - Sound like a real company representative
+                  - Keep responses conversational
+                  - If asked about pricing or quotations, direct users to contact the company
+                  - Never invent information not provided
+                  - If unsure, politely say so
+
+                  COMPANY KNOWLEDGE BASE:
+
+                  ${COMPANY_CONTEXT}`
               },
 
               ...updatedMessages.map((msg) => ({

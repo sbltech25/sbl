@@ -188,7 +188,7 @@ export const PROJECTS = [
     image: "/newimages/Construction of Asphalt pavement roads.jpg"
   },
   {
-    title: "Roof Deck HDP Geomembrane Lining Installation",
+    title: "HDPE Lining of Tank Farm",
     location: "SPDC, Nigeria",
     image: "/newimages/HDP Geomembrane lining.jpg"
   },
@@ -215,7 +215,7 @@ export const PROJECTS = [
     image: "/moremedia/Concrete Sheet Piles Wk.jpeg"
   },
   {
-    title: "Installation of Solar Street Lights",
+    title: "Environmental Remediation and Regeneration of Crude/Sludge contamination",
     location: "Utu Ikpe, Nigeria",
     client: "NDDC",
     image: "/moremedia/IMG_3546.JPG"
@@ -229,7 +229,7 @@ export const PROJECTS = [
     image: "/newimages/Emekuku Layout road.jpg"
   },
   {
-    title: "Obowo 2km Road",
+    title: "Evacuation and remediation of Refinery API Separator Facility",
     location: "Imo, Nigeria",
     area: "10,000 square meters",
     date: "May 2014",
@@ -237,12 +237,28 @@ export const PROJECTS = [
     image: "/moremedia/IMG_20200223_163345.jpg"
   },
   {
-    title: "Ada George Elioparanwo Road",
+    title: "Installation of Solar Powered Street Lights in Utu Ikpe",
     location: "Nigeria",
-    area: "1.5km length",
-    date: "2011",
-    client: "Akpako Inc.",
-    image: "/moremedia/IMG_20200322_150415.jpg"
+    area: "Utu Ekpe",
+    date: "2025",
+    // client: "Akpako Inc.",
+    image: "/moremedia/solar-utu.jpeg"
+  },
+  {
+    title: "Installation of Solar Powered Street Lights",
+    location: "Nigeria",
+    area: "Utu Ekpe",
+    date: "2025",
+    // client: "Akpako Inc.",
+    image: "/moremedia/solar2.jpeg"
+  },
+  {
+    title: "Obowo Road Imo State",
+    location: "Nigeria",
+    area: "Imo",
+    date: "2016",
+    client: "NDDC",
+    image: "/moremedia/obowo-road.jpg"
   }
 ];
 
@@ -416,41 +432,71 @@ export const EQUIPMENT = [
 
 
 export const MACHINES = [
-  { name: "Heavy Duty Wheel Crane", category: "", image: "/uploads/e1.jpg" },
-  { name: "Pipe Cutting and Bevelling Machine", category: "", image: "/uploads/e2.jpg" },
-  { name: "Pipe Cutting and Bevelling Machine", category: "", image: "/uploads/e6.jpg" },
-  { name: "Heavy Duty Pipe Cutting and Bevelling Machine", category: "", image: "/uploads/e7.jpg" },
-  { name: "Scaffolding Equipment", category: "", image: "/uploads/e8.jpg" },
-  { name: "Concrete Slab Formworks", category: "", image: "/uploads/e9.jpg" },
-  { name: "Mini Bobcat Welding Machine", category: "", image: "/uploads/e10.jpg" },
-  { name: "Mobile Mini Welding Machine", category: "", image: "/uploads/e11.jpg" },
-  { name: "Mobile Welding Machine", category: "", image: "/uploads/e12.jpg" },
-  { name: "Mobile Diesel Screw Air Compressor Machine", category: "", image: "/uploads/e13.jpg" },
-  { name: "Compressor Machine", category: "", image: "/uploads/e14.jpg" },
-  { name: "High Pressure Sludge Pump", category: "", image: "/uploads/e15.jpg" },
-  { name: "Mobile Concrete Mixer", category: "", image: "/uploads/e17.jpg" },
-  { name: "Bobcat Skid Loader", category: "", image: "/uploads/e18.jpg" },
-  { name: "Bobcat Skid Steered Loaders", category: "", image: "/uploads/e19.jpg" },
-  { name: "High Pressure Dewatering and Sludge Pump Machine", category: "", image: "/uploads/e20.jpg" },
-  { name: "Diesel Powered Generator", category: "", image: "/uploads/e21.jpg" },
-  { name: "Asphalt Concrete Paver", category: "", image: "/uploads/e22.jpg" },
-  { name: "Mobile Wheel Loader", category: "", image: "/uploads/e23.jpg" },
-  { name: "Asphalt Concrete Pulverizer Machine", category: "", image: "/uploads/e24.jpg" },
-  { name: "Wheel Mobile Excavator", category: "", image: "/uploads/e25.jpg" },
-  { name: "Asphalt Concrete Road Miling Operations", category: "Fabrication", image: "/gallery/civil15.jpg" },
-  { name: "Bobcat Skid Steered Loader", category: "", image: "/gallery/civil16.jpg" },
-  { name: "Asphalt Concrete Road Milling Machine", category: "Site Equipment", image: "/gallery/civil17.jpg" },
-  { name: "Excavator CAT 320D", category: "Heavy Machinery", image: "/newimages/IMG_7106.JPG" },
-  { name: "Mobile Wheel Grader", category: "Site Equipment", image: "/newimages/IMG_7107.JPG" },
-  { name: "Concrete Batching Plant", category: "Demolition Tools", image: "/gallery/civil2.jpg" },
-  { name: "Wheel Loader Volvo L90", category: "Heavy Machinery", image: "/newimages/IMG_7108.JPG" },
-  { name: "Concrete Mixer Truck", category: "Concrete Equipment", image: "/gallery/civil5.jpg" },
-  { name: "Motor Grader CAT 140K", category: "Earthmoving", image: "/gallery/civil6.jpg" },
-  { name: "Crawler Crane 80T", category: "Lifting Equipment", image: "/gallery/civil7.jpg" },
-  { name: "Asphalt Paver Machine", category: "Road Equipment", image: "/gallery/civil8.jpg" },
-  { name: "Mobile Wheel Grader", category: "Power Equipment", image: "/gallery/civil10.jpg" },
-  { name: "Scaffold Equipment", category: "Construction Tools", image: "/gallery/civil11.jpg" },
-  { name: "Trench Shoring System", category: "Safety Equipment", image: "/gallery/civil12.jpg" },
-  { name: "Backhoe Loader JCB 3CX", category: "Earthmoving", image: "/gallery/civil13.jpg" },
-  { name: "Portable Concrete Pump", category: "Concrete Equipment", image: "/gallery/civil14.jpg" },
+  { name: "Heavy Duty Wheel Crane", category: "Lifting Equipment", image: "/uploads/e1.jpg" },
+
+  { name: "Pipe Cutting and Bevelling Machine", category: "Fabrication Equipment", image: "/uploads/e2.jpg" },
+  { name: "Pipe Cutting and Bevelling Machine", category: "Fabrication Equipment", image: "/uploads/e6.jpg" },
+  { name: "Heavy Duty Pipe Cutting and Bevelling Machine", category: "Fabrication Equipment", image: "/uploads/e7.jpg" },
+
+  { name: "Scaffolding Equipment", category: "Construction Equipment", image: "/uploads/e8.jpg" },
+
+  { name: "Concrete Slab Formworks", category: "Concrete Equipment", image: "/uploads/e9.jpg" },
+
+  { name: "Mini Bobcat Welding Machine", category: "Welding Equipment", image: "/uploads/e10.jpg" },
+  { name: "Mobile Mini Welding Machine", category: "Welding Equipment", image: "/uploads/e11.jpg" },
+  { name: "Mobile Welding Machine", category: "Welding Equipment", image: "/uploads/e12.jpg" },
+
+  { name: "Mobile Diesel Screw Air Compressor Machine", category: "Power Equipment", image: "/uploads/e13.jpg" },
+  { name: "Compressor Machine", category: "Power Equipment", image: "/uploads/e14.jpg" },
+
+  { name: "High Pressure Sludge Pump", category: "Pump Equipment", image: "/uploads/e15.jpg" },
+
+  { name: "Mobile Concrete Mixer", category: "Concrete Equipment", image: "/uploads/e17.jpg" },
+
+  { name: "Bobcat Skid Loader", category: "Earthmoving Equipment", image: "/uploads/e18.jpg" },
+  { name: "Bobcat Skid Steered Loaders", category: "Earthmoving Equipment", image: "/uploads/e19.jpg" },
+
+  { name: "High Pressure Dewatering and Sludge Pump Machine", category: "Pump Equipment", image: "/uploads/e20.jpg" },
+
+  { name: "Diesel Powered Generator", category: "Power Equipment", image: "/uploads/e21.jpg" },
+
+  { name: "Asphalt Concrete Paver", category: "Road Equipment", image: "/uploads/e22.jpg" },
+
+  { name: "Mobile Wheel Loader", category: "Earthmoving Equipment", image: "/uploads/e23.jpg" },
+
+  { name: "Asphalt Concrete Pulverizer Machine", category: "Road Equipment", image: "/uploads/e24.jpg" },
+
+  { name: "Wheel Mobile Excavator", category: "Earthmoving Equipment", image: "/uploads/e25.jpg" },
+
+  { name: "Asphalt Concrete Road Miling Operations", category: "Road Equipment", image: "/gallery/civil15.jpg" },
+
+  { name: "Bobcat Skid Steered Loader", category: "Earthmoving Equipment", image: "/gallery/civil16.jpg" },
+
+  { name: "Asphalt Concrete Road Milling Machine", category: "Road Equipment", image: "/gallery/civil17.jpg" },
+
+  { name: "Hot Wedge HDPE Welding Machine", category: "Welding Equipment", image: "/newimages/IMG_7106.JPG" },
+
+  // { name: "Mobile Wheel Grader", category: "Road Equipment", image: "/newimages/IMG_7107.JPG" },
+
+  { name: "Concrete Batching Plant", category: "Concrete Equipment", image: "/gallery/civil2.jpg" },
+
+  // { name: "Wheel Loader Volvo L90", category: "Earthmoving Equipment", image: "/newimages/IMG_7108.JPG" },
+
+  { name: "Asphalt Concrete Batching plant", category: "Concrete Equipment", image: "/gallery/civil5.jpg" },
+
+  { name: "Mini Mobile Wheel Loader", category: "Earthmoving Equipment", image: "/gallery/civil6.jpg" },
+
+  { name: "Mobile Self Loading Concrete Mixer", category: "Concrete Equipment", image: "/gallery/civil7.jpg" },
+
+  { name: "Wheel Grader CAT 140G", category: "Road Equipment", image: "/gallery/civil8.jpg" },
+
+  { name: "Mobile Wheel Grader", category: "Road Equipment", image: "/gallery/civil10.jpg" },
+
+  { name: "Wheel Grader CAT 140G", category: "Road Equipment", image: "/gallery/civil11.jpg" },
+
+  { name: "Wheel Loader", category: "Earthmoving Equipment", image: "/gallery/civil12.jpg" },
+
+  { name: "Wheel Loader/Backhoe Loader Low Bed Truck", category: "Transport Equipment", image: "/gallery/civil13.jpg" },
+
+  { name: "Concrete Batching Plant", category: "Concrete Equipment", image: "/gallery/civil14.jpg" },
 ]

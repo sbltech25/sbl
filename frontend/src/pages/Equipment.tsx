@@ -2,6 +2,7 @@
 import React from 'react';
 import { Card, CardContent } from '@/components/ui/card';
 import EquipmentCarousel from '../components/layout/EquipmentCarousel';
+import EquipmentShowcase from '@/components/layout/EquipmentShowcase';
 
 const Equipment = () => {
   return (
@@ -35,7 +36,7 @@ const Equipment = () => {
             </p>
           </div>
 
-          <EquipmentCarousel />
+          <EquipmentShowcase />
         </div>
       </section>
 
