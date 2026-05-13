@@ -166,16 +166,17 @@ export const PROJECTS = [
   },
   {
     title: "HDPE Lining of 300 Million Liters Tank Farm",
-    location: "Nigeria",
+    location: "Umunduru Egbe Aguru Road Imo State",
     area: "120,000 Sqm",
+    date: "2015",
     image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
   },
-  {
-    title: "HDPE Lining of Tank Farm",
-    location: "Seme, Benin",
-    area: "54,000 Sqm",
-    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
-  },
+  // {
+  //   title: "HDPE Lining of Tank Farm",
+  //   location: "Seme, Benin",
+  //   area: "54,000 Sqm",
+  //   image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
+  // },
   {
     title: "Evacuation, Cleaning & Replacement of Lines",
     location: "Transcorp Gas Plant, Nigeria",
@@ -201,24 +202,24 @@ export const PROJECTS = [
   {
     title: "Construction of Nwiyara (Okwuowuru) Road",
     location: "Umudike, Ohaji Egbema, Nigeria",
-    image: "https://images.unsplash.com/photo-1663668540209-8f92ce673c89?w=800&h=600&fit=crop"
+    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
   },
-  {
-    title: "Installation/Repair of Flare Stack & Walkway",
-    location: "NES 1 & NES 2, Nigeria",
-    client: "SPDC",
-    image: "/moremedia/IMG_20200223_163345.jpg"
-  },
+  // {
+  //   title: "Installation/Repair of Flare Stack & Walkway",
+  //   location: "NES 1 & NES 2, Nigeria",
+  //   client: "SPDC",
+  //   image: "/moremedia/IMG_20200223_163345.jpg"
+  // },
   {
     title: "Precast Concrete Sheets Piles Shore Protection",
     location: "Nembe, Nigeria",
     image: "/moremedia/Concrete Sheet Piles Wk.jpeg"
   },
   {
-    title: "Environmental Remediation and Regeneration of Crude/Sludge contamination",
+    title: "Environmental Remediation and Regeneration Works",
     location: "Utu Ikpe, Nigeria",
     client: "NDDC",
-    image: "/moremedia/IMG_3546.JPG"
+    image: "/moremedia/IMG_3765.JPG"
   },
   {
     title: "Emekuku Layout Road",
@@ -229,7 +230,7 @@ export const PROJECTS = [
     image: "/newimages/Emekuku Layout road.jpg"
   },
   {
-    title: "Evacuation and remediation of Refinery API Separator Facility",
+    title: "Evacuation and remediation of Refinery API Separator Plant",
     location: "Imo, Nigeria",
     area: "10,000 square meters",
     date: "May 2014",
