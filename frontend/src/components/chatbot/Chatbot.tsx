@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import ReactMarkdown from 'react-markdown';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { MessageCircle, X, Send } from 'lucide-react';
@@ -296,7 +297,32 @@ ${MACHINES.map(
                       : 'bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100'
                   }`}
                 >
-                  {message.text}
+
+                    <ReactMarkdown
+                      components={{
+                        strong: ({ children }) => (
+                          <strong className="font-bold text-black dark:text-white">
+                            {children}
+                          </strong>
+                        ),
+                        p: ({ children }) => (
+                          <p className="leading-relaxed">
+                            {children}
+                          </p>
+                        ),
+                        ul: ({ children }) => (
+                          <ul className="list-disc pl-5 space-y-1">
+                            {children}
+                          </ul>
+                        ),
+                        li: ({ children }) => (
+                          <li>{children}</li>
+                        ),
+                      }}
+                    >
+                      {message.text}
+                    </ReactMarkdown>
+
                 </div>
               </div>
             ))}
