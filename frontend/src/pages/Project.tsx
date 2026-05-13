@@ -140,7 +140,7 @@ const Project = () => {
             <Card className="border-0 shadow-lg rounded-sm overflow-hidden hover:shadow-xl transition-shadow duration-300">
               <CardContent className="p-0">
                 <img 
-                  src="/uploads/e27.jpg"
+                  src="/moremedia/marinelog.jpeg"
                   alt="Marine Projects"
                   className="w-full h-48 object-cover"
                 />
