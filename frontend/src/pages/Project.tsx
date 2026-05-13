@@ -98,61 +98,92 @@ const Project = () => {
         </div>
       </section>
 
-      {/* Additional Project Categories */}
-      <section className="py-20 bg-accent/50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">Project Categories</h2>
-            <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-              Our diverse project portfolio spans across multiple engineering and construction disciplines.
-            </p>
+    {/* Additional Project Categories */}
+<section className="py-20 bg-accent/40">
+  <div className="container mx-auto px-4">
+
+    {/* Heading */}
+    <div className="text-center mb-16">
+      <h2 className="text-4xl md:text-5xl font-bold text-secondary mb-4">
+        Project Categories
+      </h2>
+
+      <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+        Our diverse project portfolio spans across multiple engineering
+        and construction disciplines.
+      </p>
+    </div>
+
+    {/* Categories */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      {[
+        {
+          title: "Infrastructure Development",
+          image:
+            "https://images.unsplash.com/photo-1563382454-400a632d7c4e?w=1200&auto=format&fit=crop&q=80",
+          desc:
+            "Roads, bridges, and essential infrastructure projects across Nigeria.",
+        },
+        {
+          title: "Oil & Gas Facilities",
+          image: "/newimages/Oil and gas pic(2).jpg",
+          desc:
+            "Pipeline construction, storage tanks, and petrochemical facilities.",
+        },
+        {
+          title: "Marine & Logistics",
+          image: "/moremedia/marinelog.jpeg",
+          desc:
+            "Offshore installations, marine facilities, and logistics support.",
+        },
+      ].map((item, index) => (
+        <div
+          key={index}
+          className="group relative overflow-hidden rounded-2xl shadow-2xl"
+        >
+
+          {/* Image */}
+          <img
+            src={item.image}
+            alt={item.title}
+            className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${
+              index === 1 ? "h-[520px]" : "h-[420px]"
+            }`}
+          />
+
+          {/* Overlay ALWAYS visible */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent flex items-end">
+
+            {/* Content */}
+            <div className="p-6 w-full">
+
+              {/* Small Label */}
+              <span className="inline-block px-3 py-1 mb-4 text-xs font-semibold tracking-wider uppercase bg-primary text-white rounded-full">
+                Category
+              </span>
+
+              {/* Title */}
+              <h3 className="text-white text-2xl font-bold mb-3 leading-tight">
+                {item.title}
+              </h3>
+
+              {/* Description */}
+              <p className="text-gray-300 text-sm leading-relaxed">
+                {item.desc}
+              </p>
+            </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <Card className="border-0 shadow-lg rounded-sm overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-0">
-                <img 
-                  src="https://images.unsplash.com/photo-1563382454-400a632d7c4e?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8aW5mcmFzdHJ1Y3R1cmUlMjBkZXYlMjBuaWdlcmlhfGVufDB8fDB8fHww?w=400&h=300&fit=crop"
-                  alt="Infrastructure Projects"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-secondary mb-2">Infrastructure Development</h3>
-                  <p className="text-gray-600">Roads, bridges, and essential infrastructure projects across Nigeria.</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg rounded-sm overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-0">
-                <img 
-                  src="/newimages/Oil and gas pic(2).jpg"
-                  alt="Oil & Gas Projects"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-secondary mb-2">Oil & Gas Facilities</h3>
-                  <p className="text-gray-600">Pipeline construction, storage tanks, and petrochemical facilities.</p>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card className="border-0 shadow-lg rounded-sm overflow-hidden hover:shadow-xl transition-shadow duration-300">
-              <CardContent className="p-0">
-                <img 
-                  src="/moremedia/marinelog.jpeg"
-                  alt="Marine Projects"
-                  className="w-full h-48 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold text-secondary mb-2">Marine & Logistics</h3>
-                  <p className="text-gray-600">Offshore installations, marine facilities, and logistics support.</p>
-                </div>
-              </CardContent>
-            </Card>
+          {/* Shine Effect */}
+          <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700">
+            <div className="absolute -top-20 -left-20 w-40 h-40 bg-white/10 rotate-12 blur-2xl"></div>
           </div>
         </div>
-      </section>
+      ))}
+    </div>
+  </div>
+</section>
 
       {/* Project Stats */}
       <section className="py-20">
