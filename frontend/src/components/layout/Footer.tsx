@@ -1,13 +1,66 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Mail, Phone, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { COMPANY_INFO } from '@/lib/constants';
 
+
+  const navItems = [
+    { name: 'Home', path: '/' },
+    { name: 'Services', path: '/services' },
+    { name: 'About', path: '/about' },
+    // { name: 'How We Work', path: '/how-we-work' },
+    { name: 'Projects', path: '/projects' },
+    { name: 'Equipments', path: '/equipments' },
+    { name: 'Gallery', path: '/gallery' },
+    { name: 'Certifications', path: '/certifications' },
+    // { name: 'Vendor Form', path: '/vendor-registration' },
+    // { name: 'Articles', path: '/articles' },
+    { name: 'Contact', path: '/contact' }
+  ];
+
+
 const Footer = () => {
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
   const location = useLocation();
   const hiddenPaths = ['/secured/v1/admin', '/secured/v1/login', '/s/login', '/s/client/dashboard'];
+
+  const handleNewsletterSubmit = async () => {
+  if (!email) return;
+
+  setLoading(true);
+
+  try {
+    const response = await fetch(
+      'https://formspree.io/f/mnjwrwbb',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          newsletterEmail: email,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Subscription failed');
+    }
+
+    setEmail('');
+
+    alert('Subscribed successfully!');
+  } catch (error) {
+    alert('Failed to subscribe.');
+  } finally {
+    setLoading(false);
+  }
+};
 
   if (hiddenPaths.includes(location.pathname)) return null;
 
@@ -35,12 +88,13 @@ const Footer = () => {
           <div>
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
-              <li><Link to="/services" className="text-sm text-gray-300 hover:text-primary transition-colors">Services</Link></li>
-              <li><Link to="/about" className="text-sm text-gray-300 hover:text-primary transition-colors">About Us</Link></li>
-              <li><Link to="/how-we-work" className="text-sm text-gray-300 hover:text-primary transition-colors">How We Work</Link></li>
-              <li><Link to="/gallery" className="text-sm text-gray-300 hover:text-primary transition-colors">Gallery</Link></li>
-              <li><Link to="/contact" className="text-sm text-gray-300 hover:text-primary transition-colors">Contact</Link></li>
-            </ul>
+              {navItems.map((linke, i) => {
+              
+                return (
+                <li><Link to={linke.path} className="text-sm text-gray-300 hover:text-primary transition-colors">{linke.name}</Link></li>
+                )
+              })}
+                          </ul>
           </div>
 
           {/* Contact Info */}
@@ -76,20 +130,25 @@ const Footer = () => {
             <p className="text-sm text-gray-300 mb-4">
               Get our latest updates and news directly to your inbox, for free.
             </p>
-            <div className="flex space-x-2">
-              <Input 
-                type="email" 
-                placeholder="email@email.com" 
-                className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 rounded-sm"
-              />
-              <Button 
-                variant="default" 
-                size="sm"
-                className="bg-primary hover:bg-primary/90 rounded-sm"
-              >
-                Subscribe
-              </Button>
-            </div>
+           <div className="flex space-x-2">
+            <Input
+              type="email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              placeholder="email@email.com"
+              className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 rounded-sm"
+            />
+
+            <Button
+              onClick={handleNewsletterSubmit}
+              disabled={loading}
+              variant="default"
+              size="sm"
+              className="bg-primary hover:bg-primary/90 rounded-sm"
+            >
+              {loading ? '...' : 'Subscribe'}
+            </Button>
+          </div>
           </div>
         </div>
 

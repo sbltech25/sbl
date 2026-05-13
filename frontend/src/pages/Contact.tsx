@@ -26,36 +26,59 @@ const Contact = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsLoading(true);
+ const handleSubmit = async (e: React.FormEvent) => {
+  e.preventDefault();
+  setIsLoading(true);
 
-    try {
-      // Simulate form submission
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "Message Sent Successfully!",
-        description: "We'll get back to you within 24 hours.",
-      });
-      
-      setFormData({
-        name: '',
-        email: '',
-        phone: '',
-        company: '',
-        message: ''
-      });
-    } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to send message. Please try again.",
-        variant: "destructive",
-      });
-    } finally {
-      setIsLoading(false);
+  try {
+    const response = await fetch(
+      'https://formspree.io/f/mnjwrwbb',
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Accept: 'application/json',
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          company: formData.company,
+          message: formData.message,
+        }),
+      }
+    );
+
+    if (!response.ok) {
+      throw new Error('Failed to send');
     }
-  };
+
+    toast({
+      title: 'Message Sent Successfully!',
+      description:
+        "We'll get back to you within 24 hours.",
+    });
+
+    setFormData({
+      name: '',
+      email: '',
+      phone: '',
+      company: '',
+      message: '',
+    });
+  } catch (error) {
+    console.error(error);
+
+    toast({
+      title: 'Error',
+      description:
+        'Failed to send message. Please try again.',
+      variant: 'destructive',
+    });
+  } finally {
+    setIsLoading(false);
+  }
+};
 
   return (
     <div className="min-h-screen pt-20">
@@ -85,7 +108,7 @@ const Contact = () => {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
             {/* Contact Form */}
-            <Card className="border-0 shadow-2xl rounded-sm">
+            <Card className="border-0 shadow-2xl h-fit rounded-sm">
               <CardContent className="p-8">
                 <h2 className="text-3xl font-bold text-secondary mb-6">Send Us a Message</h2>
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -161,7 +184,7 @@ const Contact = () => {
                       id="message"
                       name="message"
                       required
-                      rows={19}
+                      rows={4}
                       value={formData.message}
                       onChange={handleChange}
                       className="rounded-sm"

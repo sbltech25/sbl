@@ -35,42 +35,64 @@ const Project = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
             {PROJECTS.map((project, index) => (
-              <Card key={index} className="border-0 shadow-xl rounded-sm overflow-hidden group hover:shadow-2xl transition-all duration-300">
-                <CardContent className="p-0">
-                  <div className="aspect-video overflow-hidden">
-                    <img 
-                      src={project.image}
-                      alt={project.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                  <div className="p-8">
-                    <div className="h-1 w-20 bg-gradient-to-r from-primary to-secondary mb-6"></div>
-                    <h3 className="text-2xl font-bold text-secondary mb-4">{project.title}</h3>
+              <div
+                key={index}
+                className="group relative overflow-hidden rounded-2xl break-inside-avoid shadow-xl"
+              >
+                {/* Image */}
+                <img
+                  src={project.image}
+                  alt={project.title}
+                  loading="lazy"
+                  className={`w-full object-cover transition-transform duration-700 group-hover:scale-110 ${
+                    index % 3 === 0 ? 'h-[500px]' : 'h-[350px]'
+                  }`}
+                />
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-100 group-hover:opacity-100 transition-all duration-500 flex items-end">
+                  <div className="p-5 translate-y-0 group-hover:translate-y-0 transition-transform duration-500 w-full">
                     
-                    <div className="space-y-3 text-gray-600">
-                      <div className="flex justify-between">
-                        <span className="font-semibold">Location:</span>
-                        <span>{project.location}</span>
-                      </div>
-                     {project.area && <div className="flex justify-between">
-                        <span className="font-semibold">Surface Area:</span>
-                        <span>{project.area}</span>
-                      </div>}
-                     {project.date && <div className="flex justify-between">
-                        <span className="font-semibold">Completion Date:</span>
-                        <span>{project.date}</span>
-                      </div>}
-                      {project.client && <div className="flex justify-between">
-                        <span className="font-semibold">Client:</span>
-                        <span>{project.client}</span>
-                      </div>}
+                    {/* Client Badge */}
+                    {project.client && (
+                      <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider uppercase bg-primary text-white rounded-full">
+                        {project.client}
+                      </span>
+                    )}
+
+                    {/* Title */}
+                    <h3 className="text-white text-lg font-bold leading-tight">
+                      {project.title}
+                    </h3>
+
+                    {/* Details */}
+                    <div className="mt-2 space-y-1">
+                      <p className="text-gray-300 text-sm">
+                        {project.location}
+                      </p>
+
+                      {project.area && (
+                        <p className="text-gray-400 text-xs">
+                          {project.area}
+                        </p>
+                      )}
+
+                      {project.date && (
+                        <p className="text-gray-400 text-xs">
+                          {project.date}
+                        </p>
+                      )}
                     </div>
                   </div>
-                </CardContent>
-              </Card>
+                </div>
+
+                {/* Floating Shine */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700">
+                  <div className="absolute -top-20 -left-20 w-40 h-40 bg-white/10 rotate-12 blur-2xl"></div>
+                </div>
+              </div>
             ))}
           </div>
         </div>

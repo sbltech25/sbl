@@ -169,16 +169,16 @@ export const PROJECTS = [
     location: "Umunduru Egbe Aguru Road Imo State",
     area: "120,000 Sqm",
     date: "2015",
-    image: "https://images.unsplash.com/photo-1682924754699-dcf11b641343?w=800&h=600&fit=crop"
+    image: "/moremedia/hdpe1.jpg"
   },
-  // {
-  //   title: "HDPE Lining of Tank Farm",
-  //   location: "Seme, Benin",
-  //   area: "54,000 Sqm",
-  //   image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
-  // },
   {
-    title: "Evacuation, Cleaning & Replacement of Lines",
+    title: "HDPE Lining of Tank Farm",
+    location: "Seme, Benin",
+    area: "54,000 Sqm",
+    image: "/moremedia/hdpe2.jpg"
+  },
+  {
+    title: "Evacuation, Cleaning & Remediation",
     location: "Transcorp Gas Plant, Nigeria",
     image: "/moremedia/IMG_3765.JPG"
   },
@@ -186,30 +186,30 @@ export const PROJECTS = [
     title: "Construction of Asphalt Pavement Road to TCM TCF",
     location: "PHRC, Nigeria",
     client: "Tecnimont Spa",
-    image: "/newimages/Construction of Asphalt pavement roads.jpg"
+    image: "/moremedia/asphalt5.jpg"
   },
   {
     title: "HDPE Lining of Tank Farm",
     location: "SPDC, Nigeria",
-    image: "/newimages/HDP Geomembrane lining.jpg"
+    image: "/moremedia/hdpe3.jpg"
   },
   {
     title: "Construction of Asphalt Pavement Roads",
     location: "Indorama EPCL, Nigeria",
     client: "Daewoo E&C",
-    image: "/newimages/Construction of Asphalt pavement roads (1).jpg"
+    image: "/moremedia/asphalt5.jpg"
   },
   {
     title: "Construction of Nwiyara (Okwuowuru) Road",
     location: "Umudike, Ohaji Egbema, Nigeria",
-    image: "https://images.unsplash.com/photo-1745209981385-a2049bc1b20d?w=800&h=600&fit=crop"
+    image: "/moremedia/hdpe1.jpg"
   },
-  // {
-  //   title: "Installation/Repair of Flare Stack & Walkway",
-  //   location: "NES 1 & NES 2, Nigeria",
-  //   client: "SPDC",
-  //   image: "/moremedia/IMG_20200223_163345.jpg"
-  // },
+  {
+    title: "Installation/Repair of Flare Stack & Walkway",
+    location: "NES 1 & NES 2, Nigeria",
+    client: "SPDC",
+    image: "/moremedia/flare1.jpg"
+  },
   {
     title: "Precast Concrete Sheets Piles Shore Protection",
     location: "Nembe, Nigeria",
@@ -217,8 +217,8 @@ export const PROJECTS = [
   },
   {
     title: "Environmental Remediation and Regeneration Works",
-    location: "Utu Ikpe, Nigeria",
-    client: "NDDC",
+    location: "Niger Delta, Nigeria",
+    // client: "NDDC",
     image: "/moremedia/IMG_3765.JPG"
   },
   {
@@ -231,7 +231,7 @@ export const PROJECTS = [
   },
   {
     title: "Evacuation and remediation of Refinery API Separator Plant",
-    location: "Imo, Nigeria",
+    location: "Nigeria",
     area: "10,000 square meters",
     date: "May 2014",
     client: "CardCompany LLC",
@@ -245,14 +245,14 @@ export const PROJECTS = [
     // client: "Akpako Inc.",
     image: "/moremedia/solar-utu.jpeg"
   },
-  {
-    title: "Installation of Solar Powered Street Lights",
-    location: "Nigeria",
-    area: "Utu Ekpe",
-    date: "2025",
-    // client: "Akpako Inc.",
-    image: "/moremedia/solar2.jpeg"
-  },
+  // {
+  //   title: "Installation of Solar Powered Street Lights",
+  //   location: "Nigeria",
+  //   area: "Utu Ekpe",
+  //   date: "2025",
+  //   // client: "Akpako Inc.",
+  //   image: "/moremedia/solar2.jpeg"
+  // },
   {
     title: "Obowo Road Imo State",
     location: "Nigeria",
@@ -485,7 +485,7 @@ export const MACHINES = [
 
   { name: "Asphalt Concrete Batching plant", category: "Concrete Equipment", image: "/gallery/civil5.jpg" },
 
-  { name: "Mini Mobile Wheel Loader", category: "Earthmoving Equipment", image: "/gallery/civil6.jpg" },
+  { name: "Self loading concrete mixer", category: "Earthmoving Equipment", image: "/gallery/civil6.jpg" },
 
   { name: "Mobile Self Loading Concrete Mixer", category: "Concrete Equipment", image: "/gallery/civil7.jpg" },
 
@@ -495,9 +495,22 @@ export const MACHINES = [
 
   { name: "Wheel Grader CAT 140G", category: "Road Equipment", image: "/gallery/civil11.jpg" },
 
-  { name: "Wheel Loader", category: "Earthmoving Equipment", image: "/gallery/civil12.jpg" },
+  { name: "Wheel loader concrete mixer ", category: "Earthmoving Equipment", image: "/gallery/civil12.jpg" },
 
   { name: "Wheel Loader/Backhoe Loader Low Bed Truck", category: "Transport Equipment", image: "/gallery/civil13.jpg" },
 
   { name: "Concrete Batching Plant", category: "Concrete Equipment", image: "/gallery/civil14.jpg" },
+]
+
+
+export const GALLERY=[
+  {image: "/moremedia/gall1.jpg"},
+  {image: "/moremedia/gall2.jpg"},
+  {image: "/moremedia/gall3.jpg"},
+  {image: "/moremedia/gall4.jpg"},
+  {image: "/moremedia/gall5.jpg"},
+  {image: "/moremedia/gall6.jpg"},
+  {image: "/moremedia/gall7.jpg"},
+  {image: "/moremedia/flare2.webp"},
+  {image: "/moremedia/flare3.jpg"},
 ]

@@ -26,7 +26,7 @@ const Blogs: React.FC = () => {
         }
 
         const response = await fetch(
-          `https://newsapi.org/v2/everything?q=construction OR engineering&sortBy=publishedAt&language=en&pageSize=50&apiKey=${NEWS_API_KEY}`
+          `https://newsapi.org/v2/everything?q=constructionORengineering&sortBy=publishedAt&language=en&pageSize=50&apiKey=${NEWS_API_KEY}`
         );
         
         if (!response.ok) throw new Error('Failed to fetch articles');

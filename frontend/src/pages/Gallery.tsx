@@ -1,24 +1,34 @@
-// app/gallery/page.tsx
-import React from 'react';
-import { Card, CardContent } from '@/components/ui/card';
-import { PROJECTS, EQUIPMENT } from '@/lib/constants';
-import { Swiper, SwiperSlide } from 'swiper/react';
-import { Autoplay, Pagination, Navigation, EffectCoverflow } from 'swiper/modules';
+"use client";
 
-// Import Swiper styles
-import 'swiper/css';
-import 'swiper/css/pagination';
-import 'swiper/css/navigation';
-import 'swiper/css/effect-coverflow';
+import React from 'react';
+import { PROJECTS, EQUIPMENT, GALLERY } from '@/lib/constants';
+import TestimonialSlider from '@/components/sections/TestimonialSlider';
+ 
+const galleryItems = [
+  ...GALLERY.map((gallery, index) => ({
+    id: `gallery-${index}`,
+    image: gallery.image,
+    title: 'Southern Basin Equipment',
+    subtitle: 'Equipment',
+    type: 'Project',
+  })),
+  ...EQUIPMENT.map((item, index) => ({
+    id: `equipment-${index}`,
+    image: item.image,
+    title: item.name || 'Southern Basin Equipment',
+    subtitle: item.category || 'Equipment',
+    type: 'Equipment',
+  })),
+  ...PROJECTS.map((project, index) => ({
+    id: `project-${index}`,
+    image: project.image,
+    title: project.title,
+    subtitle: project.location,
+    type: 'Project',
+  })),
+];
 
 const Gallery = () => {
-  const breakpoints = {
-    320: { slidesPerView: 1, spaceBetween: 10 },
-    640: { slidesPerView: 1, spaceBetween: 20 },
-    768: { slidesPerView: 2, spaceBetween: 30 },
-    1024: { slidesPerView: 3, spaceBetween: 40 },
-  };
-
   return (
     <div className="min-h-screen pt-20">
       {/* Hero Section */}
@@ -72,19 +82,31 @@ const Gallery = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 sm:gap-6">
-            {EQUIPMENT.flatMap((project, i) => (
-              <div key={`${i}`} className="group relative overflow-hidden rounded-lg aspect-square">
+          <div className="columns-1 sm:columns-2 lg:columns-3 xl:columns-4 gap-4 space-y-4">
+            {galleryItems.map((item) => (
+              <div
+                key={item.id}
+                className="group relative overflow-hidden rounded-2xl break-inside-avoid shadow-lg"
+              >
                 <img
-                  src={project.image}
-                  alt={` ${i + 1}`}
-                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                  src={item.image}
+                  alt={item.title}
+                  loading="lazy"
+                  className="w-full object-cover transition-transform duration-700 group-hover:scale-110"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-4">
-                  <div>
-                    <h3 className="text-white font-bold text-lg">{project.name}</h3>
-                    <p className="text-white/80 text-sm">{project.category}</p>
+
+                {/* Overlay */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-all duration-500 flex items-end">
+                  <div className="p-5 translate-y-6 group-hover:translate-y-0 transition-transform duration-500">
+                    <span className="inline-block px-3 py-1 mb-3 text-xs font-semibold tracking-wider uppercase bg-primary text-white rounded-full">
+                      {item.type}
+                    </span>
                   </div>
+                </div>
+
+                {/* Floating Shine Effect */}
+                <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition duration-700">
+                  <div className="absolute -top-20 -left-20 w-40 h-40 bg-white/10 rotate-12 blur-2xl"></div>
                 </div>
               </div>
             ))}
@@ -92,60 +114,8 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* Testimonials Slider */}
-      <section className="py-16 sm:py-20 bg-accent/30">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-secondary mb-4">Client Testimonials</h2>
-            <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
-              What our clients say about working with us
-            </p>
-          </div>
-
-          <div className="max-w-4xl mx-auto px-4">
-            <Swiper
-              slidesPerView={1}
-              spaceBetween={30}
-              loop={true}
-              autoplay={{ delay: 5000, disableOnInteraction: false }}
-              pagination={{ clickable: true }}
-              modules={[Autoplay, Pagination]}
-              className="testimonialSwiper"
-            >
-              {[
-                {
-                  quote: "The team delivered our pipeline project ahead of schedule while maintaining excellent safety standards.",
-                  name: "John Adekunle",
-                  position: "Project Manager, NNPC",
-                },
-                {
-                  quote: "Their attention to detail and engineering expertise was evident throughout our refinery expansion project.",
-                  name: "Amina Mohammed",
-                  position: "Director, Dangote Refinery",
-                },
-                {
-                  quote: "Reliable, professional, and technically competent. We've partnered with them on multiple projects.",
-                  name: "Chukwuma Okoro",
-                  position: "CEO, Sterling Oil",
-                },
-              ].map((testimonial, index) => (
-                <SwiperSlide key={index}>
-                  <div className="bg-white p-8 sm:p-10 rounded-xl shadow-lg text-center">
-                    <svg className="w-12 h-12 mx-auto text-primary mb-6" fill="currentColor" viewBox="0 0 20 20">
-                      <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clipRule="evenodd"></path>
-                    </svg>
-                    <p className="text-lg sm:text-xl text-gray-700 mb-6">{testimonial.quote}</p>
-                    <div>
-                      <p className="font-bold text-secondary">{testimonial.name}</p>
-                      <p className="text-gray-500 text-sm">{testimonial.position}</p>
-                    </div>
-                  </div>
-                </SwiperSlide>
-              ))}
-            </Swiper>
-          </div>
-        </div>
-      </section>
+      {/* Testimonials Slider - Now using the exported component */}
+      <TestimonialSlider />
     </div>
   );
 };

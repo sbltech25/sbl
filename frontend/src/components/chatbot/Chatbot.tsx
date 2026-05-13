@@ -88,7 +88,7 @@ Alternate Phone:
 ${COMPANY_INFO.alternatePhone}
 
 Email:
-${COMPANY_INFO.email}
+${COMPANY_INFO.email2}
 
 SERVICES
 

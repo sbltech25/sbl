@@ -40,35 +40,46 @@ const Certification = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {certs.map((cert, index) => (
-              <Card key={index} className="border-0 shadow-xl rounded-sm overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                <CardContent className="p-0">
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <Badge variant="secondary" className="bg-primary/10 text-primary rounded-sm">
-                        <CheckCircle className="w-3 h-3 mr-1" />
-                        Certified
-                      </Badge>
-                      <div className="flex items-center text-gray-500 text-sm">
-                        <Calendar className="w-4 h-4 mr-1" />
-                        {cert.date}
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-bold text-secondary mb-3">{cert.title}</h3>
-                    <p className="text-primary font-medium mb-3">{cert.issuer}</p>
-                  </div>
-                  <div className="overflow-hidden">
-                    <img
-                      src={cert.image}
-                      alt={cert.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+         <div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+  {certs.map((cert, index) => (
+    <div
+      key={index}
+      className="break-inside-avoid overflow-hidden rounded-2xl bg-white shadow-xl border border-gray-100 group hover:shadow-2xl transition-all duration-500"
+    >
+      {/* Image */}
+      <div className="overflow-hidden bg-gray-100">
+        <img
+          src={cert.image}
+          alt={cert.title}
+          className="w-full object-contain group-hover:scale-105 transition-transform duration-700"
+        />
+      </div>
+
+      {/* Content */}
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <Badge className="bg-primary/10 text-primary rounded-full px-3 py-1">
+            <CheckCircle className="w-3 h-3 mr-1" />
+            Certified
+          </Badge>
+
+          <div className="flex items-center text-gray-500 text-sm">
+            <Calendar className="w-4 h-4 mr-1" />
+            {cert.date}
           </div>
+        </div>
+
+        <h3 className="text-xl font-bold text-secondary leading-snug mb-3">
+          {cert.title}
+        </h3>
+
+        <p className="text-primary font-medium text-sm">
+          {cert.issuer}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
         </div>
       </section>
 
@@ -82,35 +93,47 @@ const Certification = () => {
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {permits.map((permit, index) => (
-              <Card key={index} className="border-0 shadow-xl rounded-sm overflow-hidden group hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                <CardContent className="p-0">
-                  <div className="p-6">
-                    <div className="flex items-center justify-between mb-4">
-                      <Badge variant="secondary" className="bg-green-100 text-green-700 rounded-sm">
-                        <ShieldCheck className="w-3 h-3 mr-1" />
-                        Licensed
-                      </Badge>
-                      <div className="flex items-center text-gray-500 text-sm">
-                        <Calendar className="w-4 h-4 mr-1" />
-                        {permit.date}
-                      </div>
-                    </div>
-                    <h3 className="text-xl font-bold text-secondary mb-3">{permit.title}</h3>
-                    <p className="text-primary font-medium mb-3 text-sm">{permit.issuer}</p>
-                  </div>
-                  <div className="overflow-hidden">
-                    <img
-                      src={permit.image}
-                      alt={permit.title}
-                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+<div className="columns-1 md:columns-2 lg:columns-3 gap-6 space-y-6">
+  {permits.map((permit, index) => (
+    <div
+      key={index}
+      className="break-inside-avoid overflow-hidden rounded-2xl bg-white shadow-xl border border-gray-100 group hover:shadow-2xl transition-all duration-500"
+    >
+      {/* Image */}
+      <div className="overflow-hidden bg-gray-100">
+        <img
+          src={permit.image}
+          alt={permit.title}
+          className="w-full object-contain group-hover:scale-105 transition-transform duration-700"
+        />
+      </div>
+
+      {/* Content */}
+      <div className="p-6">
+        <div className="flex items-center justify-between mb-4 flex-wrap gap-2">
+          <Badge className="bg-green-100 text-green-700 rounded-full px-3 py-1">
+            <ShieldCheck className="w-3 h-3 mr-1" />
+            Licensed
+          </Badge>
+
+          <div className="flex items-center text-gray-500 text-sm">
+            <Calendar className="w-4 h-4 mr-1" />
+            {permit.date}
           </div>
+        </div>
+
+        <h3 className="text-xl font-bold text-secondary leading-snug mb-3">
+          {permit.title}
+        </h3>
+
+        <p className="text-primary font-medium text-sm">
+          {permit.issuer}
+        </p>
+      </div>
+    </div>
+  ))}
+</div>
+
         </div>
       </section>
 
