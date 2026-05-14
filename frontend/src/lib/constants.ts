@@ -504,6 +504,8 @@ export const MACHINES = [
 
 
 export const GALLERY=[
+  {image: "/moremedia/proj7.jpg"},
+  {image: "/moremedia/proj8.jpg"},
   {image: "/moremedia/gall1.jpg"},
   {image: "/moremedia/gall2.jpg"},
   {image: "/moremedia/gall3.jpg"},

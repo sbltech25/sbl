@@ -50,33 +50,12 @@ const Gallery = () => {
         </div>
       </section>
 
-      {/* Oily Pond Video Feature */}
-      <section className="py-12 sm:py-16 bg-secondary/5">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-8">
-            <h2 className="text-3xl sm:text-4xl font-bold text-secondary mb-3">Featured Video</h2>
-            <p className="text-gray-600 max-w-2xl mx-auto">
-              Refurbishment of Oily &amp; Observation Ponds — PHRC Refinery
-            </p>
-          </div>
-          <div className="max-w-4xl mx-auto rounded-lg overflow-hidden shadow-2xl">
-            <video
-              controls
-              className="w-full h-auto"
-              preload="metadata"
-            >
-              <source src="/moremedia/pondVideo.mp4" type="video/mp4" />
-              Your browser does not support the video tag.
-            </video>
-          </div>
-        </div>
-      </section>
 
       {/* Full Project Gallery */}
       <section className="py-16 sm:py-20">
         <div className="container mx-auto px-4">
           <div className="text-center mb-12 sm:mb-16">
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-secondary mb-4">Project Gallery</h2>
+            {/* <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-secondary mb-4">Project Gallery</h2> */}
             <p className="text-base sm:text-lg text-gray-600 max-w-3xl mx-auto">
               Browse through our gallery
             </p>
